@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -146,11 +145,11 @@
             #toast { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
         }
     </style>
-</head>
-<body>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<body __processed_d60da8de-d54a-42cb-812e-943ad387d74b__="true" cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
-    <div class="modal-overlay" id="configModal">
+    <div class="modal-overlay" id="configModal" style="display: none;">
         <div class="modal">
             <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
             <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
@@ -176,8 +175,8 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title">Pipelines</div>
-            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
-            <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('heavy')" class="nav-item active" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
             
             <div class="nav-title">Testing</div>
             <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
@@ -210,19 +209,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Sniper Mode (Hotfix & Micro-Task)</h3>
+                            <h3>Sniper Mode (Hotfix &amp; Micro-Task)</h3>
                             <p>For minor UI tweaks and quick logic fixes. Autonomous execution.</p>
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false">
-### 🎯 SNIPER MODE: HOTFIX & MICRO-TASK PROTOCOL
+                    <textarea id="sniper-text" spellcheck="false">### 🎯 SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
-### ⚡ EXECUTION RULES & AUTONOMY
+### ⚡ EXECUTION RULES &amp; AUTONOMY
 
-1. 🚫 Strict "No Chat Text" & Clarification Rule:
+1. 🚫 Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
    - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
 
@@ -233,11 +231,11 @@
    - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka hai, toh TDD BYPASS karo. Direct fix apply karo.
    - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
 
-4. 🛠️ SQL Safety & Release Note:
+4. 🛠️ SQL Safety &amp; Release Note:
    - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do, main run karunga. 
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
-5. 🔄 Autonomous Execution & Diff:
+5. 🔄 Autonomous Execution &amp; Diff:
    - Smart/precise search use karo (optimize token budget).
    - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf lines nahi).</textarea>
                 </div>
@@ -255,12 +253,11 @@
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="heavy-plan-text" spellcheck="false">
-### 🎯 TASK DESCRIPTION
+                    <textarea id="heavy-plan-text" spellcheck="false">### 🎯 TASK DESCRIPTION
 [TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
 
 ---
-### 📋 PROTOCOL & EXECUTION RULES (Phase 1: Planning & Finalization Only)
+### 📋 PROTOCOL &amp; EXECUTION RULES (Phase 1: Planning &amp; Finalization Only)
 
 1. 🚫 Strict "No Chat Text" Rule:
    - Mein conversation mein likha gaya koi bhi lamba text nahi parhunga. Clarification/suggestions sirf interactive questions ke through aane chahiye.
@@ -268,7 +265,7 @@
 2. 🧠 Universal Memory:
    - `.claude/` aur `CLAUDE.md` ko as Source of Truth read karo.
 
-3. 🔍 Deep Investigation & 🛑 Editing Lock:
+3. 🔍 Deep Investigation &amp; 🛑 Editing Lock:
    - Task se related codebase deeply inspect karo.
    - Is phase mein codebase ki kisi bhi file ko EDIT ya MODIFY nahi karna. Yeh phase sirf planning ka hai.
 
@@ -288,13 +285,12 @@
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="heavy-impl-text" spellcheck="false">
-### 🎯 IMPLEMENTATION MISSION
+                    <textarea id="heavy-impl-text" spellcheck="false">### 🎯 IMPLEMENTATION MISSIONs
 Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer. 
 
 ### 🔄 EXECUTION PROTOCOL (Strict Sequence)
 
-**PHASE 1: Universal Memory & TDD Injection**
+**PHASE 1: Universal Memory &amp; TDD Injection**
 1. Sab se pehle `.claude/` aur plan ko thoroughly parh. Codebase mein directly features build karna start NAHI karna.
 2. Plan mein diye gaye logics ke mutabiq, pehle strictly Unit/Integration Tests likh.
 3. In tests ko run kar (Expectation: Tests fail hone chahiye).
@@ -303,7 +299,7 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
 4. Ab actual logic implement karna shuru kar taake Phase 1 ke tests PASS ho jayein.
 5. Jahan reliably possible ho, bulk read/write operations perform kar.
 
-**PHASE 3: Release Note & Handover**
+**PHASE 3: Release Note &amp; Handover**
 6. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
 7. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
 
@@ -317,38 +313,37 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
                  UNIVERSAL TESTING (OC/AD) 
             ====================================== -->
             <div id="universal" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-microscope"></i> Universal Testing (OC & AD)</div>
+                <div class="section-title"><i class="fa-solid fa-microscope"></i> Universal Testing (OC &amp; AD)</div>
 
                 <div class="card">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Phase 1: Universal Discovery & Planning</h3>
+                            <h3>Phase 1: Universal Discovery &amp; Planning</h3>
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false">
-### 🎯 AI AGENT TESTING & FINE-TUNING MISSION
+                    <textarea id="uni-plan-text" spellcheck="false">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
 **Target:** [Order Confirmation Agent / Address Validation Agent]
 **Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
 
 ---
-### ⚡ CORE RULES & SHARED MEMORY (Antigravity & Claude)
+### ⚡ CORE RULES &amp; SHARED MEMORY (Antigravity &amp; Claude)
 1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho.
 2. **No Chat Text:** Agar koi confusion ho, ya decision verify karwana ho, toh **interactive questions (AskUserQuestion / Terminal prompt)** use karo. Lambi explanations nahi likhni.
 
 ---
-### 🛠️ PHASE 1: DISCOVERY & PLANNING (No Code Edits)
+### 🛠️ PHASE 1: DISCOVERY &amp; PLANNING (No Code Edits)
 
-1. **Dynamic Log Discovery & Evidence Gathering:**
+1. **Dynamic Log Discovery &amp; Evidence Gathering:**
    - Mere Reviewer Note ko sirf hypothesis maano.
    - Codebase, SQL scripts, aur DB models ko analyze karo taake tumhe is specific agent (OC/Address) ke logs, errors, aur audit trails ka structure samajh aaye.
    - **SQL Generation:** Agar tumhe DB se aur data chahiye, toh mujhe chat mein SQL query likh kar do. Main run karke result tumhe 'Other' box mein doonga.
 
-2. **Root Cause Analysis & Classification:**
+2. **Root Cause Analysis &amp; Classification:**
    - Har issue ko verify karo aur classify karo: (a) AI Bug, (b) Prompt Bug, (c) Infra/Plumbing Bug.
 
 3. **Deliverable (The Human-Readable Plan):**
-   - Mujhe ek **Rich Markdown Document** do (with sections & Mermaid diagrams).
+   - Mujhe ek **Rich Markdown Document** do (with sections &amp; Mermaid diagrams).
    - Isme har bug ka root cause, proposed fix, aur **TDD Testing Plan** hona chahiye.
    - **SQL Canvas:** Agar fix mein koi DB changes hain (jaise `ALTER TABLE`, `INSERT Action`), toh plan ke end mein ek **Copyable Canvas** banao jisme exact SQL queries hon. AI khud DB update nahi karega, main in queries ko copy karke DB update karunga.</textarea>
                 </div>
@@ -360,10 +355,9 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="uni-impl-text" spellcheck="false">
-Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
+                    <textarea id="uni-impl-text" spellcheck="false">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
 
-### 💻 PHASE 2: IMPLEMENTATION & TDD (Strict Execution)
+### 💻 PHASE 2: IMPLEMENTATION &amp; TDD (Strict Execution)
 
 1. **Red-Green-Refactor (TDD Injection):**
    - File edit karne se pehle, us specific bug ko reproduce karne ke liye ek **Unit/Integration Test** likho aur run karo (Fail/Red hona chahiye).
@@ -374,7 +368,7 @@ Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon.
    - Bulk read/write karo jahan safe ho, par context/token optimization ka dehaan rakho.
    - "Do NOT Edit" boundaries ko strictly follow karo. Unrelated files ya formatting chherne ki ijazat nahi.
 
-3. **Release Note & SQL Handover:**
+3. **Release Note &amp; SQL Handover:**
    - Jab code fix ho jaye, toh un saari SQL queries ko jo humne Phase 1 mein verify ki theen, laazmi taur par project ki **Release Note.txt** mein document karo. Yeh step miss nahi hona chahiye.
 
 4. **Final Diff Summary:**
@@ -388,24 +382,23 @@ Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon.
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'sql-pack-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">
--- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
+                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
 SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
        ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
-FROM ErrorLog WHERE ErrorID BETWEEN <from> AND <to> ORDER BY ErrorID;
+FROM ErrorLog WHERE ErrorID BETWEEN &lt;from&gt; AND &lt;to&gt; ORDER BY ErrorID;
 
 -- 2) AI ke kis turn ka kaam actually save hua
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
        LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
-FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 3) Customer ko wakai kya gaya
 SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
        WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
-FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 4) Session ki final state
-SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;</textarea>
+SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;</textarea>
                 </div>
 
                 <div class="card">
@@ -415,8 +408,7 @@ SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;</textarea>
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="session-template-text" spellcheck="false">
-# Reviewer Note
+                    <textarea id="session-template-text" spellcheck="false"># Reviewer Note
 **_ **
 
 # Errors Occured in this session
@@ -433,7 +425,7 @@ _
 -- 2) AI ke kis turn ka kaam actually save hua
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
        LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
-FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 ```
 
@@ -452,7 +444,7 @@ _
 -- 3) Customer ko wakai kya gaya
 SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
        WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
-FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 ```
 
@@ -469,7 +461,7 @@ _
 
 ```sql
 -- 4) Session ki final state
-SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;
+SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
 
 ```
 
@@ -485,9 +477,9 @@ _
     </div>
     
     <!-- Toast Message -->
-    <div id="toast">
+    <div id="toast" class="show" style="border-left-color: var(--accent);">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg">Action completed!</span>
+        <span id="toast-msg">Syncing to Cloud...</span>
     </div>
 
     <script>
@@ -640,5 +632,6 @@ _
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
     </script>
-</body>
-</html>
+
+
+</body></html>
