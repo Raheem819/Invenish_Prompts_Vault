@@ -216,12 +216,12 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -449,6 +449,7 @@ Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse appro
 ---
 ### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
 - Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** (checklist-style, max 4 findings per question) ke through triage karwao — har finding ke liye "fix karna hai" ya "chhod do" mera decision lo. Apni taraf se kuch bhi approved assume mat karo.
+- questions roman Urdu mein likho aur Thora aas pass ki logics ko bhi smjhao taaki mujhe smjh aaske Tum kis baare mein baat krrhe ho aur options mein thori smartness use krna khud potential fix btao option mein Sirf fix krna hai ya chor do iss Tarah ke yes no questions nhi hone chahiye.
 - Jab tak sab findings triage (approve/reject) na ho jayein, deliverables mat banao.
 
 ---
