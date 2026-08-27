@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
@@ -263,9 +262,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <button class="btn-save" onclick="saveToGitHub()">
-                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="btn-label">Cloud Save</span>
-            </button>
+            <button class="btn-save" onclick="saveToGitHub()" disabled=""><i class="fa-solid fa-spinner fa-spin"></i> <span class="btn-label">Saving...</span></button>
             <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'" aria-label="Open GitHub sync settings">
                 <i class="fa-solid fa-gear"></i>
             </button>
@@ -792,9 +789,9 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
     </div>
 
     <!-- Toast Message -->
-    <div id="toast" style="border-left-color: var(--accent);">
+    <div id="toast" style="border-left-color: var(--accent);" class="show">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg"></span>
+        <span id="toast-msg">Syncing to Cloud...</span>
     </div>
 
     <script>
@@ -1319,5 +1316,6 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
         }
     </script>
 
-</body>
-</html>
+
+
+</body></html>
