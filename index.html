@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
@@ -203,8 +202,8 @@
             .btn-save { padding: 12px; }
         }
     </style>
-</head>
-<body>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<body __processed_a062e796-8334-4c82-bd25-5c602bd453c1__="true" cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
@@ -263,9 +262,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <button class="btn-save" onclick="saveToGitHub()">
-                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="btn-label">Cloud Save</span>
-            </button>
+            <button class="btn-save" onclick="saveToGitHub()" disabled=""><i class="fa-solid fa-spinner fa-spin"></i> <span class="btn-label">Saving...</span></button>
             <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'" aria-label="Open GitHub sync settings">
                 <i class="fa-solid fa-gear"></i>
             </button>
@@ -299,7 +296,7 @@
                             <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
+                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
@@ -705,9 +702,9 @@ Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase exp
     </div>
 
     <!-- Toast Message -->
-    <div id="toast" style="border-left-color: var(--accent);">
+    <div id="toast" style="border-left-color: var(--accent);" class="show">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg"></span>
+        <span id="toast-msg">Syncing to Cloud...</span>
     </div>
 
     <script>
@@ -1232,5 +1229,6 @@ Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase exp
         }
     </script>
 
-</body>
-</html>
+
+
+</body></html>
