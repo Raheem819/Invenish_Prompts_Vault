@@ -146,10 +146,10 @@
         }
     </style>
 <style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
-<body __processed_2adb2ed6-4a0d-4d48-b76e-c870bbf05c7d__="true" cz-shortcut-listen="true" __processed_d98a0364-3230-49ae-b04a-b587b1188213__="true">
+<body __processed_2adb2ed6-4a0d-4d48-b76e-c870bbf05c7d__="true" cz-shortcut-listen="true" __processed_e65972c2-b9c6-44b8-99fc-f3e47eef72cd__="true">
 
     <!-- API Config Modal -->
-    <div class="modal-overlay" id="configModal">
+    <div class="modal-overlay" id="configModal" style="display: none;">
         <div class="modal">
             <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
             <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
@@ -175,11 +175,11 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title">Pipelines</div>
-            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
             
             <div class="nav-title">Testing</div>
-            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
         </div>
 
         <div class="sidebar-footer">
@@ -214,7 +214,7 @@
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false">### 🎯 SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
+                    <textarea id="sniper-text" spellcheck="false">### 🎯 SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
@@ -409,7 +409,11 @@ SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;</textarea>
                         <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
                     <textarea id="session-template-text" spellcheck="false"># Reviewer Note
-**_ **
+**
+
+_
+
+**
 
 # Errors Occured in this session
 
@@ -432,6 +436,7 @@ FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 ## Result
 
 ```
+
 _
 
 ```
@@ -451,6 +456,7 @@ FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 ## Result
 
 ```
+
 _
 
 ```
@@ -468,7 +474,9 @@ SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
 ## Result
 
 ```
+
 _
+
 ```</textarea>
                 </div>
             </div>
