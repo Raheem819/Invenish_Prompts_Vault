@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -171,8 +170,8 @@
             .btn-add-section { width: auto; white-space: nowrap; margin-top: 0; margin-right: 10px; }
         }
     </style>
-</head>
-<body>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<body >
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
@@ -267,13 +266,13 @@
                             <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false">### SNIPER MODE: HOTFIX & MICRO-TASK PROTOCOLs
+                    <textarea id="sniper-text" spellcheck="false">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
-### EXECUTION RULES & AUTONOMY
+### EXECUTION RULES &amp; AUTONOMY
 
-1. Strict "No Chat Text" & Clarification Rule:
+1. Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
    - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
 
@@ -286,17 +285,21 @@
    - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
    - **Category C (UI/UX Major Changes):** Agar frontend mein poora UI/UX ya bara layout change ho raha hai, toh pehle exact visual/behavioral expectation likho (kya dikhna/kaam karna chahiye), phir dev server chala kar browser mein feature ko manually verify karo (golden path + edge cases) — unit-test wale TDD ki bajaye ye visual verification use karo, kyunke UI changes browser mein hi sahi tarah verify hoti hain.
 
-4. SQL Safety & Release Note:
-   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion (ya chat) ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
+4. SQL Safety &amp; Release Note:
+   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
 5. Git Safety:
    - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — sirf file edits tak khud ko limit rakho.
 
-6. Autonomous Execution, Verification & Diff:
+6. Autonomous Execution, Verification &amp; Diff:
    - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.
    - Fix apply karne ke baad relevant build/console check zaroor karo (jahan possible ho) — "done" tab hi bolo jab verify ho chuka ho.
-   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).</textarea>
+   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).
+
+7. Deep Investigation:
+   - Task se related codebase deeply inspect karo.
+   - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna. </textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('sniper')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
@@ -322,9 +325,9 @@
 [TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
 
 ---
-### 📋 PROTOCOL & EXECUTION RULES (Phase 1: Planning & Finalization Only)
+### 📋 PROTOCOL &amp; EXECUTION RULES (Phase 1: Planning &amp; Finalization Only)
 
-1. Strict "No Chat Text" & Clarification Rule:
+1. Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
    - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
 
@@ -332,13 +335,13 @@
    - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
    - Agar `.claude/KNOWN_HAZARDS.md` file mojood hai, toh usay bhi laazmi parho — repo ke gotchas isme hain jo CLAUDE.md mein nahi likhe.
 
-3. 🔍 Deep Investigation & 🛑 Editing Lock:
+3. 🔍 Deep Investigation &amp; 🛑 Editing Lock:
    - Task se related codebase deeply inspect karo.
    - Is phase mein codebase ki kisi bhi file ko EDIT ya MODIFY nahi karna. Yeh phase sirf planning ka hai.
    - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna.
 
 4. 📦 Deliverables (Human vs AI Output):
-   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo.
+   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo agar zaroorat ho toh.
    🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. SQL likhne se pehle existing Release Note file ka style/format inspect karo aur usi ke mutabiq likho. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
    ©️ Technical .md File (For Execution AI): Exact file paths, function signatures, aur edge-cases likho jisme koi assumption na ho.
 
@@ -346,7 +349,7 @@
    - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — Planning phase mein toh sirf read-only rehna hai.
 
 6. ⚡ Token Optimization:
-   - Codebase analyze karte waqt strict token optimization follow karo. Sirf relevant files read karo.</textarea>
+   - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.</textarea>
                 </div>
 
                 <div class="card" data-card-id="heavy-impl-text">
@@ -362,11 +365,11 @@
                         </div>
                     </div>
                     <textarea id="heavy-impl-text" spellcheck="false">### 🎯 IMPLEMENTATION MISSION
-Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
+Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL (Strict Sequence)
 
-**PHASE 1: Universal Memory & TDD Injection**
+**PHASE 1: Universal Memory &amp; TDD Injection**
 1. Sab se pehle `.claude/` aur plan ko thoroughly parh. Codebase mein directly features build karna start NAHI karna.
 2. Plan mein diye gaye logics ke mutabiq, pehle strictly Unit/Integration Tests likh.
 3. In tests ko run kar (Expectation: Tests fail hone chahiye).
@@ -376,7 +379,7 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
 5. Jahan reliably possible ho, bulk read/write operations perform kar.
 6. Implementation complete hone ke baad relevant build/tests zaroor run kar aur PASS confirm kar — bina verify kiye "done" mat bol.
 
-**PHASE 3: Release Note & Handover**
+**PHASE 3: Release Note &amp; Handover**
 7. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
 8. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
 
@@ -422,7 +425,7 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
                 <div class="card" data-card-id="codereview-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Phase 1: Discovery & Review</h3>
+                            <h3>Phase 1: Discovery &amp; Review</h3>
                             <p>Finds and classifies issues, gets each one approved by you one at a time, then produces two output files. Does not fix anything in this phase.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
@@ -432,7 +435,7 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
                             <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-text" spellcheck="false">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery & Review — No Fixes Yet)
+                    <textarea id="codereview-text" spellcheck="false">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
 **Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
 Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
@@ -523,12 +526,12 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                  UNIVERSAL TESTING (OC/AD)
             ====================================== -->
             <div id="universal" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-microscope"></i> <span class="section-title-text">Universal Testing (OC & AD)</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="section-title"><i class="fa-solid fa-microscope"></i> <span class="section-title-text">Universal Testing (OC &amp; AD)</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
 
                 <div class="card" data-card-id="uni-plan-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Phase 1: Universal Discovery & Planning</h3>
+                            <h3>Phase 1: Universal Discovery &amp; Planning</h3>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -537,29 +540,29 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false">### 🎯 AI AGENT TESTING & FINE-TUNING MISSION
+                    <textarea id="uni-plan-text" spellcheck="false">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
 **Target:** [Order Confirmation Agent / Address Validation Agent]
 **Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
 
 ---
-### ⚡ CORE RULES & SHARED MEMORY (Antigravity & Claude)
+### ⚡ CORE RULES &amp; SHARED MEMORY (Antigravity &amp; Claude)
 1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho. Agar `.claude/KNOWN_HAZARDS.md` bhi mojood ho toh usay bhi zaroor parho — repo gotchas isme hain jo CLAUDE.md mein nahi.
 2. **No Chat Text:** Agar koi confusion ho, ya decision verify karwana ho, toh **interactive questions (AskUserQuestion / Terminal prompt)** use karo. Lambi explanations nahi likhni.
 3. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
 
 ---
-### 🛠️ PHASE 1: DISCOVERY & PLANNING (No Code Edits)
+### 🛠️ PHASE 1: DISCOVERY &amp; PLANNING (No Code Edits)
 
-1. **Dynamic Log Discovery & Evidence Gathering:**
+1. **Dynamic Log Discovery &amp; Evidence Gathering:**
    - Mere Reviewer Note ko sirf hypothesis maano.
    - Codebase, SQL scripts, aur DB models ko analyze karo taake tumhe is specific agent (OC/Address) ke logs, errors, aur audit trails ka structure samajh aaye.
    - **SQL Generation:** Agar tumhe DB se aur data chahiye, toh mujhe chat mein SQL query likh kar do. Main run karke result tumhe 'Other' box mein doonga.
 
-2. **Root Cause Analysis & Classification:**
+2. **Root Cause Analysis &amp; Classification:**
    - Har issue ko verify karo aur classify karo: (a) AI Bug, (b) Prompt Bug, (c) Infra/Plumbing Bug.
 
 3. **Deliverable (The Human-Readable Plan):**
-   - Mujhe ek **Rich Markdown Document** do (with sections & Mermaid diagrams).
+   - Mujhe ek **Rich Markdown Document** do (with sections &amp; Mermaid diagrams).
    - Isme har bug ka root cause, proposed fix, aur **TDD Testing Plan** hona chahiye.
    - **SQL Canvas:** Agar fix mein koi DB changes hain (jaise `ALTER TABLE`, `INSERT Action`), toh plan ke end mein ek **Copyable Canvas** banao jisme exact SQL queries hon. AI khud DB update nahi karega, main in queries ko copy karke DB update karunga.</textarea>
                 </div>
@@ -578,7 +581,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                     </div>
                     <textarea id="uni-impl-text" spellcheck="false">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
 
-### 💻 PHASE 2: IMPLEMENTATION & TDD (Strict Execution)
+### 💻 PHASE 2: IMPLEMENTATION &amp; TDD (Strict Execution)
 
 1. **Red-Green-Refactor (TDD Injection):**
    - File edit karne se pehle, us specific bug ko reproduce karne ke liye ek **Unit/Integration Test** likho aur run karo (Fail/Red hona chahiye).
@@ -592,7 +595,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
 3. **Git Safety:**
    - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
 
-4. **Release Note & SQL Handover:**
+4. **Release Note &amp; SQL Handover:**
    - Jab code fix ho jaye, toh un saari SQL queries ko jo humne Phase 1 mein verify ki theen, laazmi taur par project ki **Release Note.txt** mein document karo. Yeh step miss nahi hona chahiye.
 
 5. **Final Diff Summary:**
@@ -614,29 +617,29 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                     <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
 SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
        ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
-FROM ErrorLog WHERE ErrorID BETWEEN <from> AND <to> ORDER BY ErrorID;
+FROM ErrorLog WHERE ErrorID BETWEEN &lt;from&gt; AND &lt;to&gt; ORDER BY ErrorID;
 
 -- 2) AI ke kis turn ka kaam actually save hua
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
        LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
-FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 3) Customer ko wakai kya gaya
 SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
        WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
-FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 4) Session ki final state
-SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;
+SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
 
 -- 5) Session ke steps ka progression (kis step pe kitni dair rukhi)
 SELECT Id, SessionId, StepId, Status, CreatedOn
-FROM AiChatBotSessionStepsLog WHERE SessionId = <sessionId> ORDER BY Id;
+FROM AiChatBotSessionStepsLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 6) Human handoff / agent assignment history
 SELECT Id, ConversationId, HandoffType, HandoffId, ActionType, FromUserId, ToUserId,
        AssignedByUserId, Source, IsPrimary, CreatedOnUtc, LEFT(ISNULL(Remarks,''),200) AS RemarksShort
-FROM WhatsAppConversationAssignmentLog WHERE ConversationId = <conversationId> ORDER BY Id;</textarea>
+FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId&gt; ORDER BY Id;</textarea>
                 </div>
 
                 <div class="card" data-card-id="session-template-text">
@@ -673,7 +676,7 @@ _
 -- 2) AI ke kis turn ka kaam actually save hua
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
        LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
-FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 
 ```
@@ -695,7 +698,7 @@ _
 -- 3) Customer ko wakai kya gaya
 SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
        WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
-FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 
 ```
@@ -715,7 +718,7 @@ _
 
 ```sql
 -- 4) Session ki final state
-SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;
+SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
 
 
 ```
@@ -766,9 +769,9 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
     </div>
 
     <!-- Toast Message -->
-    <div id="toast" style="border-left-color: var(--accent);">
+    <div id="toast"  >
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg"></span>
+        <span id="toast-msg">Syncing to Cloud...</span>
     </div>
 
     <script>
@@ -1224,10 +1227,10 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
             
             // 3. AUTO-CLEANER ENGINE (Delete extension garbage automatically!)
             htmlContent = htmlContent.replace(/<script src="chrome-extension:[^>]+><\/script>/gi, '');
-            htmlContent = htmlContent.replace(/cz-shortcut-listen="true"/gi, '');
+            htmlContent = htmlContent.replace(//gi, '');
             htmlContent = htmlContent.replace(/__processed_[^=]+="true"/gi, '');
             htmlContent = htmlContent.replace(/style="border-left-color: var\(--accent\);"/gi, '');
-            htmlContent = htmlContent.replace(/class="show"/gi, '');
+            htmlContent = htmlContent.replace(//gi, '');
 
             // 4. NOW change the button state to "Saving..." (So it doesn't get captured in the snapshot)
             const saveBtn = document.querySelector('.btn-save');
@@ -1283,5 +1286,6 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
     </script>
-</body>
-</html>
+
+
+</body></html>
