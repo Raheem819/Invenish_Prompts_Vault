@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
@@ -202,8 +202,8 @@
             .btn-save { padding: 12px; }
         }
     </style>
-</head>
-<body>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<body __processed_a1649cfa-31c6-4d00-b5de-c763cb3b12b8__="true" cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
@@ -262,9 +262,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <button class="btn-save" onclick="saveToGitHub()">
-                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="btn-label">Cloud Save</span>
-            </button>
+            <button class="btn-save" onclick="saveToGitHub()" disabled=""><i class="fa-solid fa-spinner fa-spin"></i> <span class="btn-label">Saving...</span></button>
             <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'" aria-label="Open GitHub sync settings">
                 <i class="fa-solid fa-gear"></i>
             </button>
@@ -298,7 +296,7 @@
                             <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
+                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
@@ -318,7 +316,7 @@
    - **Category C (UI/UX Major Changes):** Agar frontend mein poora UI/UX ya bara layout change ho raha hai, toh pehle exact visual/behavioral expectation likho (kya dikhna/kaam karna chahiye), phir dev server chala kar browser mein feature ko manually verify karo (golden path + edge cases) — unit-test wale TDD ki bajaye ye visual verification use karo, kyunke UI changes browser mein hi sahi tarah verify hoti hain.
 
 4. SQL Safety &amp; Release Note:
-   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion (ya chat) ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
+   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
 5. Git Safety:
@@ -369,7 +367,7 @@
    - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna.
 
 4. 📦 Deliverables (Human vs AI Output):
-   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo.
+   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo agar zaroorat ho toh.
    🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. SQL likhne se pehle existing Release Note file ka style/format inspect karo aur usi ke mutabiq likho. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
    ©️ Technical .md File (For Execution AI): Exact file paths, function signatures, aur edge-cases likho jisme koi assumption na ho.
 
@@ -377,7 +375,7 @@
    - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — Planning phase mein toh sirf read-only rehna hai.
 
 6. ⚡ Token Optimization:
-   - Codebase analyze karte waqt strict token optimization follow karo. Sirf relevant files read karo.</textarea>
+   - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.</textarea>
                 </div>
 
                 <div class="card" data-card-id="heavy-impl-text">
@@ -393,7 +391,7 @@
                         </div>
                     </div>
                     <textarea id="heavy-impl-text" spellcheck="false" aria-label="Heavy Blueprint Phase 2 prompt content">### 🎯 IMPLEMENTATION MISSION
-Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
+Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL (Strict Sequence)
 
@@ -1317,6 +1315,7 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
     </script>
+
 
 
 
