@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invenish | Ultimate Prompt Vault</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-base: #050505;
+            --bg-surface: #111111;
+            --bg-card: #161616;
+            --border-color: #262626;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #3b82f6; 
+            --success: #10b981;
+            --danger: #ef4444;
+            --font-main: 'Inter', sans-serif;
+            --font-code: 'Consolas', 'Courier New', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Desktop handles own scroll */
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+        .brand { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        .brand i { color: var(--accent); margin-right: 8px; }
+
+        .search-box { position: relative; }
+        .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
+        .search-box input {
+            width: 100%; background-color: var(--bg-base); border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 10px 14px 10px 35px; border-radius: 8px; outline: none;
+        }
+        .search-box input:focus { border-color: var(--accent); }
+
+        .nav-menu { flex: 1; overflow-y: auto; padding: 15px 10px; }
+        .nav-title { font-size: 11px; text-transform: uppercase; color: #6b7280; font-weight: 600; margin: 15px 0 8px 12px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px; color: var(--text-muted);
+            border-radius: 6px; cursor: pointer; font-weight: 500; margin-bottom: 4px;
+        }
+        .nav-item:hover, .nav-item.active { background-color: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item i { width: 16px; text-align: center; }
+
+        .sidebar-footer { padding: 15px; border-top: 1px solid var(--border-color); display: flex; gap: 10px;}
+        
+        .btn-save {
+            flex: 1; background-color: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 6px;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-config {
+            background-color: var(--bg-base); border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 12px; border-radius: 6px; cursor: pointer;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-wrapper {
+            flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 40px; position: relative;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding-bottom: 80px; }
+        .section-group { margin-bottom: 60px; }
+        .section-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; }
+        
+        /* --- CARDS --- */
+        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
+        .card-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); background-color: rgba(255,255,255,0.01); }
+        .card-info h3 { font-size: 15px; color: #fff; margin-bottom: 4px; }
+        .card-info p { font-size: 12px; color: var(--text-muted); }
+        
+        .btn-copy { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; gap: 6px; }
+        .btn-copy.copied { background: var(--success); border-color: var(--success); color: #000; }
+
+        textarea { width: 100%; min-height: 200px; background-color: var(--bg-base); color: #e5e5e5; border: none; padding: 20px; font-family: var(--font-code); font-size: 13px; resize: vertical; outline: none; display: block; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+
+        /* --- MODAL (For API Config) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal { background: var(--bg-card); width: 90%; max-width: 400px; padding: 25px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .modal h2 { margin-bottom: 15px; font-size: 18px; }
+        .modal input { width: 100%; padding: 10px; margin-bottom: 15px; background: var(--bg-base); border: 1px solid var(--border-color); color: #fff; border-radius: 6px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .modal-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-cancel { background: var(--border-color); color: #fff; }
+        .btn-save-config { background: var(--accent); color: #fff; }
+
+        /* Toast */
+        #toast { position: fixed; bottom: 20px; right: 20px; background-color: #18181b; border-left: 4px solid var(--success); color: #fff; padding: 15px 20px; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.3s; z-index: 1000; display: flex; gap: 10px; align-items: center;}
+        #toast.show { transform: translateX(0); }
+
+        #noResults { text-align: center; padding: 40px; color: var(--text-muted); display: none; }
+
+        /* =========================================
+           MOBILE RESPONSIVENESS (PERFECTED)
+        ========================================= */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto; /* Let the entire body scroll on mobile naturally */
+            }
+            .sidebar {
+                width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color);
+                position: sticky; top: 0; z-index: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            }
+            .sidebar-header { padding: 15px; }
+            .brand { margin-bottom: 10px; }
+            .nav-menu {
+                display: flex; flex-direction: row; padding: 10px; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; 
+            }
+            .nav-menu::-webkit-scrollbar { display: none; }
+            .nav-title { display: none; }
+            .nav-item { white-space: nowrap; margin-bottom: 0; margin-right: 10px; background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 12px; }
+            .sidebar-footer { padding: 10px 15px; } /* Kept on mobile for Cloud Saving */
+            .main-wrapper {
+                padding: 20px 15px; overflow-y: visible; /* Let body handle scroll */
+            }
+            .card-header { flex-direction: column; gap: 10px; }
+            .btn-copy { width: 100%; justify-content: center; padding: 10px; }
+            #toast { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- API Config Modal -->
+    <div class="modal-overlay" id="configModal">
+        <div class="modal">
+            <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
+            <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
+            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)">
+            <input type="password" id="tokenInput" placeholder="GitHub Fine-Grained Token">
+            <input type="text" id="pathInput" placeholder="File Path (e.g., index.html)" value="index.html">
+            <div class="modal-actions">
+                <button class="modal-btn btn-cancel" onclick="document.getElementById('configModal').style.display='none'">Cancel</button>
+                <button class="modal-btn btn-save-config" onclick="saveConfig()">Save Config</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand"><i class="fa-solid fa-code-merge"></i> Invenish Vault</div>
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search prompts..." onkeyup="filterContent()">
+            </div>
+        </div>
+
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-title">Pipelines</div>
+            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
+            
+            <div class="nav-title">Testing</div>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="btn-save" onclick="saveToGitHub()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Cloud Save
+            </button>
+            <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper" id="mainScroll">
+        <div class="container">
+            
+            <div id="noResults">
+                <i class="fa-solid fa-ghost"></i>
+                <h3>No results found</h3>
+            </div>
+
+            <!-- =====================================
+                 SNIPER PROTOCOL
+            ====================================== -->
+            <div id="sniper" class="section-group">
+                <div class="section-title"><i class="fa-solid fa-crosshairs"></i> Sniper Protocol</div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Sniper Mode (Hotfix & Micro-Task)</h3>
+                            <p>For minor UI tweaks and quick logic fixes. Autonomous execution.</p>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="sniper-text" spellcheck="false">
+### 🎯 SNIPER MODE: HOTFIX & MICRO-TASK PROTOCOL
+[TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
+
+---
+### ⚡ EXECUTION RULES & AUTONOMY
+
+1. 🚫 Strict "No Chat Text" & Clarification Rule:
+   - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
+   - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
+
+2. 🧠 Universal Memory:
+   - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
+
+3. 🧠 Dynamic TDD Triage (Smart Testing):
+   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka hai, toh TDD BYPASS karo. Direct fix apply karo.
+   - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
+
+4. 🛠️ SQL Safety & Release Note:
+   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do, main run karunga. 
+   - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
+
+5. 🔄 Autonomous Execution & Diff:
+   - Smart/precise search use karo (optimize token budget).
+   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf lines nahi).</textarea>
+                </div>
+            </div>
+
+            <!-- =====================================
+                 HEAVY BLUEPRINT
+            ====================================== -->
+            <div id="heavy" class="section-group">
+                <div class="section-title"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Phase 1: Planning</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="heavy-plan-text" spellcheck="false">
+### 🎯 TASK DESCRIPTION
+[TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
+
+---
+### 📋 PROTOCOL & EXECUTION RULES (Phase 1: Planning & Finalization Only)
+
+1. 🚫 Strict "No Chat Text" Rule:
+   - Mein conversation mein likha gaya koi bhi lamba text nahi parhunga. Clarification/suggestions sirf interactive questions ke through aane chahiye.
+
+2. 🧠 Universal Memory:
+   - `.claude/` aur `CLAUDE.md` ko as Source of Truth read karo.
+
+3. 🔍 Deep Investigation & 🛑 Editing Lock:
+   - Task se related codebase deeply inspect karo.
+   - Is phase mein codebase ki kisi bhi file ko EDIT ya MODIFY nahi karna. Yeh phase sirf planning ka hai.
+
+4. 📦 Deliverables (Human vs AI Output):
+   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo.
+   🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
+   ©️ Technical .md File (For Execution AI): Exact file paths, function signatures, aur edge-cases likho jisme koi assumption na ho.
+
+5. ⚡ Token Optimization:
+   - Codebase analyze karte waqt strict token optimization follow karo. Sirf relevant files read karo.</textarea>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Phase 2: Implementation</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="heavy-impl-text" spellcheck="false">
+### 🎯 IMPLEMENTATION MISSION
+Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer. 
+
+### 🔄 EXECUTION PROTOCOL (Strict Sequence)
+
+**PHASE 1: Universal Memory & TDD Injection**
+1. Sab se pehle `.claude/` aur plan ko thoroughly parh. Codebase mein directly features build karna start NAHI karna.
+2. Plan mein diye gaye logics ke mutabiq, pehle strictly Unit/Integration Tests likh.
+3. In tests ko run kar (Expectation: Tests fail hone chahiye).
+
+**PHASE 2: Core Implementation**
+4. Ab actual logic implement karna shuru kar taake Phase 1 ke tests PASS ho jayein.
+5. Jahan reliably possible ho, bulk read/write operations perform kar.
+
+**PHASE 3: Release Note & Handover**
+6. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
+7. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
+
+### 🛑 RULES OF ENGAGEMENT
+- No Guessing: Ambiguity ho toh sawal pooch.
+- Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.</textarea>
+                </div>
+            </div>
+
+            <!-- =====================================
+                 UNIVERSAL TESTING (OC/AD) 
+            ====================================== -->
+            <div id="universal" class="section-group">
+                <div class="section-title"><i class="fa-solid fa-microscope"></i> Universal Testing (OC & AD)</div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Phase 1: Universal Discovery & Planning</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="uni-plan-text" spellcheck="false">
+### 🎯 AI AGENT TESTING & FINE-TUNING MISSION
+**Target:** [Order Confirmation Agent / Address Validation Agent]
+**Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
+
+---
+### ⚡ CORE RULES & SHARED MEMORY (Antigravity & Claude)
+1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho.
+2. **No Chat Text:** Agar koi confusion ho, ya decision verify karwana ho, toh **interactive questions (AskUserQuestion / Terminal prompt)** use karo. Lambi explanations nahi likhni.
+
+---
+### 🛠️ PHASE 1: DISCOVERY & PLANNING (No Code Edits)
+
+1. **Dynamic Log Discovery & Evidence Gathering:**
+   - Mere Reviewer Note ko sirf hypothesis maano.
+   - Codebase, SQL scripts, aur DB models ko analyze karo taake tumhe is specific agent (OC/Address) ke logs, errors, aur audit trails ka structure samajh aaye.
+   - **SQL Generation:** Agar tumhe DB se aur data chahiye, toh mujhe chat mein SQL query likh kar do. Main run karke result tumhe 'Other' box mein doonga.
+
+2. **Root Cause Analysis & Classification:**
+   - Har issue ko verify karo aur classify karo: (a) AI Bug, (b) Prompt Bug, (c) Infra/Plumbing Bug.
+
+3. **Deliverable (The Human-Readable Plan):**
+   - Mujhe ek **Rich Markdown Document** do (with sections & Mermaid diagrams).
+   - Isme har bug ka root cause, proposed fix, aur **TDD Testing Plan** hona chahiye.
+   - **SQL Canvas:** Agar fix mein koi DB changes hain (jaise `ALTER TABLE`, `INSERT Action`), toh plan ke end mein ek **Copyable Canvas** banao jisme exact SQL queries hon. AI khud DB update nahi karega, main in queries ko copy karke DB update karunga.</textarea>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Phase 2: Universal Implementation</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="uni-impl-text" spellcheck="false">
+Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
+
+### 💻 PHASE 2: IMPLEMENTATION & TDD (Strict Execution)
+
+1. **Red-Green-Refactor (TDD Injection):**
+   - File edit karne se pehle, us specific bug ko reproduce karne ke liye ek **Unit/Integration Test** likho aur run karo (Fail/Red hona chahiye).
+   - Phir apna fix apply karo, aur test dobara run karo (Pass/Green hona chahiye).
+
+2. **Strict File Operations:**
+   - File edit karne se pehle original file ka scratch copy snapshot lo.
+   - Bulk read/write karo jahan safe ho, par context/token optimization ka dehaan rakho.
+   - "Do NOT Edit" boundaries ko strictly follow karo. Unrelated files ya formatting chherne ki ijazat nahi.
+
+3. **Release Note & SQL Handover:**
+   - Jab code fix ho jaye, toh un saari SQL queries ko jo humne Phase 1 mein verify ki theen, laazmi taur par project ki **Release Note.txt** mein document karo. Yeh step miss nahi hona chahiye.
+
+4. **Final Diff Summary:**
+   - Aakhir mein chat mein ek Developer-Friendly Diff Summary do. Logic aur context explain karo taake main bina VS Code khole changes samajh sakoon.</textarea>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Standard SQL Evidence Pack</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'sql-pack-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">
+-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
+SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
+       ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
+FROM ErrorLog WHERE ErrorID BETWEEN <from> AND <to> ORDER BY ErrorID;
+
+-- 2) AI ke kis turn ka kaam actually save hua
+SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
+       LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
+FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+
+-- 3) Customer ko wakai kya gaya
+SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
+       WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
+FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+
+-- 4) Session ki final state
+SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;</textarea>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Complete Session Log Template</h3>
+                        </div>
+                        <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <textarea id="session-template-text" spellcheck="false">
+# Reviewer Note
+**_ **
+
+# Errors Occured in this session
+
+```
+
+_
+
+```
+
+# AI actions
+## Query
+```sql
+-- 2) AI ke kis turn ka kaam actually save hua
+SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
+       LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
+FROM AiSessionActionLog WHERE SessionId = <sessionId> ORDER BY Id;
+
+```
+
+## Result
+
+```
+_
+
+```
+
+# Session Messages
+
+## Query
+
+```sql
+-- 3) Customer ko wakai kya gaya
+SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
+       WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
+FROM WhatsAppMessage WHERE SessionId = <sessionId> ORDER BY Id;
+
+```
+
+## Result
+
+```
+_
+
+```
+
+# AI Session final state
+
+## Query
+
+```sql
+-- 4) Session ki final state
+SELECT * FROM AiChatBotSession WHERE Id = <sessionId>;
+
+```
+
+## Result
+
+```
+_
+```</textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Toast Message -->
+    <div id="toast">
+        <i class="fa-solid fa-info-circle" id="toast-icon"></i>
+        <span id="toast-msg">Action completed!</span>
+    </div>
+
+    <script>
+        // --- COPY LOGIC ---
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { var successful = document.execCommand('copy'); document.body.removeChild(textArea); return successful; } 
+            catch (err) { document.body.removeChild(textArea); return false; }
+        }
+
+        async function copyText(btn, elementId) {
+            const textToCopy = document.getElementById(elementId).value;
+            let success = false;
+            if (navigator.clipboard && window.isSecureContext) {
+                try { await navigator.clipboard.writeText(textToCopy); success = true; } 
+                catch (err) { success = fallbackCopyTextToClipboard(textToCopy); }
+            } else { success = fallbackCopyTextToClipboard(textToCopy); }
+
+            if (success) {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied'; btn.classList.add('copied');
+                showToast("Copied!", "success");
+                setTimeout(() => { btn.innerHTML = originalHTML; btn.classList.remove('copied'); }, 2000);
+            }
+        }
+
+        // --- SEARCH ENGINE ---
+        function filterContent() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const sectionGroups = document.querySelectorAll('.section-group');
+            let totalVisible = 0;
+
+            sectionGroups.forEach(group => {
+                const cards = group.querySelectorAll('.card');
+                let sectionHasMatch = false;
+
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-info').innerText.toLowerCase();
+                    const code = card.querySelector('textarea').value.toLowerCase();
+                    if (title.includes(query) || code.includes(query)) { card.style.display = 'block'; sectionHasMatch = true; totalVisible++; } 
+                    else { card.style.display = 'none'; }
+                });
+                group.style.display = sectionHasMatch ? 'block' : 'none';
+            });
+            document.getElementById('noResults').style.display = (totalVisible === 0 && query.length > 0) ? 'block' : 'none';
+        }
+
+        // --- SCROLL & NAVIGATION FIX (MOBILE BUG REMOVED) ---
+        function scrollToSection(id) {
+            const target = document.getElementById(id);
+            if (target) {
+                // Determine scrolling container
+                const scrollContainer = window.innerWidth <= 768 ? window : document.getElementById('mainScroll');
+                const offset = window.innerWidth <= 768 ? 140 : 20; 
+                scrollContainer.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+            }
+        }
+
+        // Update active nav WITHOUT scrolling the nav itself (fixes the jump bug)
+        function updateActiveNav() {
+            let current = '';
+            const sections = document.querySelectorAll('.section-group');
+            const scrollPos = window.innerWidth <= 768 ? window.scrollY : document.getElementById('mainScroll').scrollTop;
+            
+            sections.forEach(section => {
+                if (scrollPos >= section.offsetTop - 150) { current = section.getAttribute('id'); }
+            });
+
+            document.querySelectorAll('.nav-item').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-target') === current) { link.classList.add('active'); }
+            });
+        }
+        document.getElementById('mainScroll').addEventListener('scroll', updateActiveNav);
+        window.addEventListener('scroll', updateActiveNav);
+
+        // --- GITHUB CLOUD SYNC LOGIC ---
+        // Load saved config
+        document.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('gh_repo')) document.getElementById('repoInput').value = localStorage.getItem('gh_repo');
+            if(localStorage.getItem('gh_token')) document.getElementById('tokenInput').value = localStorage.getItem('gh_token');
+            if(localStorage.getItem('gh_path')) document.getElementById('pathInput').value = localStorage.getItem('gh_path');
+        });
+
+        function saveConfig() {
+            localStorage.setItem('gh_repo', document.getElementById('repoInput').value);
+            localStorage.setItem('gh_token', document.getElementById('tokenInput').value);
+            localStorage.setItem('gh_path', document.getElementById('pathInput').value);
+            document.getElementById('configModal').style.display = 'none';
+            showToast("Config Saved!", "success");
+        }
+
+        async function saveToGitHub() {
+            const repo = localStorage.getItem('gh_repo');
+            const token = localStorage.getItem('gh_token');
+            const path = localStorage.getItem('gh_path') || 'index.html';
+
+            if(!repo || !token) {
+                document.getElementById('configModal').style.display = 'flex';
+                showToast("Please configure GitHub API first", "error");
+                return;
+            }
+
+            showToast("Syncing to Cloud...", "info");
+
+            // Update DOM with textarea contents
+            document.querySelectorAll('textarea').forEach(ta => { ta.innerHTML = ta.value; });
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+            try {
+                // 1. Get current file SHA
+                const getUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+                const getRes = await fetch(getUrl, { headers: { "Authorization": `token ${token}` } });
+                
+                if (!getRes.ok) throw new Error("Could not fetch file info. Check Repo name/Token.");
+                const fileData = await getRes.json();
+
+                // 2. Encode to Base64 safely (handles Unicode)
+                const base64Content = btoa(unescape(encodeURIComponent(htmlContent)));
+
+                // 3. Put request to update file
+                const putRes = await fetch(getUrl, {
+                    method: 'PUT',
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: "Auto-saved via Invenish Vault from Mobile",
+                        content: base64Content,
+                        sha: fileData.sha
+                    })
+                });
+
+                if (putRes.ok) showToast("Successfully synced to GitHub!", "success");
+                else throw new Error("Failed to push update.");
+
+            } catch (err) {
+                console.error(err);
+                showToast(err.message, "error");
+            }
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            toast.style.borderLeftColor = type === 'error' ? 'var(--danger)' : type === 'info' ? 'var(--accent)' : 'var(--success)';
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+    </script>
+</body>
+</html>
