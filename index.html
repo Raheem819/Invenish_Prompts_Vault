@@ -153,7 +153,7 @@
         <div class="modal">
             <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
             <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
-            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)" value="raheem819/Invenish_Prompts_Vault">
+            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)">
             <input type="password" id="tokenInput" placeholder="GitHub Fine-Grained Token">
             <input type="text" id="pathInput" placeholder="File Path (e.g., index.html)" value="index.html">
             <div class="modal-actions">
@@ -175,11 +175,11 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title">Pipelines</div>
-            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
             
             <div class="nav-title">Testing</div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
         </div>
 
         <div class="sidebar-footer">
@@ -228,16 +228,17 @@
    - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
 
 3. 🧠 Dynamic TDD Triage (Smart Testing):
-   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka hai, toh TDD BYPASS karo. Direct fix apply karo.
+   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka chota sa hai, toh TDD BYPASS karo. Direct fix apply karo.
    - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
+   - **Category C (UI/UX but major changes):** Agar frontend mein hi poora UI UX aur bara layout change hot hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic aur UI UX theek na ho jaye aur test PASS na ho.
 
 4. 🛠️ SQL Safety &amp; Release Note:
-   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do, main run karunga. 
+   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do question ke through hi, main run karunga aur models update kronga aur jab models update ho jayenge phir uss questions ka yes wala option selecct krdonga. 
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
 5. 🔄 Autonomous Execution &amp; Diff:
    - Smart/precise search use karo (optimize token budget).
-   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf lines nahi).</textarea>
+   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).</textarea>
                 </div>
             </div>
 
@@ -585,9 +586,9 @@ _
         }
 
         async function saveToGitHub() {
-            const repo = localStorage.getItem('gh_repo') || document.getElementById('repoInput').value;
+            const repo = localStorage.getItem('gh_repo');
             const token = localStorage.getItem('gh_token');
-            const path = localStorage.getItem('gh_path') || document.getElementById('pathInput').value;
+            const path = localStorage.getItem('gh_path') || 'index.html';
 
             if(!repo || !token) {
                 document.getElementById('configModal').style.display = 'flex';
