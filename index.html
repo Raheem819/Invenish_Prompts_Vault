@@ -153,7 +153,7 @@
         <div class="modal">
             <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
             <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
-            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)">
+            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)" value="raheem819/Invenish_Prompts_Vault">
             <input type="password" id="tokenInput" placeholder="GitHub Fine-Grained Token">
             <input type="text" id="pathInput" placeholder="File Path (e.g., index.html)" value="index.html">
             <div class="modal-actions">
@@ -585,9 +585,9 @@ _
         }
 
         async function saveToGitHub() {
-            const repo = localStorage.getItem('gh_repo');
+            const repo = localStorage.getItem('gh_repo') || document.getElementById('repoInput').value;
             const token = localStorage.getItem('gh_token');
-            const path = localStorage.getItem('gh_path') || 'index.html';
+            const path = localStorage.getItem('gh_path') || document.getElementById('pathInput').value;
 
             if(!repo || !token) {
                 document.getElementById('configModal').style.display = 'flex';
