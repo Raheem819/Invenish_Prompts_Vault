@@ -214,29 +214,29 @@
                         </div>
                         <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false">### 🎯 SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
+                    <textarea id="sniper-text" spellcheck="false">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
-### ⚡ EXECUTION RULES &amp; AUTONOMY
+### EXECUTION RULES &amp; AUTONOMY
 
-1. 🚫 Strict "No Chat Text" &amp; Clarification Rule:
+1. Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
    - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
 
-2. 🧠 Universal Memory:
+2. Universal Memory:
    - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
 
-3. 🧠 Dynamic TDD Triage (Smart Testing):
+3. Dynamic TDD Triage (Smart Testing):
    - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka chota sa hai, toh TDD BYPASS karo. Direct fix apply karo.
    - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
    - **Category C (UI/UX but major changes):** Agar frontend mein hi poora UI UX aur bara layout change hot hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic aur UI UX theek na ho jaye aur test PASS na ho.
 
-4. 🛠️ SQL Safety &amp; Release Note:
+4. SQL Safety &amp; Release Note:
    - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do question ke through hi, main run karunga aur models update kronga aur jab models update ho jayenge phir uss questions ka yes wala option selecct krdonga. 
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
-5. 🔄 Autonomous Execution &amp; Diff:
+5. Autonomous Execution &amp; Diff:
    - Smart/precise search use karo (optimize token budget).
    - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).</textarea>
                 </div>
