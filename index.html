@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
@@ -202,8 +203,8 @@
             .btn-save { padding: 12px; }
         }
     </style>
-<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
-<body __processed_a062e796-8334-4c82-bd25-5c602bd453c1__="true" cz-shortcut-listen="true">
+</head>
+<body>
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
@@ -262,7 +263,9 @@
         </div>
 
         <div class="sidebar-footer">
-            <button class="btn-save" onclick="saveToGitHub()" disabled=""><i class="fa-solid fa-spinner fa-spin"></i> <span class="btn-label">Saving...</span></button>
+            <button class="btn-save" onclick="saveToGitHub()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="btn-label">Cloud Save</span>
+            </button>
             <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'" aria-label="Open GitHub sync settings">
                 <i class="fa-solid fa-gear"></i>
             </button>
@@ -296,7 +299,7 @@
                             <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
+                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
@@ -414,6 +417,32 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
 - Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
 - Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.</textarea>
                 </div>
+
+                <div class="card" data-card-id="heavy-revise-text">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Revise Heavy Plan</h3>
+                            <p>Use after reading Phase 1's outputs, before running Phase 2, if you want changes made to the plan.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'heavy-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <textarea id="heavy-revise-text" spellcheck="false" aria-label="Revise Heavy Plan prompt content">### 🔁 REVISE HEAVY PLAN
+Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. Neeche mere changes points mein hain:
+
+[POINTS YAHAN LIKHEIN]
+
+---
+### RULES
+1. In points ke mutabiq **dono outputs** update karo — Visual Markdown Artifact (mere liye) aur Technical .md File (execution AI ke liye).
+2. Implementation abhi shuru NAHI karni — sirf outputs update karke mera wait karo. "Phase 2: Implementation" ka prompt alag se doonga.
+3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
+4. Update ke baad ek chhota summary do ke kya kya change hua.</textarea>
+                </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('heavy')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
 
@@ -425,8 +454,8 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
                 <div class="card" data-card-id="codereview-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Structured Code Review (Pre-Merge)</h3>
-                            <p>For reviewing finished work or a PR before merging. Reports findings only — does not apply fixes on its own.</p>
+                            <h3>Phase 1: Discovery &amp; Review</h3>
+                            <p>Finds and classifies issues, gets each one approved by you one at a time, then produces two output files. Does not fix anything in this phase.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -435,9 +464,9 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
                             <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-text" spellcheck="false" aria-label="Code Review prompt content">### 🎯 CODE REVIEW MISSION
+                    <textarea id="codereview-text" spellcheck="false" aria-label="Code Review Phase 1 prompt content">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
 **Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
-Ye ek REVIEW pass hai, naya feature build karne wala nahi. Maqsad sirf issues dhoondna hai, khud fix apply nahi karna (jab tak explicitly na kaha jaye).
+Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
 ---
 ### 🔍 REVIEW CHECKLIST
@@ -447,12 +476,77 @@ Ye ek REVIEW pass hai, naya feature build karne wala nahi. Maqsad sirf issues dh
 4. **CLAUDE.md Compliance:** Unrelated refactors, renamed methods/DTOs/columns, missing Release Note entry for DB/setup changes, broken UI selectors/AJAX/dirty-state.
 
 ---
+### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
+- Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** (checklist-style, max 4 findings per question) ke through triage karwao — har finding ke liye "fix karna hai" ya "chhod do" mera decision lo. Apni taraf se kuch bhi approved assume mat karo.
+- Jab tak sab findings triage (approve/reject) na ho jayein, deliverables mat banao.
+
+---
+### 📦 DELIVERABLES (sirf jab sab findings triage ho chuke hon)
+🅰️ **Review Plan (.md, mere parhne ke liye):** Rich Markdown — findings ka summary (kya mila, kyun issue hai, kya approve hua), severity table, aur ek Mermaid.js diagram jo findings ko severity/category ke hisaab se ya affected files ke flow ko dikhaye.
+🅱️ **Implementation Instructions (.md, execution agent ke liye):** Sirf APPROVED findings ke liye — exact file:line, current vs expected behavior, aur fix approach. Koi assumption na ho.
+   - Dono files ko sensible naam do (task/date se related) aur mujhe unke exact naam/path bata do.
+
+---
 ### ⚡ EXECUTION RULES
 1. **Source of Truth:** `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md` dono parho.
 2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq (effort level: [low/medium/high] mention karein) — logic dobara se mat likho.
-3. **No Fixing By Default:** Sirf findings report karo (file:line ke saath, severity ranked most-severe first). Fix sirf tab karo jab main explicitly "fix bhi kardo" kahoon.
+3. **No Fixing In This Phase:** Koi bhi file edit na karo — ye sirf discovery/review/planning phase hai.
 4. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
-5. Ambiguity ho toh guess mat karo — AskUserQuestion (ya chat) ke through poocho.</textarea>
+5. Ambiguity ho toh guess mat karo — AskUserQuestion ke through poocho.</textarea>
+                </div>
+
+                <div class="card" data-card-id="codereview-impl-text">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Phase 2: Implementation</h3>
+                            <p>Executes only the approved findings from the Implementation Instructions file.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'codereview-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <textarea id="codereview-impl-text" spellcheck="false" aria-label="Code Review Phase 2 prompt content">### 🎯 CODE REVIEW MISSION (Phase 2: Implementation)
+Implementation Instructions file (.md) mein approved findings maujood hain. Tumhe unhe exactly implement karna hai as an Autonomous Senior Developer.
+
+### 🔄 EXECUTION PROTOCOL
+1. Sab se pehle `.claude/` aur Implementation Instructions file thoroughly parho.
+2. Sirf wahi findings fix karo jo us file mein APPROVED hain — kuch aur "improve" karne ki koshish na karo.
+3. Har fix ke baad relevant build/tests run karo aur PASS confirm karo.
+4. Agar koi SQL/DB change involved hai (Phase 1 mein discuss ho chuka), toh use `Release Note.txt` mein document karo.
+
+### 🛑 RULES OF ENGAGEMENT
+- No Guessing: Ambiguity ho toh AskUserQuestion se pooch.
+- Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
+- Jab sab implement ho jaye, mujhe ek concise Diff Summary do.</textarea>
+                </div>
+
+                <div class="card" data-card-id="codereview-revise-text">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Revise Review Plan</h3>
+                            <p>Use after reading the Review Plan file, before running Phase 2, if you want changes made to the plan.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'codereview-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <textarea id="codereview-revise-text" spellcheck="false" aria-label="Revise Code Review Plan prompt content">### 🔁 REVISE REVIEW PLAN
+Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
+
+[POINTS YAHAN LIKHEIN]
+
+---
+### RULES
+1. In points ke mutabiq **dono files** update karo — Review Plan (.md, mere liye) aur Implementation Instructions (.md, execution agent ke liye).
+2. Implementation abhi shuru NAHI karni — sirf files update karke mera wait karo. Implementation ka alag prompt doonga.
+3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
+4. Update ke baad ek chhota summary do ke dono files mein kya kya change hua.</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('codereview')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
@@ -671,8 +765,8 @@ _
                 <div class="card" data-card-id="resume-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Resume Interrupted Session</h3>
-                            <p>For when a previous session got cut off by a context limit, closed browser, or a new day — continue where you left off without re-exploring everything.</p>
+                            <h3>Continue From Interruption</h3>
+                            <p>For when the agent stops mid-task in this SAME conversation (internet drop, usage limit, or any other reason) — paste this right back into the same chat to pick up exactly where it left off.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -681,19 +775,15 @@ _
                             <button class="btn-copy" onclick="copyText(this, 'resume-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="resume-text" spellcheck="false" aria-label="Resume Session prompt content">### 🔄 RESUME MISSION
-Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase explore mat karo — pehle ye 3 cheezein parho, phir wahin se continue karo jahan chorra tha:
-
-1. `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md`
-2. `git status` aur `git diff` (dekho kya already changed/uncommitted hai)
-3. Is task se related koi bhi planning `.md` file ya pichla plan (agar bana tha)
+                    <textarea id="resume-text" spellcheck="false" aria-label="Continue From Interruption prompt content">### 🔄 CONTINUE FROM INTERRUPTION
+Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (internet disconnect, usage limit, ya koi aur wajah) — ye SAME conversation hai, tumhare paas is poori session ka context pehle se maujood hai.
 
 ---
 ### ⚡ RULES
-1. **Gap-Fill Only:** Sirf wahi cheez samjho jo continue karne ke liye zaroori hai — poori codebase dobara analyze na karo (Token Optimization).
-2. **State Check Before Acting:** Agar unclear ho ke pichla kaam kahan tak complete hua, toh assume mat karo — AskUserQuestion se poocho ya current state batao aur confirm karwao.
-3. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
-4. Continue karne ke baad, jab kaam complete ho, concise Diff Summary do.</textarea>
+1. **Restart Mat Karo:** Jo kaam already ho chuka hai usay dobara se mat karo aur na hi dobara se explain karo.
+2. **Wahi Se Continue Karo:** Agar koi tool call, edit, ya step adhoora tha, pehle usay complete karo, phir aage barho.
+3. **State Verify Karo (Agar Unclear Ho):** Agar exactly yaad na ho ke kahan tak kaam hua tha, toh assume mat karo — pehle current state check karo (jaise `git status`/`git diff`, ya jo bhi is task ke liye relevant ho), phir continue karo.
+4. **Original Rules Still Apply:** Is task ki original prompt mein jo rules diye gaye thay (AskUserQuestion, Git Safety, Token Optimization, etc.) — wahi sab abhi bhi laagu hain, ignore mat karna.</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('resume')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
@@ -702,9 +792,9 @@ Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase exp
     </div>
 
     <!-- Toast Message -->
-    <div id="toast" style="border-left-color: var(--accent);" class="show">
+    <div id="toast" style="border-left-color: var(--accent);">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg">Syncing to Cloud...</span>
+        <span id="toast-msg"></span>
     </div>
 
     <script>
@@ -1229,6 +1319,5 @@ Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase exp
         }
     </script>
 
-
-
-</body></html>
+</body>
+</html>
