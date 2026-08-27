@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invenish | Ultimate Prompt Vault</title>
@@ -7,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-base: #050505;
@@ -16,9 +17,10 @@
             --border-color: #262626;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --accent: #3b82f6; 
+            --accent: #3b82f6;
             --success: #10b981;
             --danger: #ef4444;
+            --warning: #f59e0b;
             --font-main: 'Inter', sans-serif;
             --font-code: 'Consolas', 'Courier New', monospace;
         }
@@ -57,7 +59,10 @@
         .search-box input:focus { border-color: var(--accent); }
 
         .nav-menu { flex: 1; overflow-y: auto; padding: 15px 10px; }
-        .nav-title { font-size: 11px; text-transform: uppercase; color: #6b7280; font-weight: 600; margin: 15px 0 8px 12px; }
+        .nav-title { font-size: 11px; text-transform: uppercase; color: #6b7280; font-weight: 600; margin: 15px 0 8px 12px; display: flex; align-items: center; justify-content: space-between; padding-right: 10px; }
+        .nav-title-text[contenteditable="true"] { outline: 1px dashed var(--accent); border-radius: 3px; padding: 0 3px; }
+        .nav-title-edit { background: transparent; border: none; color: #6b7280; cursor: pointer; padding: 2px; display: flex; align-items: center; justify-content: center; font-size: 10px; opacity: 0.6; }
+        .nav-title-edit:hover { opacity: 1; color: var(--accent); }
         .nav-item {
             display: flex; align-items: center; gap: 12px; padding: 10px; color: var(--text-muted);
             border-radius: 6px; cursor: pointer; font-weight: 500; margin-bottom: 4px;
@@ -66,11 +71,12 @@
         .nav-item i { width: 16px; text-align: center; }
 
         .sidebar-footer { padding: 15px; border-top: 1px solid var(--border-color); display: flex; gap: 10px;}
-        
+
         .btn-save {
             flex: 1; background-color: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 6px;
             font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-config {
             background-color: var(--bg-base); border: 1px solid var(--border-color); color: var(--text-main);
             padding: 12px; border-radius: 6px; cursor: pointer;
@@ -83,18 +89,39 @@
         .container { max-width: 900px; margin: 0 auto; padding-bottom: 80px; }
         .section-group { margin-bottom: 60px; }
         .section-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; }
-        
+
         /* --- CARDS --- */
         .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
         .card-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); background-color: rgba(255,255,255,0.01); }
         .card-info h3 { font-size: 15px; color: #fff; margin-bottom: 4px; }
         .card-info p { font-size: 12px; color: var(--text-muted); }
-        
+        .card-info [contenteditable="true"] { outline: 1px dashed var(--accent); border-radius: 3px; padding: 1px 3px; }
+        .card-version { font-size: 11px; color: #6b7280; margin-top: 6px; }
+
+        .card-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+        .btn-icon { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .btn-icon:hover { color: #fff; border-color: var(--text-muted); }
+        .btn-icon.danger:hover { color: var(--danger); border-color: var(--danger); }
+
         .btn-copy { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; gap: 6px; }
         .btn-copy.copied { background: var(--success); border-color: var(--success); color: #000; }
 
+        .btn-add-prompt { width: 100%; background: transparent; border: 1px dashed var(--border-color); color: var(--text-muted); padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+        .btn-add-prompt:hover { border-color: var(--accent); color: var(--accent); }
+
+        .section-title .section-edit { margin-left: auto; }
+        .section-title-text[contenteditable="true"] { outline: 1px dashed var(--accent); border-radius: 3px; padding: 1px 4px; }
+
+        .btn-add-section { width: 100%; margin-top: 10px; background: transparent; border: 1px dashed var(--border-color); color: var(--text-muted); padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-add-section:hover { border-color: var(--accent); color: var(--accent); }
+
+        .icon-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 18px; max-height: 220px; overflow-y: auto; }
+        .icon-choice { background: var(--bg-base); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; }
+        .icon-choice:hover { border-color: var(--accent); color: #fff; }
+        .icon-choice.selected { border-color: var(--accent); background: rgba(59,130,246,0.15); color: var(--accent); }
+
         textarea { width: 100%; min-height: 200px; background-color: var(--bg-base); color: #e5e5e5; border: none; padding: 20px; font-family: var(--font-code); font-size: 13px; resize: vertical; outline: none; display: block; }
-        
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-base); }
@@ -109,12 +136,36 @@
         .modal-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .btn-cancel { background: var(--border-color); color: #fff; }
         .btn-save-config { background: var(--accent); color: #fff; }
+        .token-warning { font-size: 11.5px; color: var(--warning); margin: -8px 0 15px 0; display: flex; gap: 6px; align-items: flex-start; line-height: 1.4; }
+        .btn-clear-token { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-bottom: 15px; width: 100%; }
 
         /* Toast */
         #toast { position: fixed; bottom: 20px; right: 20px; background-color: #18181b; border-left: 4px solid var(--success); color: #fff; padding: 15px 20px; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.3s; z-index: 1000; display: flex; gap: 10px; align-items: center;}
         #toast.show { transform: translateX(0); }
 
         #noResults { text-align: center; padding: 40px; color: var(--text-muted); display: none; }
+
+        /* Edit/Delete icons stay hidden until hover on devices that actually support hover
+           (real mice/trackpads). On touch devices (no hover) they stay always visible,
+           since there's no hover gesture to reveal them. */
+        @media (hover: hover) {
+            .card-header .btn-icon,
+            .section-title .btn-icon {
+                opacity: 0;
+                transition: opacity 0.15s ease;
+            }
+            .card:hover .card-header .btn-icon,
+            .card-header .btn-icon:focus-visible,
+            .section-title:hover .btn-icon,
+            .section-title .btn-icon:focus-visible {
+                opacity: 1;
+            }
+            .nav-title-edit { opacity: 0; }
+            .nav-title:hover .nav-title-edit,
+            .nav-title-edit:focus-visible {
+                opacity: 1;
+            }
+        }
 
         /* =========================================
            MOBILE RESPONSIVENESS (PERFECTED)
@@ -131,7 +182,7 @@
             .sidebar-header { padding: 15px; }
             .brand { margin-bottom: 10px; }
             .nav-menu {
-                display: flex; flex-direction: row; padding: 10px; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; 
+                display: flex; flex-direction: row; padding: 10px; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none;
             }
             .nav-menu::-webkit-scrollbar { display: none; }
             .nav-title { display: none; }
@@ -141,24 +192,47 @@
                 padding: 20px 15px; overflow-y: visible; /* Let body handle scroll */
             }
             .card-header { flex-direction: column; gap: 10px; }
-            .btn-copy { width: 100%; justify-content: center; padding: 10px; }
+            .card-actions { width: 100%; }
+            .btn-copy { flex: 1; justify-content: center; padding: 10px; }
             #toast { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
+            .btn-add-section { width: auto; white-space: nowrap; margin-top: 0; margin-right: 10px; }
+        }
+
+        @media (max-width: 380px) {
+            .btn-save .btn-label { display: none; }
+            .btn-save { padding: 12px; }
         }
     </style>
-<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
-<body __processed_2adb2ed6-4a0d-4d48-b76e-c870bbf05c7d__="true" cz-shortcut-listen="true" __processed_e65972c2-b9c6-44b8-99fc-f3e47eef72cd__="true">
+</head>
+<body>
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
         <div class="modal">
             <h2><i class="fa-solid fa-cloud-arrow-up"></i> GitHub Cloud Sync</h2>
             <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Enable direct saving from Mobile/Browser without terminal commands.</p>
-            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)">
-            <input type="password" id="tokenInput" placeholder="GitHub Fine-Grained Token">
-            <input type="text" id="pathInput" placeholder="File Path (e.g., index.html)" value="index.html">
+            <input type="text" id="repoInput" placeholder="Repo (e.g., rahimsheikh/prompts)" aria-label="GitHub repository">
+            <input type="password" id="tokenInput" placeholder="GitHub Fine-Grained Token" aria-label="GitHub personal access token">
+            <div class="token-warning"><i class="fa-solid fa-triangle-exclamation"></i> This token is stored in plain text in your browser's localStorage. Use only on a personal/trusted device.</div>
+            <button type="button" class="btn-clear-token" onclick="clearToken()"><i class="fa-solid fa-trash"></i> Clear Saved Token</button>
+            <input type="text" id="pathInput" placeholder="File Path (e.g., index.html)" value="index.html" aria-label="File path in repository">
             <div class="modal-actions">
                 <button class="modal-btn btn-cancel" onclick="document.getElementById('configModal').style.display='none'">Cancel</button>
                 <button class="modal-btn btn-save-config" onclick="saveConfig()">Save Config</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal-overlay" id="addSectionModal" style="display: none;">
+        <div class="modal">
+            <h2><i class="fa-solid fa-folder-plus"></i> Add New Section</h2>
+            <input type="text" id="newSectionTitle" placeholder="Section title (e.g., Refactor Protocol)" aria-label="New section title">
+            <p style="font-size: 12px; color: #9ca3af; margin: -6px 0 10px;">Choose an icon</p>
+            <div class="icon-grid" id="iconGrid"></div>
+            <div class="modal-actions">
+                <button class="modal-btn btn-cancel" onclick="closeAddSectionModal()">Cancel</button>
+                <button class="modal-btn btn-save-config" onclick="createSection()">Create Section</button>
             </div>
         </div>
     </div>
@@ -169,24 +243,30 @@
             <div class="brand"><i class="fa-solid fa-code-merge"></i> Invenish Vault</div>
             <div class="search-box">
                 <i class="fa-solid fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search prompts..." onkeyup="filterContent()">
+                <input type="text" id="searchInput" placeholder="Search prompts..." onkeyup="filterContent()" aria-label="Search prompts by keyword">
             </div>
         </div>
 
         <div class="nav-menu" id="navMenu">
-            <div class="nav-title">Pipelines</div>
+            <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)" aria-label="Edit group name" title="Edit Group Name"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
-            
-            <div class="nav-title">Testing</div>
+            <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
+
+            <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)" aria-label="Edit group name" title="Edit Group Name"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
+
+            <div class="nav-title" id="navGroupUtility"><span class="nav-title-text">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)" aria-label="Edit group name" title="Edit Group Name"><i class="fa-solid fa-pen"></i></button></div>
+            <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
+
+            <button class="btn-add-section" id="addSectionBtn" onclick="openAddSectionModal()"><i class="fa-solid fa-folder-plus"></i> Add Section</button>
         </div>
 
         <div class="sidebar-footer">
             <button class="btn-save" onclick="saveToGitHub()">
-                <i class="fa-solid fa-cloud-arrow-up"></i> Cloud Save
+                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="btn-label">Cloud Save</span>
             </button>
-            <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'">
+            <button class="btn-config" onclick="document.getElementById('configModal').style.display='flex'" aria-label="Open GitHub sync settings">
                 <i class="fa-solid fa-gear"></i>
             </button>
         </div>
@@ -194,8 +274,8 @@
 
     <!-- MAIN CONTENT -->
     <div class="main-wrapper" id="mainScroll">
-        <div class="container">
-            
+        <div class="container" id="mainContainer">
+
             <div id="noResults">
                 <i class="fa-solid fa-ghost"></i>
                 <h3>No results found</h3>
@@ -205,16 +285,21 @@
                  SNIPER PROTOCOL
             ====================================== -->
             <div id="sniper" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-crosshairs"></i> Sniper Protocol</div>
-                <div class="card">
+                <div class="section-title"><i class="fa-solid fa-crosshairs"></i> <span class="section-title-text">Sniper Protocol</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="card" data-card-id="sniper-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Sniper Mode (Hotfix &amp; Micro-Task)</h3>
                             <p>For minor UI tweaks and quick logic fixes. Autonomous execution.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
+                    <textarea id="sniper-text" spellcheck="false" aria-label="Sniper Mode prompt content">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOLs
 [TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
 
 ---
@@ -222,39 +307,50 @@
 
 1. Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
-   - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
+   - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
 
 2. Universal Memory:
    - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
+   - Agar `.claude/KNOWN_HAZARDS.md` file mojood hai, toh usay bhi laazmi parho — repo ke gotchas isme hain jo CLAUDE.md mein nahi likhe.
 
 3. Dynamic TDD Triage (Smart Testing):
-   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka chota sa hai, toh TDD BYPASS karo. Direct fix apply karo.
+   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka chota sa hai, toh TDD BYPASS karo. Direct fix apply karo — lekin existing IDs/selectors/AJAX bindings/dirty-state chherna mana hai.
    - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
-   - **Category C (UI/UX but major changes):** Agar frontend mein hi poora UI UX aur bara layout change hot hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic aur UI UX theek na ho jaye aur test PASS na ho.
+   - **Category C (UI/UX Major Changes):** Agar frontend mein poora UI/UX ya bara layout change ho raha hai, toh pehle exact visual/behavioral expectation likho (kya dikhna/kaam karna chahiye), phir dev server chala kar browser mein feature ko manually verify karo (golden path + edge cases) — unit-test wale TDD ki bajaye ye visual verification use karo, kyunke UI changes browser mein hi sahi tarah verify hoti hain.
 
 4. SQL Safety &amp; Release Note:
-   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe query do question ke through hi, main run karunga aur models update kronga aur jab models update ho jayenge phir uss questions ka yes wala option selecct krdonga. 
+   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion (ya chat) ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
-5. Autonomous Execution &amp; Diff:
+5. Git Safety:
+   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — sirf file edits tak khud ko limit rakho.
+
+6. Autonomous Execution, Verification &amp; Diff:
    - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.
+   - Fix apply karne ke baad relevant build/console check zaroor karo (jahan possible ho) — "done" tab hi bolo jab verify ho chuka ho.
    - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).</textarea>
                 </div>
+                <button class="btn-add-prompt" onclick="addPromptCard('sniper')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
 
             <!-- =====================================
                  HEAVY BLUEPRINT
             ====================================== -->
             <div id="heavy" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</div>
-                <div class="card">
+                <div class="section-title"><i class="fa-solid fa-layer-group"></i> <span class="section-title-text">Heavy Blueprint</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="card" data-card-id="heavy-plan-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Phase 1: Planning</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="heavy-plan-text" spellcheck="false">### 🎯 TASK DESCRIPTION
+                    <textarea id="heavy-plan-text" spellcheck="false" aria-label="Heavy Blueprint Phase 1 prompt content">### 🎯 TASK DESCRIPTION
 [TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
 
 ---
@@ -262,10 +358,11 @@
 
 1. Strict "No Chat Text" &amp; Clarification Rule:
    - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
-   - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
+   - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
 
 2. Universal Memory:
    - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
+   - Agar `.claude/KNOWN_HAZARDS.md` file mojood hai, toh usay bhi laazmi parho — repo ke gotchas isme hain jo CLAUDE.md mein nahi likhe.
 
 3. 🔍 Deep Investigation &amp; 🛑 Editing Lock:
    - Task se related codebase deeply inspect karo.
@@ -274,22 +371,30 @@
 
 4. 📦 Deliverables (Human vs AI Output):
    🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo.
-   🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
+   🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. SQL likhne se pehle existing Release Note file ka style/format inspect karo aur usi ke mutabiq likho. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
    ©️ Technical .md File (For Execution AI): Exact file paths, function signatures, aur edge-cases likho jisme koi assumption na ho.
 
-5. ⚡ Token Optimization:
+5. 🔒 Git Safety:
+   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — Planning phase mein toh sirf read-only rehna hai.
+
+6. ⚡ Token Optimization:
    - Codebase analyze karte waqt strict token optimization follow karo. Sirf relevant files read karo.</textarea>
                 </div>
 
-                <div class="card">
+                <div class="card" data-card-id="heavy-impl-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Phase 2: Implementation</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="heavy-impl-text" spellcheck="false">### 🎯 IMPLEMENTATION MISSION
-Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer. 
+                    <textarea id="heavy-impl-text" spellcheck="false" aria-label="Heavy Blueprint Phase 2 prompt content">### 🎯 IMPLEMENTATION MISSION
+Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL (Strict Sequence)
 
@@ -301,38 +406,87 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
 **PHASE 2: Core Implementation**
 4. Ab actual logic implement karna shuru kar taake Phase 1 ke tests PASS ho jayein.
 5. Jahan reliably possible ho, bulk read/write operations perform kar.
+6. Implementation complete hone ke baad relevant build/tests zaroor run kar aur PASS confirm kar — bina verify kiye "done" mat bol.
 
 **PHASE 3: Release Note &amp; Handover**
-6. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
-7. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
+7. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
+8. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
 
 ### 🛑 RULES OF ENGAGEMENT
-- No Guessing: Ambiguity ho toh sawal pooch.
+- No Guessing: Ambiguity ho toh AskUserQuestion tool (ya sawal) se pooch.
+- Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
 - Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.</textarea>
                 </div>
+                <button class="btn-add-prompt" onclick="addPromptCard('heavy')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
 
             <!-- =====================================
-                 UNIVERSAL TESTING (OC/AD) 
+                 CODE REVIEW
+            ====================================== -->
+            <div id="codereview" class="section-group">
+                <div class="section-title"><i class="fa-solid fa-magnifying-glass"></i> <span class="section-title-text">Code Review</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="card" data-card-id="codereview-text">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Structured Code Review (Pre-Merge)</h3>
+                            <p>For reviewing finished work or a PR before merging. Reports findings only — does not apply fixes on its own.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <textarea id="codereview-text" spellcheck="false" aria-label="Code Review prompt content">### 🎯 CODE REVIEW MISSION
+**Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
+Ye ek REVIEW pass hai, naya feature build karne wala nahi. Maqsad sirf issues dhoondna hai, khud fix apply nahi karna (jab tak explicitly na kaha jaye).
+
+---
+### 🔍 REVIEW CHECKLIST
+1. **Correctness Bugs:** Logic errors, edge cases, null/undefined handling, race conditions.
+2. **Reuse / Simplification / Efficiency:** Duplicate logic, unnecessary complexity, N+1 queries, missing indexes, large in-memory loads.
+3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets/tokens (OWASP Top 10).
+4. **CLAUDE.md Compliance:** Unrelated refactors, renamed methods/DTOs/columns, missing Release Note entry for DB/setup changes, broken UI selectors/AJAX/dirty-state.
+
+---
+### ⚡ EXECUTION RULES
+1. **Source of Truth:** `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md` dono parho.
+2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq (effort level: [low/medium/high] mention karein) — logic dobara se mat likho.
+3. **No Fixing By Default:** Sirf findings report karo (file:line ke saath, severity ranked most-severe first). Fix sirf tab karo jab main explicitly "fix bhi kardo" kahoon.
+4. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
+5. Ambiguity ho toh guess mat karo — AskUserQuestion (ya chat) ke through poocho.</textarea>
+                </div>
+                <button class="btn-add-prompt" onclick="addPromptCard('codereview')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
+            </div>
+
+            <!-- =====================================
+                 UNIVERSAL TESTING (OC/AD)
             ====================================== -->
             <div id="universal" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-microscope"></i> Universal Testing (OC &amp; AD)</div>
+                <div class="section-title"><i class="fa-solid fa-microscope"></i> <span class="section-title-text">Universal Testing (OC &amp; AD)</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button></div>
 
-                <div class="card">
+                <div class="card" data-card-id="uni-plan-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Phase 1: Universal Discovery &amp; Planning</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
+                    <textarea id="uni-plan-text" spellcheck="false" aria-label="Universal Testing Phase 1 prompt content">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
 **Target:** [Order Confirmation Agent / Address Validation Agent]
 **Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
 
 ---
 ### ⚡ CORE RULES &amp; SHARED MEMORY (Antigravity &amp; Claude)
-1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho.
+1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho. Agar `.claude/KNOWN_HAZARDS.md` bhi mojood ho toh usay bhi zaroor parho — repo gotchas isme hain jo CLAUDE.md mein nahi.
 2. **No Chat Text:** Agar koi confusion ho, ya decision verify karwana ho, toh **interactive questions (AskUserQuestion / Terminal prompt)** use karo. Lambi explanations nahi likhni.
+3. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
 
 ---
 ### 🛠️ PHASE 1: DISCOVERY &amp; PLANNING (No Code Edits)
@@ -351,14 +505,19 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
    - **SQL Canvas:** Agar fix mein koi DB changes hain (jaise `ALTER TABLE`, `INSERT Action`), toh plan ke end mein ek **Copyable Canvas** banao jisme exact SQL queries hon. AI khud DB update nahi karega, main in queries ko copy karke DB update karunga.</textarea>
                 </div>
 
-                <div class="card">
+                <div class="card" data-card-id="uni-impl-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Phase 2: Universal Implementation</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="uni-impl-text" spellcheck="false">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
+                    <textarea id="uni-impl-text" spellcheck="false" aria-label="Universal Testing Phase 2 prompt content">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
 
 ### 💻 PHASE 2: IMPLEMENTATION &amp; TDD (Strict Execution)
 
@@ -371,21 +530,29 @@ Tere paas `.md` file mein ek final implementation plan majood hai. Tujhe is plan
    - Bulk read/write karo jahan safe ho, par context/token optimization ka dehaan rakho.
    - "Do NOT Edit" boundaries ko strictly follow karo. Unrelated files ya formatting chherne ki ijazat nahi.
 
-3. **Release Note &amp; SQL Handover:**
+3. **Git Safety:**
+   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
+
+4. **Release Note &amp; SQL Handover:**
    - Jab code fix ho jaye, toh un saari SQL queries ko jo humne Phase 1 mein verify ki theen, laazmi taur par project ki **Release Note.txt** mein document karo. Yeh step miss nahi hona chahiye.
 
-4. **Final Diff Summary:**
+5. **Final Diff Summary:**
    - Aakhir mein chat mein ek Developer-Friendly Diff Summary do. Logic aur context explain karo taake main bina VS Code khole changes samajh sakoon.</textarea>
                 </div>
 
-                <div class="card">
+                <div class="card" data-card-id="sql-pack-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Standard SQL Evidence Pack</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'sql-pack-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'sql-pack-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
+                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;" aria-label="Standard SQL Evidence Pack content">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
 SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
        ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
 FROM ErrorLog WHERE ErrorID BETWEEN &lt;from&gt; AND &lt;to&gt; ORDER BY ErrorID;
@@ -401,17 +568,31 @@ SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsS
 FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
 
 -- 4) Session ki final state
-SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;</textarea>
+SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
+
+-- 5) Session ke steps ka progression (kis step pe kitni dair rukhi)
+SELECT Id, SessionId, StepId, Status, CreatedOn
+FROM AiChatBotSessionStepsLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
+
+-- 6) Human handoff / agent assignment history
+SELECT Id, ConversationId, HandoffType, HandoffId, ActionType, FromUserId, ToUserId,
+       AssignedByUserId, Source, IsPrimary, CreatedOnUtc, LEFT(ISNULL(Remarks,''),200) AS RemarksShort
+FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId&gt; ORDER BY Id;</textarea>
                 </div>
 
-                <div class="card">
+                <div class="card" data-card-id="session-template-text">
                     <div class="card-header">
                         <div class="card-info">
                             <h3>Complete Session Log Template</h3>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
-                        <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
                     </div>
-                    <textarea id="session-template-text" spellcheck="false"># Reviewer Note
+                    <textarea id="session-template-text" spellcheck="false" aria-label="Complete Session Log Template content"># Reviewer Note
 **
 
 _
@@ -482,15 +663,51 @@ _
 
 ```</textarea>
                 </div>
+                <button class="btn-add-prompt" onclick="addPromptCard('universal')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
+            </div>
+
+            <!-- =====================================
+                 RESUME / CONTINUE SESSION
+            ====================================== -->
+            <div id="resume" class="section-group">
+                <div class="section-title"><i class="fa-solid fa-arrow-rotate-right"></i> <span class="section-title-text">Resume / Continue Session</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="card" data-card-id="resume-text">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h3>Resume Interrupted Session</h3>
+                            <p>For when a previous session got cut off by a context limit, closed browser, or a new day — continue where you left off without re-exploring everything.</p>
+                            <div class="card-version">Updated: 27 Aug 2026</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn-copy" onclick="copyText(this, 'resume-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <textarea id="resume-text" spellcheck="false" aria-label="Resume Session prompt content">### 🔄 RESUME MISSION
+Pichli session ka context tumhare paas nahi hai. Naye sire se poora codebase explore mat karo — pehle ye 3 cheezein parho, phir wahin se continue karo jahan chorra tha:
+
+1. `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md`
+2. `git status` aur `git diff` (dekho kya already changed/uncommitted hai)
+3. Is task se related koi bhi planning `.md` file ya pichla plan (agar bana tha)
+
+---
+### ⚡ RULES
+1. **Gap-Fill Only:** Sirf wahi cheez samjho jo continue karne ke liye zaroori hai — poori codebase dobara analyze na karo (Token Optimization).
+2. **State Check Before Acting:** Agar unclear ho ke pichla kaam kahan tak complete hua, toh assume mat karo — AskUserQuestion se poocho ya current state batao aur confirm karwao.
+3. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
+4. Continue karne ke baad, jab kaam complete ho, concise Diff Summary do.</textarea>
+                </div>
+                <button class="btn-add-prompt" onclick="addPromptCard('resume')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
 
         </div>
     </div>
-    
+
     <!-- Toast Message -->
-    <div id="toast" class="show" style="border-left-color: var(--accent);">
+    <div id="toast" style="border-left-color: var(--accent);">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
-        <span id="toast-msg">Syncing to Cloud...</span>
+        <span id="toast-msg"></span>
     </div>
 
     <script>
@@ -501,7 +718,7 @@ _
             textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed";
             document.body.appendChild(textArea);
             textArea.focus(); textArea.select();
-            try { var successful = document.execCommand('copy'); document.body.removeChild(textArea); return successful; } 
+            try { var successful = document.execCommand('copy'); document.body.removeChild(textArea); return successful; }
             catch (err) { document.body.removeChild(textArea); return false; }
         }
 
@@ -509,7 +726,7 @@ _
             const textToCopy = document.getElementById(elementId).value;
             let success = false;
             if (navigator.clipboard && window.isSecureContext) {
-                try { await navigator.clipboard.writeText(textToCopy); success = true; } 
+                try { await navigator.clipboard.writeText(textToCopy); success = true; }
                 catch (err) { success = fallbackCopyTextToClipboard(textToCopy); }
             } else { success = fallbackCopyTextToClipboard(textToCopy); }
 
@@ -534,7 +751,7 @@ _
                 cards.forEach(card => {
                     const title = card.querySelector('.card-info').innerText.toLowerCase();
                     const code = card.querySelector('textarea').value.toLowerCase();
-                    if (title.includes(query) || code.includes(query)) { card.style.display = 'block'; sectionHasMatch = true; totalVisible++; } 
+                    if (title.includes(query) || code.includes(query)) { card.style.display = 'block'; sectionHasMatch = true; totalVisible++; }
                     else { card.style.display = 'none'; }
                 });
                 group.style.display = sectionHasMatch ? 'block' : 'none';
@@ -548,7 +765,7 @@ _
             if (target) {
                 // Determine scrolling container
                 const scrollContainer = window.innerWidth <= 768 ? window : document.getElementById('mainScroll');
-                const offset = window.innerWidth <= 768 ? 140 : 20; 
+                const offset = window.innerWidth <= 768 ? 140 : 20;
                 scrollContainer.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
             }
         }
@@ -558,7 +775,7 @@ _
             let current = '';
             const sections = document.querySelectorAll('.section-group');
             const scrollPos = window.innerWidth <= 768 ? window.scrollY : document.getElementById('mainScroll').scrollTop;
-            
+
             sections.forEach(section => {
                 if (scrollPos >= section.offsetTop - 150) { current = section.getAttribute('id'); }
             });
@@ -571,12 +788,359 @@ _
         document.getElementById('mainScroll').addEventListener('scroll', updateActiveNav);
         window.addEventListener('scroll', updateActiveNav);
 
+        // --- DRAFT AUTOSAVE (localStorage, per textarea id) ---
+        function restoreDraft(textarea) {
+            const saved = localStorage.getItem('draft_' + textarea.id);
+            if (saved !== null) textarea.value = saved;
+        }
+        function attachDraftAutosave(textarea) {
+            let timer;
+            textarea.addEventListener('input', () => {
+                clearTimeout(timer);
+                timer = setTimeout(() => localStorage.setItem('draft_' + textarea.id, textarea.value), 400);
+            });
+        }
+
+        // --- ADD / EDIT / DELETE PROMPT CARDS ---
+        function editCardTitle(btn) {
+            const card = btn.closest('.card');
+            const cardId = card.getAttribute('data-card-id');
+            const h3 = card.querySelector('.card-info h3');
+            const p = card.querySelector('.card-info p');
+            const wasEditing = h3.isContentEditable;
+            h3.contentEditable = !wasEditing;
+            if (p) p.contentEditable = !wasEditing;
+            btn.innerHTML = wasEditing ? '<i class="fa-solid fa-pen"></i>' : '<i class="fa-solid fa-check"></i>';
+            if (wasEditing) {
+                localStorage.setItem('title_' + cardId, h3.textContent.trim());
+                if (p) localStorage.setItem('desc_' + cardId, p.textContent.trim());
+                showToast("Prompt title saved locally", "success");
+            } else {
+                h3.focus();
+            }
+        }
+
+        function deleteCard(btn) {
+            const card = btn.closest('.card');
+            const cardId = card.getAttribute('data-card-id');
+            if (!confirm('Delete this prompt permanently?')) return;
+
+            const deleted = JSON.parse(localStorage.getItem('deleted_cards') || '[]');
+            if (!deleted.includes(cardId)) {
+                deleted.push(cardId);
+                localStorage.setItem('deleted_cards', JSON.stringify(deleted));
+            }
+            const customCards = JSON.parse(localStorage.getItem('custom_cards') || '[]');
+            localStorage.setItem('custom_cards', JSON.stringify(customCards.filter(c => c.id !== cardId)));
+            localStorage.removeItem('draft_' + cardId);
+            localStorage.removeItem('title_' + cardId);
+            localStorage.removeItem('desc_' + cardId);
+
+            card.remove();
+            showToast("Prompt deleted", "success");
+        }
+
+        function buildCardElement(id, title, desc, content) {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.setAttribute('data-card-id', id);
+            div.innerHTML =
+                '<div class="card-header">' +
+                    '<div class="card-info">' +
+                        '<h3></h3>' +
+                        '<p></p>' +
+                        '<div class="card-version">Custom Prompt</div>' +
+                    '</div>' +
+                    '<div class="card-actions">' +
+                        '<button class="btn-icon" onclick="editCardTitle(this)" aria-label="Edit prompt title" title="Edit"><i class="fa-solid fa-pen"></i></button>' +
+                        '<button class="btn-icon danger" onclick="deleteCard(this)" aria-label="Delete this prompt" title="Delete"><i class="fa-solid fa-trash"></i></button>' +
+                        '<button class="btn-copy" onclick="copyText(this, \'' + id + '\')"><i class="fa-regular fa-copy"></i> Copy</button>' +
+                    '</div>' +
+                '</div>' +
+                '<textarea id="' + id + '" spellcheck="false"></textarea>';
+            div.querySelector('h3').textContent = title;
+            div.querySelector('p').textContent = desc;
+            const ta = div.querySelector('textarea');
+            ta.value = content;
+            ta.setAttribute('aria-label', title + ' prompt content');
+            return div;
+        }
+
+        function addPromptCard(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            const id = 'custom-' + Date.now();
+            const card = buildCardElement(id, 'New Prompt', 'Enter description...', '');
+            const addBtn = section.querySelector('.btn-add-prompt');
+            section.insertBefore(card, addBtn);
+
+            const customCards = JSON.parse(localStorage.getItem('custom_cards') || '[]');
+            customCards.push({ id: id, section: sectionId, title: 'New Prompt', desc: 'Enter description...' });
+            localStorage.setItem('custom_cards', JSON.stringify(customCards));
+
+            const textarea = card.querySelector('textarea');
+            attachDraftAutosave(textarea);
+            editCardTitle(card.querySelector('.btn-icon'));
+            textarea.focus();
+        }
+
+        // --- ADD NEW SECTION (with FontAwesome icon picker) ---
+        const ICON_CHOICES = ['crosshairs','layer-group','magnifying-glass','microscope','arrow-rotate-right','shield-halved',
+            'bug','wrench','database','terminal','code','gear',
+            'bolt','rocket','flask','clipboard-list','list-check','chart-line',
+            'comments','robot','server','network-wired','hammer','puzzle-piece'];
+        let selectedIcon = ICON_CHOICES[0];
+
+        function openAddSectionModal() {
+            selectedIcon = ICON_CHOICES[0];
+            const grid = document.getElementById('iconGrid');
+            grid.innerHTML = '';
+            ICON_CHOICES.forEach(ic => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'icon-choice' + (ic === selectedIcon ? ' selected' : '');
+                btn.setAttribute('data-icon', ic);
+                btn.setAttribute('aria-label', ic + ' icon');
+                btn.innerHTML = '<i class="fa-solid fa-' + ic + '"></i>';
+                btn.onclick = () => selectIcon(btn);
+                grid.appendChild(btn);
+            });
+            document.getElementById('newSectionTitle').value = '';
+            document.getElementById('addSectionModal').style.display = 'flex';
+        }
+        function closeAddSectionModal() {
+            document.getElementById('addSectionModal').style.display = 'none';
+        }
+        function selectIcon(btn) {
+            selectedIcon = btn.getAttribute('data-icon');
+            document.querySelectorAll('.icon-choice').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function buildNavItem(id, title, icon) {
+            const a = document.createElement('a');
+            a.className = 'nav-item';
+            a.setAttribute('data-target', id);
+            a.onclick = () => scrollToSection(id);
+            const i = document.createElement('i');
+            i.className = 'fa-solid fa-' + icon;
+            a.appendChild(i);
+            a.appendChild(document.createTextNode(' ' + title));
+            return a;
+        }
+
+        function buildSectionElement(id, title, icon) {
+            const div = document.createElement('div');
+            div.className = 'section-group';
+            div.id = id;
+            div.setAttribute('data-custom-section', 'true');
+            div.innerHTML =
+                '<div class="section-title">' +
+                    '<i class="fa-solid fa-' + icon + '"></i> <span class="section-title-text"></span>' +
+                    '<button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)" aria-label="Edit section title" title="Edit Section Title"><i class="fa-solid fa-pen"></i></button>' +
+                    '<button type="button" class="btn-icon danger section-delete" onclick="deleteSection(this)" aria-label="Delete this section" title="Delete Section"><i class="fa-solid fa-trash"></i></button>' +
+                '</div>' +
+                '<button class="btn-add-prompt" onclick="addPromptCard(\'' + id + '\')"><i class="fa-solid fa-plus"></i> Add Prompt</button>';
+            div.querySelector('.section-title-text').textContent = title;
+            return div;
+        }
+
+        function updateNavItemTitle(id, title) {
+            const navItem = document.querySelector('.nav-item[data-target="' + id + '"]');
+            if (!navItem) return;
+            const icon = navItem.querySelector('i');
+            navItem.innerHTML = '';
+            if (icon) navItem.appendChild(icon);
+            navItem.appendChild(document.createTextNode(' ' + title));
+        }
+
+        function editSectionTitle(btn) {
+            const section = btn.closest('.section-group');
+            const id = section.id;
+            const titleSpan = section.querySelector('.section-title-text');
+            const wasEditing = titleSpan.isContentEditable;
+            titleSpan.contentEditable = !wasEditing;
+            btn.innerHTML = wasEditing ? '<i class="fa-solid fa-pen"></i>' : '<i class="fa-solid fa-check"></i>';
+            if (wasEditing) {
+                const newTitle = titleSpan.textContent.trim();
+                localStorage.setItem('section_title_' + id, newTitle);
+                updateNavItemTitle(id, newTitle);
+                showToast("Section title saved locally", "success");
+            } else {
+                titleSpan.focus();
+            }
+        }
+
+        function insertBeforeAddSectionBtn(el) {
+            document.getElementById('navMenu').insertBefore(el, document.getElementById('addSectionBtn'));
+        }
+
+        function editNavGroupTitle(btn) {
+            const group = btn.closest('.nav-title');
+            const id = group.id;
+            const span = group.querySelector('.nav-title-text');
+            const wasEditing = span.isContentEditable;
+            span.contentEditable = !wasEditing;
+            btn.innerHTML = wasEditing ? '<i class="fa-solid fa-pen"></i>' : '<i class="fa-solid fa-check"></i>';
+            if (wasEditing) {
+                const newTitle = span.textContent.trim();
+                localStorage.setItem('nav_group_title_' + id, newTitle);
+                showToast("Group name saved locally", "success");
+            } else {
+                span.focus();
+            }
+        }
+
+        function ensureCustomNavGroup() {
+            if (!document.getElementById('customNavGroup')) {
+                const heading = document.createElement('div');
+                heading.className = 'nav-title';
+                heading.id = 'customNavGroup';
+                const span = document.createElement('span');
+                span.className = 'nav-title-text';
+                span.textContent = localStorage.getItem('nav_group_title_customNavGroup') || 'Custom';
+                const editBtn = document.createElement('button');
+                editBtn.type = 'button';
+                editBtn.className = 'nav-title-edit';
+                editBtn.setAttribute('aria-label', 'Edit group name');
+                editBtn.title = 'Edit Group Name';
+                editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                editBtn.onclick = () => editNavGroupTitle(editBtn);
+                heading.appendChild(span);
+                heading.appendChild(editBtn);
+                insertBeforeAddSectionBtn(heading);
+            }
+        }
+
+        function createSection() {
+            const title = document.getElementById('newSectionTitle').value.trim();
+            if (!title) { showToast("Please enter a section title", "error"); return; }
+            const id = 'custom-section-' + Date.now();
+
+            ensureCustomNavGroup();
+            insertBeforeAddSectionBtn(buildNavItem(id, title, selectedIcon));
+            document.getElementById('mainContainer').appendChild(buildSectionElement(id, title, selectedIcon));
+
+            const sections = JSON.parse(localStorage.getItem('custom_sections') || '[]');
+            sections.push({ id: id, title: title, icon: selectedIcon });
+            localStorage.setItem('custom_sections', JSON.stringify(sections));
+
+            closeAddSectionModal();
+            showToast("Section created", "success");
+            updateActiveNav();
+        }
+
+        function deleteSection(btn) {
+            const section = btn.closest('.section-group');
+            const id = section.id;
+            if (!confirm('Delete this entire section and all its prompts?')) return;
+
+            section.querySelectorAll('textarea[id]').forEach(ta => {
+                localStorage.removeItem('draft_' + ta.id);
+                localStorage.removeItem('title_' + ta.id);
+                localStorage.removeItem('desc_' + ta.id);
+            });
+            const customCards = JSON.parse(localStorage.getItem('custom_cards') || '[]');
+            localStorage.setItem('custom_cards', JSON.stringify(customCards.filter(c => c.section !== id)));
+
+            const sections = JSON.parse(localStorage.getItem('custom_sections') || '[]');
+            localStorage.setItem('custom_sections', JSON.stringify(sections.filter(s => s.id !== id)));
+            localStorage.removeItem('section_title_' + id);
+
+            const navItem = document.querySelector('.nav-item[data-target="' + id + '"]');
+            if (navItem) navItem.remove();
+            section.remove();
+
+            if (!document.querySelector('.nav-item[data-target^="custom-section-"]')) {
+                const heading = document.getElementById('customNavGroup');
+                if (heading) heading.remove();
+            }
+            showToast("Section deleted", "success");
+        }
+
         // --- GITHUB CLOUD SYNC LOGIC ---
-        // Load saved config
         document.addEventListener('DOMContentLoaded', () => {
-            if(localStorage.getItem('gh_repo')) document.getElementById('repoInput').value = localStorage.getItem('gh_repo');
-            if(localStorage.getItem('gh_token')) document.getElementById('tokenInput').value = localStorage.getItem('gh_token');
-            if(localStorage.getItem('gh_path')) document.getElementById('pathInput').value = localStorage.getItem('gh_path');
+            if (localStorage.getItem('gh_repo')) document.getElementById('repoInput').value = localStorage.getItem('gh_repo');
+            if (localStorage.getItem('gh_token')) document.getElementById('tokenInput').value = localStorage.getItem('gh_token');
+            if (localStorage.getItem('gh_path')) document.getElementById('pathInput').value = localStorage.getItem('gh_path');
+
+            // Re-create custom sections added in a previous session (must run before custom cards restore)
+            const customSections = JSON.parse(localStorage.getItem('custom_sections') || '[]');
+            if (customSections.length) {
+                ensureCustomNavGroup();
+                customSections.forEach(s => {
+                    insertBeforeAddSectionBtn(buildNavItem(s.id, s.title, s.icon));
+                    document.getElementById('mainContainer').appendChild(buildSectionElement(s.id, s.title, s.icon));
+                });
+            }
+
+            // Apply saved sidebar group label renames (Pipelines/Testing/Utility/Custom)
+            document.querySelectorAll('.nav-title[id]').forEach(group => {
+                const saved = localStorage.getItem('nav_group_title_' + group.id);
+                if (saved) {
+                    const span = group.querySelector('.nav-title-text');
+                    if (span) span.textContent = saved;
+                }
+            });
+
+            // Apply saved section title renames (built-in + custom sections)
+            document.querySelectorAll('.section-group[id]').forEach(section => {
+                const savedTitle = localStorage.getItem('section_title_' + section.id);
+                if (savedTitle) {
+                    const titleSpan = section.querySelector('.section-title-text');
+                    if (titleSpan) titleSpan.textContent = savedTitle;
+                    updateNavItemTitle(section.id, savedTitle);
+                }
+            });
+
+            // Remove built-in cards the user deleted in a previous session
+            const deleted = JSON.parse(localStorage.getItem('deleted_cards') || '[]');
+            deleted.forEach(id => {
+                const card = document.querySelector('.card[data-card-id="' + id + '"]');
+                if (card) card.remove();
+            });
+
+            // Re-create custom cards added in a previous session
+            const customCards = JSON.parse(localStorage.getItem('custom_cards') || '[]');
+            customCards.forEach(c => {
+                if (deleted.includes(c.id)) return;
+                const section = document.getElementById(c.section);
+                if (!section) return;
+                const title = localStorage.getItem('title_' + c.id) || c.title;
+                const desc = localStorage.getItem('desc_' + c.id) || c.desc;
+                const content = localStorage.getItem('draft_' + c.id) || '';
+                const card = buildCardElement(c.id, title, desc, content);
+                const addBtn = section.querySelector('.btn-add-prompt');
+                if (addBtn) section.insertBefore(card, addBtn);
+            });
+
+            // Apply saved title/desc overrides + restore drafts + bind autosave on every card
+            document.querySelectorAll('.card[data-card-id]').forEach(card => {
+                const id = card.getAttribute('data-card-id');
+                const savedTitle = localStorage.getItem('title_' + id);
+                const savedDesc = localStorage.getItem('desc_' + id);
+                if (savedTitle) card.querySelector('.card-info h3').textContent = savedTitle;
+                if (savedDesc) {
+                    const p = card.querySelector('.card-info p');
+                    if (p) p.textContent = savedDesc;
+                }
+                const textarea = card.querySelector('textarea');
+                if (textarea) { restoreDraft(textarea); attachDraftAutosave(textarea); }
+            });
+        });
+
+        // Modals: close on ESC or click outside (applies to configModal + addSectionModal)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(m => {
+                    if (m.style.display === 'flex') m.style.display = 'none';
+                });
+            }
+        });
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.style.display = 'none';
+            });
         });
 
         function saveConfig() {
@@ -587,16 +1151,28 @@ _
             showToast("Config Saved!", "success");
         }
 
+        function clearToken() {
+            if (!confirm('Clear the saved GitHub token?')) return;
+            localStorage.removeItem('gh_token');
+            document.getElementById('tokenInput').value = '';
+            showToast("Token cleared", "success");
+        }
+
         async function saveToGitHub() {
             const repo = localStorage.getItem('gh_repo');
             const token = localStorage.getItem('gh_token');
             const path = localStorage.getItem('gh_path') || 'index.html';
 
-            if(!repo || !token) {
+            if (!repo || !token) {
                 document.getElementById('configModal').style.display = 'flex';
                 showToast("Please configure GitHub API first", "error");
                 return;
             }
+
+            const saveBtn = document.querySelector('.btn-save');
+            const originalBtnHTML = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="btn-label">Saving...</span>';
 
             showToast("Syncing to Cloud...", "info");
 
@@ -608,8 +1184,12 @@ _
                 // 1. Get current file SHA
                 const getUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
                 const getRes = await fetch(getUrl, { headers: { "Authorization": `token ${token}` } });
-                
-                if (!getRes.ok) throw new Error("Could not fetch file info. Check Repo name/Token.");
+
+                if (!getRes.ok) {
+                    if (getRes.status === 401) throw new Error("Invalid/expired token.");
+                    if (getRes.status === 404) throw new Error("Repo or file path not found. Please check.");
+                    throw new Error("Could not fetch file info. Check Repo name/Token.");
+                }
                 const fileData = await getRes.json();
 
                 // 2. Encode to Base64 safely (handles Unicode)
@@ -626,12 +1206,20 @@ _
                     })
                 });
 
-                if (putRes.ok) showToast("Successfully synced to GitHub!", "success");
-                else throw new Error("Failed to push update.");
+                if (putRes.ok) {
+                    showToast("Successfully synced to GitHub!", "success");
+                } else if (putRes.status === 409) {
+                    throw new Error("Conflict: the file has changed on GitHub. Please refresh the page and try again.");
+                } else {
+                    throw new Error("Failed to push update.");
+                }
 
             } catch (err) {
                 console.error(err);
                 showToast(err.message, "error");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalBtnHTML;
             }
         }
 
@@ -644,5 +1232,5 @@ _
         }
     </script>
 
-
-</body></html>
+</body>
+</html>
