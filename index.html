@@ -216,12 +216,12 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Universal (OC/AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -321,7 +321,7 @@
                             <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-plan-text" spellcheck="false">### 🎯 TASK DESCRIPTION
+                    <textarea id="heavy-plan-text" spellcheck="false" style="height: 617px;">### 🎯 TASK DESCRIPTION
 [TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
 
 ---
@@ -364,7 +364,7 @@
                             <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-impl-text" spellcheck="false">### 🎯 IMPLEMENTATION MISSION
+                    <textarea id="heavy-impl-text" spellcheck="false" style="height: 450px;">### 🎯 IMPLEMENTATION MISSION
 Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL (Strict Sequence)
@@ -402,7 +402,7 @@ Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is p
                             <button class="btn-copy" onclick="copyText(this, 'heavy-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-revise-text" spellcheck="false">### 🔁 REVISE HEAVY PLAN
+                    <textarea id="heavy-revise-text" spellcheck="false" style="height: 330px;">### 🔁 REVISE HEAVY PLAN
 Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. Neeche mere changes points mein hain:
 
 [POINTS YAHAN LIKHEIN]
@@ -435,7 +435,7 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
                             <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-text" spellcheck="false">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
+                    <textarea id="codereview-text" spellcheck="false" style="height: 642px;">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
 **Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
 Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
@@ -479,7 +479,7 @@ Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse appro
                             <button class="btn-copy" onclick="copyText(this, 'codereview-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-impl-text" spellcheck="false">### 🎯 CODE REVIEW MISSION (Phase 2: Implementation)
+                    <textarea id="codereview-impl-text" spellcheck="false" style="height: 320px;">### 🎯 CODE REVIEW MISSION (Phase 2: Implementation)
 Implementation Instructions file (.md) mein approved findings maujood hain. Tumhe unhe exactly implement karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL
@@ -507,7 +507,7 @@ Implementation Instructions file (.md) mein approved findings maujood hain. Tumh
                             <button class="btn-copy" onclick="copyText(this, 'codereview-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-revise-text" spellcheck="false">### 🔁 REVISE REVIEW PLAN
+                    <textarea id="codereview-revise-text" spellcheck="false" style="height: 280px;">### 🔁 REVISE REVIEW PLAN
 Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
 
 [POINTS YAHAN LIKHEIN]
@@ -526,7 +526,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                  UNIVERSAL TESTING (OC/AD)
             ====================================== -->
             <div id="universal" class="section-group">
-                <div class="section-title"><i class="fa-solid fa-microscope"></i> <span class="section-title-text">Universal Testing (OC &amp; AD)</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="section-title"><i class="fa-solid fa-microscope"></i> <span class="section-title-text" contenteditable="false">Fine-Tuning (OC &amp; AD)</span><button type="button" class="btn-icon section-edit" onclick="editSectionTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
 
                 <div class="card" data-card-id="uni-plan-text">
                     <div class="card-header">
@@ -540,7 +540,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
+                    <textarea id="uni-plan-text" spellcheck="false" style="height: 586px;">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
 **Target:** [Order Confirmation Agent / Address Validation Agent]
 **Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
 
