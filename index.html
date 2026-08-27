@@ -237,7 +237,7 @@
    - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
 
 5. Autonomous Execution &amp; Diff:
-   - Smart/precise search use karo (optimize token budget).
+   - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.
    - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).</textarea>
                 </div>
             </div>
@@ -260,15 +260,17 @@
 ---
 ### 📋 PROTOCOL &amp; EXECUTION RULES (Phase 1: Planning &amp; Finalization Only)
 
-1. 🚫 Strict "No Chat Text" Rule:
-   - Mein conversation mein likha gaya koi bhi lamba text nahi parhunga. Clarification/suggestions sirf interactive questions ke through aane chahiye.
+1. Strict "No Chat Text" &amp; Clarification Rule:
+   - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
+   - Agar task mein confusion ho, toh STOP aur direct short questions poocho.
 
-2. 🧠 Universal Memory:
-   - `.claude/` aur `CLAUDE.md` ko as Source of Truth read karo.
+2. Universal Memory:
+   - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
 
 3. 🔍 Deep Investigation &amp; 🛑 Editing Lock:
    - Task se related codebase deeply inspect karo.
    - Is phase mein codebase ki kisi bhi file ko EDIT ya MODIFY nahi karna. Yeh phase sirf planning ka hai.
+   - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna.
 
 4. 📦 Deliverables (Human vs AI Output):
    🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo.
