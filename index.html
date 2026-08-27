@@ -170,8 +170,8 @@
             .btn-add-section { width: auto; white-space: nowrap; margin-top: 0; margin-right: 10px; }
         }
     </style>
-<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
-<body >
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<body cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
     <div class="modal-overlay" id="configModal" style="display: none;">
@@ -223,7 +223,7 @@
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
-            <div class="nav-title" id="navGroupUtility"><span class="nav-title-text">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
+            <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="true">Utilitys</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-check"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
 
             <button class="btn-add-section" id="addSectionBtn" onclick="openAddSectionModal()"><i class="fa-solid fa-folder-plus"></i> Add Section</button>
@@ -256,8 +256,8 @@
                 <div class="card" data-card-id="sniper-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Sniper Mode (Hotfix &amp; Micro-Task</h3>
-                            <p>For minor UI tweaks and quick logic fixes. Autonomous execution.</p>
+                            <h3 contenteditable="false">Sniper Mode (Hotfix &amp; Micro-Task)</h3>
+                            <p contenteditable="false">For minor UI tweaks and quick logic fixes. Autonomous execution.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -775,7 +775,7 @@ Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (interne
     </div>
 
     <!-- Toast Message -->
-    <div id="toast"  style="border-left-color: var(--accent);">
+    <div id="toast" style="border-left-color: var(--accent);" class="show">
         <i class="fa-solid fa-info-circle" id="toast-icon"></i>
         <span id="toast-msg">Syncing to Cloud...</span>
     </div>
