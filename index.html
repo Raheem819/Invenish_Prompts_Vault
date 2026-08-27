@@ -218,10 +218,10 @@
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
-            <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
+            <a onclick="scrollToSection('codereview')" class="nav-item active" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -497,8 +497,8 @@ Implementation Instructions file (.md) mein approved findings maujood hain. Tumh
                 <div class="card" data-card-id="codereview-revise-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Revise Review Plan</h3>
-                            <p>Use after reading the Review Plan file, before running Phase 2, if you want changes made to the plan.</p>
+                            <h3 contenteditable="false">Revise Review Plan</h3>
+                            <p contenteditable="false">Use after reading the Review Plan file, before running Phase 2, if you want changes made to the plan.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -645,13 +645,13 @@ FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId
                 <div class="card" data-card-id="session-template-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Complete Session Log Template</h3>
+                            <h3 contenteditable="true">Complete Session Log Template</h3>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-check"></i></button>
                             <button class="btn-icon danger" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i></button>
-                            <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-solid fa-check"></i> Copied</button>
                         </div>
                     </div>
                     <textarea id="session-template-text" spellcheck="false"># Reviewer Note
@@ -737,7 +737,17 @@ _
 
 ```</textarea>
                 </div>
-                <button class="btn-add-prompt" onclick="addPromptCard('universal')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
+                <div class="card" data-card-id="custom-1787859667762"><div class="card-header"><div class="card-info"><h3 contenteditable="false">Revise Review Plan</h3><p contenteditable="false">Use after reading the Review Plan file, before running Phase 2, if you want changes made to the plan.</p><div class="card-version">Custom Prompt</div></div><div class="card-actions"><button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-pen"></i></button><button class="btn-icon danger" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i></button><button class="btn-copy" onclick="copyText(this, 'custom-1787859667762')"><i class="fa-regular fa-copy"></i> Copy</button></div></div><textarea id="custom-1787859667762" spellcheck="false">### 🔁 REVISE REVIEW PLAN
+Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
+
+[POINTS YAHAN LIKHEIN]
+
+---
+### RULES
+1. In points ke mutabiq **dono files** update karo — Review Plan (.md, mere liye) aur Implementation Instructions (.md, execution agent ke liye).
+2. Implementation abhi shuru NAHI karni — sirf files update karke mera wait karo. Implementation ka alag prompt doonga.
+3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
+4. Update ke baad ek chhota summary do ke dono files mein kya kya change hua.</textarea></div><button class="btn-add-prompt" onclick="addPromptCard('universal')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
 
             <!-- =====================================
@@ -748,8 +758,8 @@ _
                 <div class="card" data-card-id="resume-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Continue From Interruption</h3>
-                            <p>For when the agent stops mid-task in this SAME conversation (internet drop, usage limit, or any other reason) — paste this right back into the same chat to pick up exactly where it left off.</p>
+                            <h3 contenteditable="false">Continue From Interruption</h3>
+                            <p contenteditable="false">For when the agent stops mid-task in this SAME conversation (internet drop, usage limit, or any other reason) — paste this right back into the same chat to pick up exactly where it left off.</p>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -758,7 +768,7 @@ _
                             <button class="btn-copy" onclick="copyText(this, 'resume-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="resume-text" spellcheck="false">### 🔄 CONTINUE FROM INTERRUPTION
+                    <textarea id="resume-text" spellcheck="false" style="height: 281px;">### 🔄 CONTINUE FROM INTERRUPTION
 Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (internet disconnect, usage limit, ya koi aur wajah) — ye SAME conversation hai, tumhare paas is poori session ka context pehle se maujood hai.
 
 ---
