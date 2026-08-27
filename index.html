@@ -218,10 +218,10 @@
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy</a>
-            <a onclick="scrollToSection('codereview')" class="nav-item active" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
+            <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -531,7 +531,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                 <div class="card" data-card-id="uni-plan-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Phase 1: Universal Discovery &amp; Planning</h3>
+                            <h3 contenteditable="false">Phase 1: Fine-Tuning Discovery &amp; Planning</h3>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -540,7 +540,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false" style="height: 586px;">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
+                    <textarea id="uni-plan-text" spellcheck="false" style="height: 562px;">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
 **Target:** [Order Confirmation Agent / Address Validation Agent]
 **Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
 
@@ -570,7 +570,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                 <div class="card" data-card-id="uni-impl-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3>Phase 2: Universal Implementation</h3>
+                            <h3 contenteditable="false">Phase 2: Fine-Tuning Implementation</h3>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
@@ -579,7 +579,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-impl-text" spellcheck="false">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon. Ab implementation shuru karo.
+                    <textarea id="uni-impl-text" spellcheck="false" style="height: 429px;">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon agar tumne di thi toh. Ab implementation shuru karo.
 
 ### 💻 PHASE 2: IMPLEMENTATION &amp; TDD (Strict Execution)
 
@@ -614,7 +614,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'sql-pack-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sql-pack-text" spellcheck="false" style="color: #60a5fa;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
+                    <textarea id="sql-pack-text" spellcheck="false" style="color: rgb(96, 165, 250); height: 460px;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
 SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
        ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
 FROM ErrorLog WHERE ErrorID BETWEEN &lt;from&gt; AND &lt;to&gt; ORDER BY ErrorID;
