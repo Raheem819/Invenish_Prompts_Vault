@@ -296,6 +296,7 @@
    - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.
    - Fix apply karne ke baad relevant build/console check zaroor karo (jahan possible ho) — "done" tab hi bolo jab verify ho chuka ho.
    - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).
+   - **Contextual Summary:** Differences batate waqt har change ke saath thora logic context bhi dena (Roman Urdu mein), kyunki pehle se likha hua code mera nahi hai aur mujhe samajhna hai ke kya tabdeel hua hai.
 
 7. Deep Investigation:
    - Task se related codebase deeply inspect karo.
@@ -386,7 +387,9 @@ Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is p
 ### 🛑 RULES OF ENGAGEMENT
 - No Guessing: Ambiguity ho toh AskUserQuestion tool (ya sawal) se pooch.
 - Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
-- Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.</textarea>
+- Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.
+- **Contextual Summary:** Differences batate waqt har change ke saath thora logic context bhi dena (Roman Urdu mein), kyunki pehle se likha hua code mera nahi hai aur mujhe samajhna hai ke kya tabdeel hua hai.
+</textarea>
                 </div>
 
                 <div class="card" data-card-id="heavy-revise-text">
@@ -440,7 +443,8 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
 Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
 ---
-### 🔍 REVIEW CHECKLIST
+### 🔍 REVIEW CHECKLIST &amp; SCANNING RULES
+- **Deep Scan:** Poore codebase/diff ko line-by-line aur word-by-word deeply analyse karo. Jab tak poora diff scan na ho jaye aur TAMAM issues list na ho jayein, tab tak triage start mat karo.
 1. **Correctness Bugs:** Logic errors, edge cases, null/undefined handling, race conditions.
 2. **Reuse / Simplification / Efficiency:** Duplicate logic, unnecessary complexity, N+1 queries, missing indexes, large in-memory loads.
 3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets/tokens (OWASP Top 10).
@@ -448,20 +452,21 @@ Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse appro
 
 ---
 ### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
-- Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** (checklist-style, max 4 findings per question) ke through triage karwao — har finding ke liye "fix karna hai" ya "chhod do" mera decision lo. Apni taraf se kuch bhi approved assume mat karo.
-- questions roman Urdu mein likho aur Thora aas pass ki logics ko bhi smjhao taaki mujhe smjh aaske Tum kis baare mein baat krrhe ho aur options mein thori smartness use krna khud potential fix btao option mein Sirf fix krna hai ya chor do iss Tarah ke yes no questions nhi hone chahiye.
+- Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** ke through **ek waqt mein sirf 1 finding** ka triage karwao.
+- Questions Roman Urdu mein likho aur thora aapas ki logics ko bhi samjhao taake mujhe samajh aa sake ke tum kis baare mein baat kar rahe ho.
+- Options mein smartness use karo aur khud potential fix batao (e.g., Sirf "haan/na" mat likho, balkay "Haan, DB query mein index add karein (Fix)" type options do). Apni taraf se kuch bhi approved assume mat karo.
 - Jab tak sab findings triage (approve/reject) na ho jayein, deliverables mat banao.
 
 ---
 ### 📦 DELIVERABLES (sirf jab sab findings triage ho chuke hon)
 🅰️ **Review Plan (.md, mere parhne ke liye):** Rich Markdown — findings ka summary (kya mila, kyun issue hai, kya approve hua), severity table, aur ek Mermaid.js diagram jo findings ko severity/category ke hisaab se ya affected files ke flow ko dikhaye.
 🅱️ **Implementation Instructions (.md, execution agent ke liye):** Sirf APPROVED findings ke liye — exact file:line, current vs expected behavior, aur fix approach. Koi assumption na ho.
-   - Dono files ko sensible naam do (task/date se related) aur mujhe unke exact naam/path bata do.
+- Dono files ko sensible naam do (task/date se related), inhein Workspace root ya Artifacts directory mein save karo aur mujhe unke exact path bata do taake Phase 2 mein reference asan ho.
 
 ---
 ### ⚡ EXECUTION RULES
 1. **Source of Truth:** `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md` dono parho.
-2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq (effort level: [low/medium/high] mention karein) — logic dobara se mat likho.
+2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq — logic dobara se mat likho.
 3. **No Fixing In This Phase:** Koi bhi file edit na karo — ye sirf discovery/review/planning phase hai.
 4. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
 5. Ambiguity ho toh guess mat karo — AskUserQuestion ke through poocho.</textarea>
@@ -484,15 +489,18 @@ Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse appro
 Implementation Instructions file (.md) mein approved findings maujood hain. Tumhe unhe exactly implement karna hai as an Autonomous Senior Developer.
 
 ### 🔄 EXECUTION PROTOCOL
-1. Sab se pehle `.claude/` aur Implementation Instructions file thoroughly parho.
+1. Sab se pehle file search tools use kar ke "Implementation Instructions" wali .md file aur `.claude/` directory ko locate karo aur thoroughly parho.
 2. Sirf wahi findings fix karo jo us file mein APPROVED hain — kuch aur "improve" karne ki koshish na karo.
-3. Har fix ke baad relevant build/tests run karo aur PASS confirm karo.
-4. Agar koi SQL/DB change involved hai (Phase 1 mein discuss ho chuka), toh use `Release Note.txt` mein document karo.
+3. **Blind Replacements Avoid Karo:** Fix apply karne se pehle file ka exact structure aur line numbers verify karo.
+4. Har fix ke baad relevant build/tests run karo aur PASS confirm karo.
+5. Agar koi SQL/DB change involved hai, toh use `Release Note.txt` mein document karo.
+6. **Clean Diff Generation:** Execution start karne se pehle jin files ko modify karna hai unka ek backup/snapshot scratch folder mein save karo. Jab saare tasks ho jayein, toh sirf is session ke changes ko original snapshot files se compare kar ke ek naya Diff Artifact banao. `git diff` use mat karna kyunki repo pehle se dirty ho sakti hai.
+7. **Contextual Summary:** Differences batate waqt har change ke saath thora logic context bhi dena (Roman Urdu mein), kyunki pehle se likha hua code mera nahi hai aur mujhe samajhna hai ke kya tabdeel hua hai.
 
 ### 🛑 RULES OF ENGAGEMENT
 - No Guessing: Ambiguity ho toh AskUserQuestion se pooch.
 - Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
-- Jab sab implement ho jaye, mujhe ek concise Diff Summary do.</textarea>
+- Jab sab implement ho jaye, mujhe ek concise Diff Summary (Diff Artifact link ke sath) do.</textarea>
                 </div>
 
                 <div class="card" data-card-id="codereview-revise-text">
@@ -518,7 +526,8 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
 1. In points ke mutabiq **dono files** update karo — Review Plan (.md, mere liye) aur Implementation Instructions (.md, execution agent ke liye).
 2. Implementation abhi shuru NAHI karni — sirf files update karke mera wait karo. Implementation ka alag prompt doonga.
 3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
-4. Update ke baad ek chhota summary do ke dono files mein kya kya change hua.</textarea>
+4. Update ke baad ek chhota summary do ke dono files mein kya kya change hua.
+</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('codereview')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
@@ -646,11 +655,11 @@ FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId
                 <div class="card" data-card-id="session-template-text">
                     <div class="card-header">
                         <div class="card-info">
-                            <h3 contenteditable="true">Complete Session Log Template</h3>
+                            <h3 contenteditable="false">Complete Session Log Template</h3>
                             <div class="card-version">Updated: 27 Aug 2026</div>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-check"></i></button>
+                            <button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-pen"></i></button>
                             <button class="btn-icon danger" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i></button>
                             <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-solid fa-check"></i> Copied</button>
                         </div>
