@@ -218,10 +218,10 @@
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
-            <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
+            <a onclick="scrollToSection('codereview')" class="nav-item active" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -449,6 +449,7 @@ Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse appro
 2. **Reuse / Simplification / Efficiency:** Duplicate logic, unnecessary complexity, N+1 queries, missing indexes, large in-memory loads.
 3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets/tokens (OWASP Top 10).
 4. **CLAUDE.md Compliance:** Unrelated refactors, renamed methods/DTOs/columns, missing Release Note entry for DB/setup changes, broken UI selectors/AJAX/dirty-state.
+5. Saare code ko sirf line by line syntax checking nhi krni uske saath saath methods ki logic ko smajhna hai aur agar same logic kisi aur module mein doosri tarah se hai aur yaha doosri tarah se toh phir check kro ki konsi wali sahi hai aur confirm krwao mere se questions ke through sirf words test nhi krne poori logics aur new feature ka concept bhi samajhna hai.
 
 ---
 ### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
