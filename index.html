@@ -729,31 +729,132 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false" style="height: 562px;">### 🎯 AI AGENT TESTING &amp; FINE-TUNING MISSION
-**Target:** [Order Confirmation Agent / Address Validation Agent]
-**Context:** Main is agent ko test kar raha hoon. Mere paas sessions ka data hai (traces, logs) aur ek "Reviewer Note" hai jisme meri observations/hypothesis hain. Tujhe is data ko verify karna hai, root cause pakadna hai, aur fix apply karna hai.
+                    <textarea id="uni-plan-text" spellcheck="false" style="height: 562px;">ROLE &amp; CONTEXT
+Main [Order Confirmation agent] ko test kar raha hoon. Maine kuch sessions run kiye hain,
+har session ka trace (user prompt + AI response + AI reasoning, turn-by-turn) ek .md file mein hai,
+aur har file ke start mein mera "Reviewer Note" hai.
 
----
-### ⚡ CORE RULES &amp; SHARED MEMORY (Antigravity &amp; Claude)
-1. **Source of Truth:** Tum chahe Antigravity ho ya Claude Code, tumhara primary brain `.claude/` directory aur `CLAUDE.md` hai. Kaam shuru karne se pehle inhe laazmi parho. Agar `.claude/KNOWN_HAZARDS.md` bhi mojood ho toh usay bhi zaroor parho — repo gotchas isme hain jo CLAUDE.md mein nahi.
-2. **No Chat Text:** Agar koi confusion ho, ya decision verify karwana ho, toh **interactive questions (AskUserQuestion / Terminal prompt)** use karo. Lambi explanations nahi likhni conversation mein woh mein nhi prhonga.
-3. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
+REVIEWER NOTE KA NATURE — YE ZAROOR SAMJHO
+Ye note maine mostly FRONTEND se (WhatsApp par jo messages gaye) dekh kar likha hai — full
+user-prompt/AI-reasoning/AI-response ko line-by-line scrutinize nahi kiya, sirf bird's-eye trace
+dekha hai jahan logic samajhna zaroori tha. Isliye note mein jo bhi likha hai (bug ho, good point ho,
+ya naya idea ho) — usko sirf face-value par mat lo. Tumhara kaam hai isko underlying traces aur
+actual code/prompt ke against verify karna, na ke sirf reviewer note ko implement kar dena.
+Mera note ek HYPOTHESIS hai, finding nahi. Mera bataya hua root cause bhi galat ho sakta hai —
+agar data kuch aur kehta hai to saaf saaf bolo ke main galat tha, aur asli sabab dikhao.
 
----
-### 🛠️ PHASE 1: DISCOVERY &amp; PLANNING (No Code Edits)
+REFERENCE MATERIALS (sab attached/codebase mein hain)
+1. Session trace + reviewer-note files
+2. Cached/assembled system prompt (runtime snapshot)
+3. Prompt source file(s) jahan se ye assemble hota hai
+4. Release Note / migration log — especially AI-action insert queries (descriptions, use_when,
+   do_not_use_when), feature-flag Setup inserts, aur AI-agent-instructions inserts
+5. Koi bhi backend/infra planning doc jo related ho (crash-recovery, known-issues, etc.)
+6. .claude/KNOWN_HAZARDS.md — pehle se maloom landmines, kaam shuru karne se pehle parho
+7. prompts.py ke aakhir mein PROMPT-WRITING GUIDELINES block — koi bhi prompt rule badalne se
+   pehle usko parho aur uske mutabiq likho
+8. .claude/tasks/oc-testing-ledger.md (agar mojood ho) — pichle phases ke findings ka running
+   record, taake har phase zero se shuru na ho
 
-1. **Dynamic Log Discovery &amp; Evidence Gathering:**
-   - Mere Reviewer Note ko sirf hypothesis maano.
-   - Codebase, SQL scripts, aur DB models ko analyze karo taake tumhe is specific agent (OC/Address) ke logs, errors, aur audit trails ka structure samajh aaye.
-   - **SQL Generation:** Agar tumhe DB se aur data chahiye, toh mujhe chat mein SQL query likh kar do. Main run karke result tumhe 'Other' box mein doonga.
+TASK
+1. Har reviewer note ko poora, detail mein parho.
+2. Har session ki poori trace parho — reasoning, response, sab kuch — na ke sirf summary.
+3. System prompt / prompts.py / Release Note (actions + instructions + features) ko poora parho.
+4. Ab reviewer notes ke har point (bug ho ya good-point ho ya idea ho) ko traces mein DHOONDHO aur
+   verify karo ki actual data usko support karta hai ya nahi. Har point ka saaf verdict do:
+   CONFIRMED / CORRECTED (main galat tha, asli baat ye hai) / UNRESOLVED (aur data chahiye) —
+   aur har verdict ke saath concrete proof do: message id, action-log id, error id, ya code line.
+5. Sirf mere note tak mehdood mat raho. Traces aur DB rows ko apni nazar se bhi scan karo aur wo
+   bugs bhi nikalo jo maine notice nahi kiye — pichle phase mein aise 4 bugs mile the.
+6. Har confirmed issue ko pehle CLASSIFY karo, phir root cause dhoondo:
+   (a) AI behaviour bug — AI ne prompt ke khilaf kiya
+   (b) Prompt design bug — AI ne prompt follow kiya, prompt hi galat/adhoora tha
+   (c) Infrastructure bug — AI bilkul theek tha, code/DB/plumbing ne kharab kiya
+   Ye classification zaroori hai: (c) ko prompt se theek karne ki koshish waqt ka zaya hai.
+   Ye classification Turn 2 ki verification strategy bhi decide karegi: (a)/(c) ke liye
+   failing-test-first (red-green) verification hogi, (b) ke liye trace-replay/before-after
+   comparison — ye farq Turn 2 mein follow karna hai.
+7. Har fix ki exact jagah verify karo (guess mat karna), in options mein se:
+   - prompts.py: BASE_CORE / STEPS[...] / FEATURE_RULES[...] / FINAL_CRITICAL_REMINDERS
+     (yaad rakho: STEPS sirf tab load hota hai jab wo step active ho; FEATURE_RULES har turn
+      prompt mein aata hai jab tak uska flag on hai — ye farq aksar decisive hota hai)
+   - address_validation/prompt.py ya koi doosra agent prompt
+   - agent.py (prompt assembly / user-context rendering)
+   - DB-seeded content: ActionsForAiAgent (description, use_when, do_not_use_when,
+     confirmation_rule, come_again_rule) ya AIAgentInstructions — ye Release Note se aate hain,
+     sirf prompt file mein mat dhoondna
+   - CoreServices C# (BLL / DAL / DTO)
+   - SQL: index, schema, ya Setup/feature row
+8. Patterns dhoondo jo multiple sessions mein repeat ho rahe hon.
+9. Regression check: Release Note ke pichle phase entries parho. Dekho kahin ye issue kisi purane
+   fix ka regression to nahi, ya kahin tumhara naya fix kisi purane fix ko tor to nahi raha.
+10. Agar kisi bhi cheez mein thoda sa bhi doubt ho, guess mat karna — poochna.
 
-2. **Root Cause Analysis &amp; Classification:**
-   - Har issue ko verify karo aur classify karo: (a) AI Bug, (b) Prompt Bug, (c) Infra/Plumbing Bug.
+EVIDENCE RULE
+- Plan ka koi bhi item bina saboot ke na ho. Har item ke saath ya to DB/trace evidence ho, ya
+  exact code line reference.
+- Agar koi cheez prove nahi kar sakte to usay "PROVEN" mat likhna — "LIKELY" ya "UNRESOLVED"
+  likho aur saaf batao ke kya missing hai.
+- Agar tumhein aur DB data chahiye to mujhe ready-to-run SQL queries likh kar do (table/column
+  names codebase se verify karke). Main chala kar result AskUserQuestion ke 'Other' box mein
+  paste kar dunga.
 
-3. **Deliverable (The Human-Readable Plan):**
-   - Mujhe ek **Rich Markdown Document** do (with sections &amp; Mermaid diagrams).
-   - Isme har bug ka root cause, proposed fix, aur **TDD Testing Plan** hona chahiye.
-   - **SQL Canvas:** Agar fix mein koi DB changes hain (jaise `ALTER TABLE`, `INSERT Action`), toh plan ke end mein ek **Copyable Canvas** banao jisme exact SQL queries hon. AI khud DB update nahi karega, main in queries ko copy karke DB update karunga.</textarea>
+RESEARCH
+Agar koi cheez industry-best-practice ka sawal ho (jaise "prompts ko AI-friendly kaise likhein",
+"reasoning models kaise behave karte hain", "customer-support agent design patterns") — Google par
+deep research karo, findings ko apply karo, aur specific hone ko is task ke context mein translate
+karo — generic advice mat do.
+
+RULES
+- Ye kaam 2 turns mein hoga: is turn (Turn 1) mein sirf discussion + finalization + implementation
+  PLAN banega — code ki koi file edit nahi. Turn 2 mein hum implement karenge.
+- Turn 1 ka plan 100% finalized hona chahiye — usme koi open question ya ambiguity nahi honi chahiye.
+  Iska matlab: implementation-plan banane SE PEHLE har decision AskUserQuestion (options ke saath)
+  se lock karwana hai.
+- Questions poochne ki koi limit nahi hai — jitni zaroorat ho utni poocho, sirf ek round mein sab
+  khatam karne ki koshish mat karo agar genuinely aur clarity chahiye.
+- COMMUNICATION FORMAT: is puri conversation mein jo bhi mujhse poochna hai ya batana zaroori hai,
+  sab AskUserQuestion (options ke saath) ke through karna — normal prose paragraphs mein mat likhna,
+  main unhe nahi padhunga. Sirf tool-call ke connecting one-liners chalenge.
+  AskUserQuestion ka question text aur options — sab Roman Urdu / Hinglish mein hon.
+- Har decision recommended-option ke saath do (agar tumhara clear opinion ho), lekin final choice
+  meri rahegi.
+- Agar main koi aisa faisla chunun jo tumhein technically ghalat ya adhoora lage, to chup mat raho —
+  saaf batao ke kya toot sakta hai, aur agar main phir bhi wahi kahun to mera faisla maan kar aage
+  barho.
+
+DELIVERABLES (dono hamesha banane hain — mujhe ye baar baar kehna na pare)
+1. ARTIFACT (padhne ke liye): accha-design, scannable HTML — sections, status labels/chips,
+   before/after examples, timeline, evidence table. Plain wall-of-text nahi. Acha sa coinsize way mein likh kr dena.
+2. REPO TASK FILE (implement karne ke liye): .claude/tasks/&lt;module&gt;-phase&lt;N&gt;-fixes.md
+   Isme har fix ek alag, self-contained task ho, aur har task mein:
+   - exact file + anchor (line number ke saath, magar text se locate karne ki hidayat)
+   - EXACT OLD text (verbatim) aur EXACT NEW text — khaas kar prompt strings ke liye
+   - kyun (evidence ke saath, ek line)
+   - acceptance criteria — ek objective grep/build assertion
+   - "Do NOT" list — is task mein kya bilkul nahi chherna
+   - dependencies (konsa task pehle hona chahiye)
+   - Agar fix DB-seeded content (ActionsForAiAgent, AIAgentInstructions, Setup rows) ko touch
+     karta hai, to exact INSERT/UPDATE/ALTER SQL bhi is task ke andar likhna — ye SQL AI khud
+     execute nahi karega, sirf documented hoga taake main copy karke khud DB par chala sakoon.
+   File ke shuru mein: evidence table, causal chain, aur execution order.
+   File ke aakhir mein: acceptance checklist aur "explicitly out of scope" list.
+3. LEDGER UPDATE: .claude/tasks/oc-testing-ledger.md mein is phase ki ek chhoti entry —
+   phase number, session id, confirmed findings, corrected assumptions, aur wo cheezein jo
+   deliberately out-of-scope rakhi gayin (taake agle phase mein dobara na sochna pare).
+   File na ho to bana do.
+
+USAGE EFFICIENCY
+- Jahan reliably/safely ho sake wahan 2-3 reads ek saath (bulk/parallel) karo. Lekin isse
+  accuracy/reliability kam NAHI honi chahiye — jahan quality compromise ho sakti ho, wahan ek-ek
+  karke, careful reads/actions karo.
+- Mere paas Claude ka Pro plan hai, isliye usage ka khaas dhyan rakhna — weekly koshish ye ho ke
+  2% se 5% usage lage, us se zyada nahi. Zyada kar sakte ho lekin ehtiyat se. Ye poore session
+  mein rakhna, implementation ke waqt bhi.
+- Background subagents mat spawn karna (Explore/general-purpose) — seedha Grep/Glob/Read use karo.
+- Poore repo par grep mat chalana (venv/node_modules ki wajah se timeout hota hai) — path scope karo.
+
+- Roman Urdu / Hinglish mein baat karo (default). Code, identifiers, aur prompt text English mein.</textarea>
                 </div>
 
                 <div class="card" data-card-id="uni-impl-text">
@@ -768,27 +869,65 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-impl-text" spellcheck="false" style="height: 429px;">Ye plan solid tha. Main SQL Canvas wali queries database par run kar chuka hoon agar tumne di thi toh. Ab implementation shuru karo.
-
-### 💻 PHASE 2: IMPLEMENTATION &amp; TDD (Strict Execution)
-
-1. **Red-Green-Refactor (TDD Injection):**
-   - File edit karne se pehle, us specific bug ko reproduce karne ke liye ek **Unit/Integration Test** likho aur run karo (Fail/Red hona chahiye).
-   - Phir apna fix apply karo, aur test dobara run karo (Pass/Green hona chahiye).
-
-2. **Strict File Operations:**
-   - File edit karne se pehle original file ka scratch copy snapshot lo.
-   - Bulk read/write karo jahan safe ho, par context/token optimization ka dehaan rakho.
-   - "Do NOT Edit" boundaries ko strictly follow karo. Unrelated files ya formatting chherne ki ijazat nahi.
-
-3. **Git Safety:**
-   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
-
-4. **Release Note &amp; SQL Handover:**
-   - Jab code fix ho jaye, toh un saari SQL queries ko jo humne Phase 1 mein verify ki theen (agar ki theen toh), laazmi taur par project ki **Release Note.txt** mein document karo. Yeh step miss nahi hona chahiye.
-
-5. **Final Diff Summary:**
-   - Aakhir mein chat mein ek Developer-Friendly Diff Summary do. Logic aur context explain karo taake main bina VS Code khole changes samajh sakoon.</textarea>
+                    <textarea id="uni-impl-text" spellcheck="false" style="height: 429px;">Ye plan solid tha. Ab:
+1. RE-VERIFY: Poori conversation dobara parho, saare locked decisions reconfirm karo, aur
+   implementation-plan artifact + repo task file dono dobara poora parho.
+2. Agar kisi bhi cheez mein confusion ya ambiguity mile (chahe wo file-location ho, ya kisi decision
+   ki exact scope ho) — GUESS MAT KARNA. Ruk kar AskUserQuestion (options ke saath) poochna, phir
+   aage badhna.
+3. Task file ko SOURCE OF TRUTH maano. Uske execution order ko follow karo, order badalna ho to
+   pehle poocho. Har task ke tasks bana lo (task-tracking tool se) taake progress track ho sake.
+4. Implementation shuru karo — lekin:
+   - Kisi bhi file ko edit karne SE PEHLE uska current snapshot le lena (scratch copy) — git diff
+     par depend mat karna, kyunki wo pre-existing/unrelated dirty changes bhi dikha dega.
+   - EK WAQT MEIN EK TASK. Har task ke baad uska acceptance check (grep/build/py_compile) actually
+     chala kar confirm karo, phir agla task. Unrelated tasks ko ek edit mein mat milao.
+   - EXACT OLD text match na kare to ye SIGNAL hai ke file drift ho gayi — dobara parh kar re-anchor
+     karo. "Approximately" edit hargiz mat karna.
+   - Har task ki "Do NOT" list ka ehtiram karo. Jo cheez chherne ko nahi kaha gaya usay reformat,
+     re-indent ya "tidy" mat karna — files 6000+ lines ki hain, incidental reformatting diff ko
+     na-qabil-e-review bana deta hai.
+   - Jahan reliably/safely ho sake, 2-3 reads/edits ek saath (bulk) karo — lekin
+     jahan bhi accuracy/reliability compromise hone ka risk ho, wahan single read/edit/action use
+     karna, bulk ke chakkar mein quality kam nahi honi chahiye.
+   - Har code-change ke baad, jo bhi verification possible ho (syntax check, build) wo actually
+     chala kar confirm karo — sirf claim mat karna ke "sahi hai".
+   - C# build: sirf `error CS` / `error CA` filter karo. MSB3027/MSB3021 (file locked by IIS Express)
+     copy-step failure hai, code error nahi — usay "build failed" mat kehna, magar chupana bhi mat.
+   - Git safety: commit, push, reset, ya force jaisi git actions bina explicit permission ke
+     kabhi mat chalana.
+   - DB-seeded content fixes (ActionsForAiAgent, AIAgentInstructions, Setup rows): AI khud koi
+     INSERT/UPDATE/ALTER query execute nahi karega — exact SQL us task ke andar likh dena, main
+     khud DB par chalaunga.
+   - Verification method fix ki classification par depend karegi: (a) AI-behaviour-in-code aur
+     (c) infrastructure bugs ke liye — fix se pehle ek failing unit/integration test likho jo bug
+     reproduce kare (Red), fix ke baad wahi test pass hona chahiye (Green). (b) Prompt-design
+     bugs ke liye koi deterministic unit test mat likhna (LLM output non-deterministic hota hai) —
+     iske bajaye original failing trace ko naye prompt text ke against manually replay/compare
+     karo aur before/after reasoning-diff ko evidence ke taur par task file/ledger mein daalo.
+5. IMPLEMENTATION KE BEECH: agar koi bhi naya question ya ambiguity aaye — turant ruk kar
+   AskUserQuestion (options ke saath) poochna, guess mat karna, phir aage badhna.
+   Agar implement karte waqt plan mein koi ghalti/khaami nazar aaye (aisa hota hai) — ruk kar batao
+   aur options do; chupke se plan se hat kar apna faisla mat karna.
+6. SCOPE DISCIPLINE: raste mein jo naye bugs milein unhe theek MAT karna — alag se list karke
+   ledger file mein "found during implementation, not fixed" ke tehat likh dena.
+7. DOCUMENTATION (implementation ke aakhir mein, code changes ke baad):
+   - Release Note.txt mein is phase ki entry (mojooda style ke mutabiq, dated)
+   - .claude/KNOWN_HAZARDS.md mein naye hazards (agar koi mila)
+   - .claude/tasks/oc-testing-ledger.md update — kya hua, kya baaqi hai
+   - Task file mein har task ko DONE mark karo
+8. END MEIN: sirf is session ke actual edits ka diff dikhana (pehle-liye snapshot vs final state) —
+   koi aur pre-existing dirty changes shamil nahi honi chahiye. Ye diff clean, colored, scannable
+   visual diff widget mein ho (CLAUDE.md ka auto visual session diff rule). Release Note.txt ke liye
+   minimal hunk khud likhna, raw `diff -u` mat paste karna (KNOWN_HAZARDS #5).
+   Diff ke saath ek chhota table: har task → status (done / skipped / blocked) → verification jo
+   actually chali → uska result.
+9. TESTING GUIDANCE: aakhir mein mujhe batao ke agle testing round mein main kya specifically
+   check karun taake ye fixes verify ho jayein — konsa scenario chalaun, kya expect karun, aur
+   kis DB row/log se confirm karun.
+10. COMMUNICATION FORMAT: is poore turn mein bhi jo kuch poochna/batana hai, AskUserQuestion se hi
+    karna — normal conversation prose mein mat likhna. AskUserQuestion ka text bhi Roman Urdu mein.
+11. Yahan bhi usage ka khaas khayal rakhna (Pro plan — weekly 2-5%).</textarea>
                 </div>
 
                 <div class="card" data-card-id="sql-pack-text">
