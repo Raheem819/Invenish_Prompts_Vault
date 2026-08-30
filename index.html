@@ -850,16 +850,19 @@ _
 
 **
 
+---------------------------------------------
+---------------------------------------------
+
 # Errors Occured in this session
-
-
-
 ```
 
 _
 
 ```
 
+---------------------------------------------
+---------------------------------------------
+ 
 # AI actions
 ## Query
 ```sql
@@ -867,88 +870,73 @@ _
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
        LEFT(ISNULL(Result,''),200) AS ResultShort, LEFT(ISNULL(Payload,''),300) AS PayloadShort
 FROM AiSessionActionLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
-
-
-
 ```
 
 ## Result
-
 ```
 
 _
 
-
-
 ```
 
+---------------------------------------------
+---------------------------------------------
+ 
 # Session Messages
-
 ## Query
-
 ```sql
 -- 3) Customer ko wakai kya gaya
 SELECT Id, SessionId, WhatsAppConversationId, MessageDirection, MessageType, IsSent, SentOn,
        WhatsAppMessageId, LEFT(ISNULL(MessageBody,''),200) AS Body, LEFT(ISNULL(Response,''),300) AS Resp
 FROM WhatsAppMessage WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
-
-
-
 ```
 
 ## Result
-
 ```
 
 _
 
-
-
 ```
 
+---------------------------------------------
+---------------------------------------------
+ 
 # AI Session final state
-
 ## Query
-
 ```sql
 -- 4) Session ki final state
 SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
-
-
-
 ```
 
 ## Result
-
 ```
 
 _
 
 ```
 
+---------------------------------------------
+---------------------------------------------
+ 
 # Session ke steps ka progression
-
 ## Query
-
 ```sql
 -- 5) Session ke steps ka progression (kis step pe kitni dair rukhi)
 SELECT Id, SessionId, StepId, Status, CreatedOn
 FROM AiChatBotSessionStepsLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
-
-
-
 ```
 
 ## Result
-
 ```
 
 _
 
 ```
 
+---------------------------------------------
+---------------------------------------------
+ 
 # Human handoff / agent assignment history
-
 ## Query
 ```sql
 -- 6) Human handoff / agent assignment history
@@ -962,7 +950,11 @@ FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId
 
 _
 
-```</textarea>
+```
+
+---------------------------------------------
+---------------------------------------------
+ </textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('universal')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
