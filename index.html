@@ -170,7 +170,7 @@
             .btn-add-section { width: auto; white-space: nowrap; margin-top: 0; margin-right: 10px; }
         }
     </style>
-<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
 <body cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
@@ -218,10 +218,10 @@
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
-            <a onclick="scrollToSection('codereview')" class="nav-item active" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
+            <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -843,7 +843,7 @@ FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId
                             <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-solid fa-check"></i> Copied</button>
                         </div>
                     </div>
-                    <textarea id="session-template-text" spellcheck="false"># Reviewer Note
+                    <textarea id="session-template-text" spellcheck="false" style="height: 546px;"># Reviewer Note
 **
 
 _
@@ -920,6 +920,44 @@ SELECT * FROM AiChatBotSession WHERE Id = &lt;sessionId&gt;;
 
 ## Result
 
+```
+
+_
+
+```
+
+# Session ke steps ka progression
+
+## Query
+
+```sql
+-- 5) Session ke steps ka progression (kis step pe kitni dair rukhi)
+SELECT Id, SessionId, StepId, Status, CreatedOn
+FROM AiChatBotSessionStepsLog WHERE SessionId = &lt;sessionId&gt; ORDER BY Id;
+
+
+
+```
+
+## Result
+
+```
+
+_
+
+```
+
+# Human handoff / agent assignment history
+
+## Query
+```sql
+-- 6) Human handoff / agent assignment history
+SELECT Id, ConversationId, HandoffType, HandoffId, ActionType, FromUserId, ToUserId,
+       AssignedByUserId, Source, IsPrimary, CreatedOnUtc, LEFT(ISNULL(Remarks,''),200) AS RemarksShort
+FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId&gt; ORDER BY Id;
+```
+
+## Result
 ```
 
 _
