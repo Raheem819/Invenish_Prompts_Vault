@@ -438,39 +438,217 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
                             <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-text" spellcheck="false" style="height: 642px;">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
-**Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
-Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
+                    <textarea id="codereview-text" spellcheck="false" style="height: 642px;"># 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
 
----
-### 🔍 REVIEW CHECKLIST &amp; SCANNING RULES
-- **Deep Scan:** Poore codebase/diff ko line-by-line aur word-by-word deeply analyse karo. Jab tak poora diff scan na ho jaye aur TAMAM issues list na ho jayein, tab tak triage start mat karo.
-1. **Correctness Bugs:** Logic errors, edge cases, null/undefined handling, race conditions.
-2. **Reuse / Simplification / Efficiency:** Duplicate logic, unnecessary complexity, N+1 queries, missing indexes, large in-memory loads.
-3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets/tokens (OWASP Top 10).
-4. **CLAUDE.md Compliance:** Unrelated refactors, renamed methods/DTOs/columns, missing Release Note entry for DB/setup changes, broken UI selectors/AJAX/dirty-state.
-5. Saare code ko sirf line by line syntax checking nhi krni uske saath saath methods ki logic ko smajhna hai aur agar same logic kisi aur module mein doosri tarah se hai aur yaha doosri tarah se toh phir check kro ki konsi wali sahi hai aur confirm krwao mere se questions ke through sirf words test nhi krne poori logics aur new feature ka concept bhi samajhna hai.
+**Scope:** [Current diff / Branch / Files / PR # yahan likhein]
+**Spec/Task doc:** [`.claude/tasks/&lt;file&gt;.md` ka path — ye review ka GROUND TRUTH hai. Agar nahi hai to likh do "koi spec nahi".]
 
----
-### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
-- Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** ke through **ek waqt mein sirf 1 finding** ka triage karwao.
-- Questions Roman Urdu mein likho aur thora aapas ki logics ko bhi samjhao taake mujhe samajh aa sake ke tum kis baare mein baat kar rahe ho.
-- Options mein smartness use karo aur khud potential fix batao (e.g., Sirf "haan/na" mat likho, balkay "Haan, DB query mein index add karein (Fix)" type options do). Apni taraf se kuch bhi approved assume mat karo.
-- Jab tak sab findings triage (approve/reject) na ho jayein, deliverables mat banao.
+Ye REVIEW pass hai. Sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
----
-### 📦 DELIVERABLES (sirf jab sab findings triage ho chuke hon)
-🅰️ **Review Plan (.md, mere parhne ke liye):** Rich Markdown — findings ka summary (kya mila, kyun issue hai, kya approve hua), severity table, aur ek Mermaid.js diagram jo findings ko severity/category ke hisaab se ya affected files ke flow ko dikhaye.
-🅱️ **Implementation Instructions (.md, execution agent ke liye):** Sirf APPROVED findings ke liye — exact file:line, current vs expected behavior, aur fix approach. Koi assumption na ho.
-- Dono files ko sensible naam do (task/date se related), inhein Workspace root ya Artifacts directory mein save karo aur mujhe unke exact path bata do taake Phase 2 mein reference asan ho.
+════════════════════════════════════════════════════════
+§0 · SCOPE, CALIBRATION &amp; PROVENANCE  (sab se pehle)
+════════════════════════════════════════════════════════
+1. `git diff HEAD` ke saath **`git status --porcelain` bhi chalao** — untracked (naye,
+   abhi `git add` na hue) files `git diff` mein nazar NAHI aatin, aur aksar poora naya
+   feature unhi mein hota hai. Unhe alag se locate karke poora parho.
+2. Build artifacts exclude karo (`obj/`, `bin/`, `.vs/`, `PackageTmp/`, `*.user`,
+   `__pycache__`, `*.dll|pdb|exe`) — lekin **batao ke kya exclude kiya**.
+3. **Provenance record karo:** branch, commit SHA, total files, tracked vs untracked,
+   review-scope files. Ye deliverables mein bhi likhna hai.
+4. **Depth calibration:** pehle scope summary do. Agar review-scope 25+ files ho, to
+   deep-dive shuru karne se PEHLE mujhse priorities confirm karo — bina poochhe
+   ghantoon scan mat karo.
 
----
-### ⚡ EXECUTION RULES
-1. **Source of Truth:** `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md` dono parho.
-2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq — logic dobara se mat likho.
-3. **No Fixing In This Phase:** Koi bhi file edit na karo — ye sirf discovery/review/planning phase hai.
-4. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
-5. Ambiguity ho toh guess mat karo — AskUserQuestion ke through poocho.</textarea>
+════════════════════════════════════════════════════════
+§1 · REVIEW CHECKLIST
+════════════════════════════════════════════════════════
+Deep scan: poore diff ko line-by-line parho. Jab tak scan mukammal na ho, triage start
+mat karo.
+
+1. **Correctness:** logic errors, edge cases, null handling, race conditions.
+2. **Reuse / Simplification / Efficiency:** duplicate logic, faltu complexity,
+   N+1 queries, missing indexes, bare in-memory loads.
+3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets (OWASP Top 10).
+4. **CLAUDE.md compliance:** unrelated refactors, renamed methods/DTOs/columns,
+   missing Release Note entry, toote hue UI selectors/AJAX/dirty-state.
+5. **Cross-module logic consistency:** sirf syntax nahi — methods ki LOGIC samjho.
+   Agar wahi logic doosre module mein alag tarah likhi hai, to batao kaunsi sahi hai
+   aur mujhse confirm karwao. New feature ka CONCEPT bhi samajhna hai.
+
+════════════════════════════════════════════════════════
+§2 · SPEC-vs-IMPLEMENTATION RECONCILIATION   ⭐ sab se important
+════════════════════════════════════════════════════════
+Spec doc ground truth hai. Sirf config/flags nahi — **har method, har rule, har default**
+compare karo. Teen tarah ke deviations, teeno finding hain:
+
+  ➕ ADDED    — code mein aisi logic hai jo spec mein NAHI thi
+                (misal: spec "count rows where Status == Sent"; code ne Failed +
+                Skipped + poora extra time-filter add kar diya ← asli bug yahi tha)
+  ➖ REMOVED  — spec ka step/guard/validation implement hi nahi hua
+  🔄 CHANGED  — defaults, thresholds, status-lists, feature-flag values, ya
+                operations ka order badla hua hai
+
+Har deviation par verdict: "improvement hai" ya "undocumented risk hai" — aur mujhse
+confirm karwao. Spec na ho to ye batao, aur baseline "existing similar module se
+consistency" ko banao.
+
+════════════════════════════════════════════════════════
+§3 · COVERAGE LEDGER  (koi method bina verdict ke na chhoote)
+════════════════════════════════════════════════════════
+| Method / Function | File:Line | Kya karta hai (1 line) | Verdict |
+|---|---|---|---|
+Verdict = ✅ OK / 🚩 Flagged / ❓ Needs user input
+
+Rule: har naya ya changed method is table mein hoga. "Parh liya tha" kaafi nahi.
+Verify na kar sako to ❓ likho — ✅ mat karo.
+
+════════════════════════════════════════════════════════
+§4 · RUNTIME SCENARIO TRACING   ⭐ (state machine / queue / worker / retry ho to lazmi)
+════════════════════════════════════════════════════════
+Code parhna kaafi nahi. Concrete timelines likh kar trace karo — kam az kam 4:
+
+  1. Happy path
+  2. Interrupted — beech mein user/customer action (reply, cancel, takeover)
+  3. Repeat interruption — wahi cheez DOOSRI martaba (sequence/counter reset bugs
+     yahin chhupte hain ← asli bug isi trace se pakra jata)
+  4. Crash / app-pool recycle beech mein
+
+Har step par expected DB row values likho (status, counters, FKs, timestamps).
+Derived values HAATH SE calculate karo — "attempt = count + 1" mein count exactly
+kya hoga, kaunse rows count honge? Formula parh kar aage mat barho.
+
+════════════════════════════════════════════════════════
+§5 · SILENT-FALLBACK &amp; FAILURE-MODE AUDIT   ⭐
+════════════════════════════════════════════════════════
+Har guard / null-check / catch par poocho:
+  • `if (x.HasValue) { filter apply karo }` → x null ho to? Kya filter CHUPKE se drop
+    ho kar behavior poora badal jata hai, bina log bina error? ← asli bug yahi tha
+  • `catch { return 0 / false / null; }` → fail-open hai ya fail-closed? Kaunsa sahi hai?
+  • `FirstOrDefaultAsync()` default de de to caller ka kya banega?
+  • "data nahi mila" aur "data mila lekin khali tha" ka same treatment to nahi?
+Har silent-degradation branch list karo, chahe bug na ho.
+
+════════════════════════════════════════════════════════
+§6 · DATA-SOURCE, CLOCK &amp; TEMPORAL COUPLING   ⭐
+════════════════════════════════════════════════════════
+• Clock consistency: do alag sources ke timestamps compare ho rahe hain? (external
+  webhook timestamp vs server `DateTime.UtcNow`) → inherently fragile, flag karo.
+• Cross-table dependency: derived value ke liye doosri table par depend kiya ja raha
+  hai jabke wahi maloomat isi feature ki apni table mein mojood hai? Kam dependency =
+  zyada robust.
+• Backfilled fields: koi field BAAD mein, DOOSRE code path se set hoti hai? Usay
+  parhne wala code us se PEHLE to nahi chal raha? Execution order likh kar dikhao.
+• Har naye DateTime par UTC vs local confirm karo.
+
+════════════════════════════════════════════════════════
+§7 · DEPLOY, MIGRATION &amp; IDEMPOTENCY
+════════════════════════════════════════════════════════
+• Deploy order: DB script pehle ya code pehle? Release Note mein likha hai?
+• Backward compatibility: rolling deploy / purana build naye schema ke saath chalega?
+• Rollback block mojood hai?
+• Setup/Action IDs duplicate to nahi (poori Release Note file mein grep karo).
+• **Idempotency:** WhatsApp webhooks re-deliver hote hain, workers retry karte hain,
+  SignalR reconnect hota hai. Har entry point par poocho: **agar ye do dafa chale to?**
+• Concurrency: multiple worker instances / IIS web-garden mein safe hai?
+  (claim conditional UPDATE se ho raha hai ya read-then-write se?)
+
+════════════════════════════════════════════════════════
+§8 · EVIDENCE &amp; CONFIDENCE DISCIPLINE   ⭐
+════════════════════════════════════════════════════════
+Har behavioral claim par label:
+  [code-read]         — sirf code parh kar nikala
+  [runtime-verified]  — actual run / log / DB se confirm kiya
+  [assumed]           — maan kar chal raha hoon
+
+• Runtime behavior ko static reading se "fact" ki tarah mat batao.
+• **Main jab bhi koi behavioral sawal poochun — review ke doran ya baad mein —
+  relevant code DOBARA parho. Apni pichli reading ki memory se jawab mat do.**
+• Jahan behavior DB data par depend kare, wahan mujhse rows/logs maango — ya ek
+  ready SQL query likh kar do jo main chala sakun.
+• Root cause bina evidence ke 100% pin na kar sako to SAAF kaho: "most likely wajah
+  ye hai, confirm karne ko ye query chalayein". Guess ko conclusion mat banao.
+
+════════════════════════════════════════════════════════
+§9 · NOISE FILTER &amp; SEVERITY  (triage se pehle)
+════════════════════════════════════════════════════════
+**Ye cheezein one-by-one triage mein NA laao** — inhe deliverable ke akhir mein
+alag "FYI / Out of scope" list mein rakho:
+  • Pre-existing issues jo is diff ne introduce nahi kiye
+  • Meri apni local-env edits (Web.config URLs, ports, publish profiles)
+  • Pure style/preference cheezein
+  • Generated/scaffolded code ki formatting
+
+**Generated code ka rule:** EDMX, EF scaffold, `.designer.cs` → style review SKIP,
+lekin schema diff aur Release Note coverage LAZMI check karo.
+
+**Severity definitions (inhi ko use karo):**
+  🔴 Critical — data loss, customer ko ghalat/duplicate message, security hole,
+                paisa/order state kharab
+  🟠 High     — feature designed behavior se ghalat chalta hai, silent wrong output
+  🟡 Medium   — edge case, degraded behavior, missing guard, misleading logs
+  🟢 Low      — cleanup, efficiency, docs, cosmetic
+
+════════════════════════════════════════════════════════
+§10 · TRIAGE PROTOCOL
+════════════════════════════════════════════════════════
+• 🔴 Critical aur 🟠 High → **AskUserQuestion se ek waqt mein ek**.
+• 🟡 Medium aur 🟢 Low → ek batched question, ya sirf list karke mera faisla poocho.
+• Questions AUR options AUR headers — sab Roman Urdu / Hinglish mein.
+• Har finding ke saath: severity, kis section (§) se pakra, confidence label (§8),
+  aur thori aapas ki logic samjhao taake mujhe context samajh aaye.
+• Options mein khud potential fix batao — sirf "haan/na" nahi, balkay
+  "Haan, DB query mein index add karein (Fix)" type.
+• Apni taraf se kuch bhi approved assume mat karo.
+• Jab tak sab triage na ho jayein, deliverables mat banao.
+
+════════════════════════════════════════════════════════
+§11 · DELIVERABLES  (sirf jab sab triage ho chuke hon)
+════════════════════════════════════════════════════════
+🅰️ **Review Plan (.md)** — findings summary (kya mila, kyun issue hai, kya approve hua),
+   severity table, §3 Coverage Ledger, §4 runtime traces, provenance (§0.3),
+   ek Mermaid diagram, aur ek **"Ruled Out"** section (kaunse shubhat check karke rad
+   kiye aur kis evidence par) + **"FYI / Out of scope"** list (§9).
+
+🅱️ **Implementation Instructions (.md)** — sirf APPROVED findings: exact file:line,
+   current vs expected behavior, fix approach. Koi assumption na ho.
+
+🅲 **Test Plan (.md)** — concrete manual scenarios: exact setup (misal "2 follow-ups:
+   1 min aur 30 min"), step-by-step actions, aur har step par expected DB rows +
+   verification SQL. Asli bugs testing se pakre jate hain — ye deliverable lazmi hai.
+
+Teeno files ko task/date wale sensible naam do, workspace root mein save karo, aur
+mujhe exact paths batao.
+
+════════════════════════════════════════════════════════
+§12 · EXECUTION RULES
+════════════════════════════════════════════════════════
+1. **Source of truth:** `.claude/CLAUDE.md`, `.claude/KNOWN_HAZARDS.md` (agar ho),
+   aur spec/task doc (§2) — teeno parho.
+2. Repo mein `/code-review` skill ho to invoke karo — lekin **koi subagent spawn mat
+   karo**. Uske saare angles isi session mein khud sequentially chalao (direct
+   Grep/Glob/Read). §2–§9 ke checks skill ke UPAR additionally chalao — wo generic
+   skill ye project-specific checks nahi karti.
+3. **No fixing in this phase** — koi file edit nahi.
+4. **Git safety:** commit, push, reset, force — bina explicit permission ke kabhi nahi.
+5. Ambiguity ho to guess mat karo — AskUserQuestion se poocho.
+6. Independent tool calls batch karo (Pro plan — usage conserve karni hai), lekin
+   accuracy ki qeemat par kabhi nahi.
+7. **Build verification (agar Phase 2 mein fix lage):** `MSB3027` / `MSB3021`
+   (file locked by IIS / running process) **compile error NAHI** hai — output ko
+   `error CS` ke liye filter karo aur lock ko alag se environment issue keh kar report
+   karo. Build pass ka dawa tabhi karo jab wo asal mein chala aur pass hua ho.
+
+════════════════════════════════════════════════════════
+§13 · EXIT CRITERIA  (review "done" kab hai)
+════════════════════════════════════════════════════════
+☑ Har review-scope file parhi gayi (untracked included)
+☑ §3 ledger mein har naya/changed method ka verdict hai
+☑ §2 spec reconciliation har described method par hui
+☑ §4 ke chaaron traces likhe gaye (agar feature stateful hai)
+☑ §9 noise filter laga kar findings alag ki gayin
+☑ Har finding par confidence label hai
+Jab ye sab ✅ hon, tab triage shuru karo — pehle nahi.
+</textarea>
                 </div>
 
                 <div class="card" data-card-id="codereview-impl-text">
