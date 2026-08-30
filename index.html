@@ -943,9 +943,10 @@ USAGE EFFICIENCY
                         </div>
                     </div>
                     <textarea id="sql-pack-text" spellcheck="false" style="color: rgb(96, 165, 250); height: 460px;">-- 1) Errors in the window (ID range use karein, ErrorDate string column hai)
-SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName,
-       ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
-FROM ErrorLog WHERE ErrorID BETWEEN &lt;from&gt; AND &lt;to&gt; ORDER BY ErrorID;
+SELECT ErrorID, ErrorDate, ErrorType, ErrorMessage, ErrorSource, ApplicationName, ControllerFunction, LEFT(ISNULL(StackTrace,''),400) AS StackTraceShort
+FROM ErrorLog
+WHERE ControllerFunction like '%&lt;sessionId&gt;%' and ControllerFunction not like '%SyncStatus%' and ControllerFunction not like '%UniversalCourierBLL%'
+ORDER BY ErrorID;
 
 -- 2) AI ke kis turn ka kaam actually save hua
 SELECT Id, SessionId, OrderId, StepName, ActionName, LoopIndex, IsSuccess, ExecutedOn,
@@ -979,7 +980,7 @@ FROM WhatsAppConversationAssignmentLog WHERE ConversationId = &lt;conversationId
                         <div class="card-actions">
                             <button class="btn-icon" onclick="editCardTitle(this)"><i class="fa-solid fa-pen"></i></button>
                             <button class="btn-icon danger" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i></button>
-                            <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-solid fa-check"></i> Copied</button>
+                            <button class="btn-copy" onclick="copyText(this, 'session-template-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
                     <textarea id="session-template-text" spellcheck="false" style="height: 546px;"># Reviewer Note
