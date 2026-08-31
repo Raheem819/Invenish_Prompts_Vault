@@ -216,12 +216,12 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -438,217 +438,36 @@ Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. 
                             <button class="btn-copy" onclick="copyText(this, 'codereview-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-text" spellcheck="false" style="height: 642px;"># 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
+                    <textarea id="codereview-text" spellcheck="false" style="height: 642px;">### 🎯 CODE REVIEW MISSION (Phase 1: Discovery &amp; Review — No Fixes Yet)
+**Scope:** [Current diff / Branch name / Specific files ya PR # yahan likhein]
+Ye ek REVIEW pass hai. Is phase mein sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
 
-**Scope:** [Current diff / Branch / Files / PR # yahan likhein]
-**Spec/Task doc:** [`.claude/tasks/&lt;file&gt;.md` ka path — ye review ka GROUND TRUTH hai. Agar nahi hai to likh do "koi spec nahi".]
+---
+### 🔍 REVIEW CHECKLIST
+1. **Correctness Bugs:** Logic errors, edge cases, null/undefined handling, race conditions.
+2. **Reuse / Simplification / Efficiency:** Duplicate logic, unnecessary complexity, N+1 queries, missing indexes, large in-memory loads.
+3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets/tokens (OWASP Top 10).
+4. **CLAUDE.md Compliance:** Unrelated refactors, renamed methods/DTOs/columns, missing Release Note entry for DB/setup changes, broken UI selectors/AJAX/dirty-state.
 
-Ye REVIEW pass hai. Sirf issues dhoondhne hain aur mujhse approve karwana hai — koi fix khud se apply nahi karna.
+---
+### ✅ ONE-BY-ONE APPROVAL (Mandatory Before Deliverables)
+- Sab findings ikattha karne ke baad, mujhse **AskUserQuestion** (checklist-style, max 4 findings per question) ke through triage karwao — har finding ke liye "fix karna hai" ya "chhod do" mera decision lo. Apni taraf se kuch bhi approved assume mat karo.
+- questions roman Urdu mein likho aur Thora aas pass ki logics ko bhi smjhao taaki mujhe smjh aaske Tum kis baare mein baat krrhe ho aur options mein thori smartness use krna khud potential fix btao option mein Sirf fix krna hai ya chor do iss Tarah ke yes no questions nhi hone chahiye.
+- Jab tak sab findings triage (approve/reject) na ho jayein, deliverables mat banao.
 
-════════════════════════════════════════════════════════
-§0 · SCOPE, CALIBRATION &amp; PROVENANCE  (sab se pehle)
-════════════════════════════════════════════════════════
-1. `git diff HEAD` ke saath **`git status --porcelain` bhi chalao** — untracked (naye,
-   abhi `git add` na hue) files `git diff` mein nazar NAHI aatin, aur aksar poora naya
-   feature unhi mein hota hai. Unhe alag se locate karke poora parho.
-2. Build artifacts exclude karo (`obj/`, `bin/`, `.vs/`, `PackageTmp/`, `*.user`,
-   `__pycache__`, `*.dll|pdb|exe`) — lekin **batao ke kya exclude kiya**.
-3. **Provenance record karo:** branch, commit SHA, total files, tracked vs untracked,
-   review-scope files. Ye deliverables mein bhi likhna hai.
-4. **Depth calibration:** pehle scope summary do. Agar review-scope 25+ files ho, to
-   deep-dive shuru karne se PEHLE mujhse priorities confirm karo — bina poochhe
-   ghantoon scan mat karo.
+---
+### 📦 DELIVERABLES (sirf jab sab findings triage ho chuke hon)
+🅰️ **Review Plan (.md, mere parhne ke liye):** Rich Markdown — findings ka summary (kya mila, kyun issue hai, kya approve hua), severity table, aur ek Mermaid.js diagram jo findings ko severity/category ke hisaab se ya affected files ke flow ko dikhaye.
+🅱️ **Implementation Instructions (.md, execution agent ke liye):** Sirf APPROVED findings ke liye — exact file:line, current vs expected behavior, aur fix approach. Koi assumption na ho.
+   - Dono files ko sensible naam do (task/date se related) aur mujhe unke exact naam/path bata do.
 
-════════════════════════════════════════════════════════
-§1 · REVIEW CHECKLIST
-════════════════════════════════════════════════════════
-Deep scan: poore diff ko line-by-line parho. Jab tak scan mukammal na ho, triage start
-mat karo.
-
-1. **Correctness:** logic errors, edge cases, null handling, race conditions.
-2. **Reuse / Simplification / Efficiency:** duplicate logic, faltu complexity,
-   N+1 queries, missing indexes, bare in-memory loads.
-3. **Security:** XSS, SQL injection, unescaped user input, exposed secrets (OWASP Top 10).
-4. **CLAUDE.md compliance:** unrelated refactors, renamed methods/DTOs/columns,
-   missing Release Note entry, toote hue UI selectors/AJAX/dirty-state.
-5. **Cross-module logic consistency:** sirf syntax nahi — methods ki LOGIC samjho.
-   Agar wahi logic doosre module mein alag tarah likhi hai, to batao kaunsi sahi hai
-   aur mujhse confirm karwao. New feature ka CONCEPT bhi samajhna hai.
-
-════════════════════════════════════════════════════════
-§2 · SPEC-vs-IMPLEMENTATION RECONCILIATION   ⭐ sab se important
-════════════════════════════════════════════════════════
-Spec doc ground truth hai. Sirf config/flags nahi — **har method, har rule, har default**
-compare karo. Teen tarah ke deviations, teeno finding hain:
-
-  ➕ ADDED    — code mein aisi logic hai jo spec mein NAHI thi
-                (misal: spec "count rows where Status == Sent"; code ne Failed +
-                Skipped + poora extra time-filter add kar diya ← asli bug yahi tha)
-  ➖ REMOVED  — spec ka step/guard/validation implement hi nahi hua
-  🔄 CHANGED  — defaults, thresholds, status-lists, feature-flag values, ya
-                operations ka order badla hua hai
-
-Har deviation par verdict: "improvement hai" ya "undocumented risk hai" — aur mujhse
-confirm karwao. Spec na ho to ye batao, aur baseline "existing similar module se
-consistency" ko banao.
-
-════════════════════════════════════════════════════════
-§3 · COVERAGE LEDGER  (koi method bina verdict ke na chhoote)
-════════════════════════════════════════════════════════
-| Method / Function | File:Line | Kya karta hai (1 line) | Verdict |
-|---|---|---|---|
-Verdict = ✅ OK / 🚩 Flagged / ❓ Needs user input
-
-Rule: har naya ya changed method is table mein hoga. "Parh liya tha" kaafi nahi.
-Verify na kar sako to ❓ likho — ✅ mat karo.
-
-════════════════════════════════════════════════════════
-§4 · RUNTIME SCENARIO TRACING   ⭐ (state machine / queue / worker / retry ho to lazmi)
-════════════════════════════════════════════════════════
-Code parhna kaafi nahi. Concrete timelines likh kar trace karo — kam az kam 4:
-
-  1. Happy path
-  2. Interrupted — beech mein user/customer action (reply, cancel, takeover)
-  3. Repeat interruption — wahi cheez DOOSRI martaba (sequence/counter reset bugs
-     yahin chhupte hain ← asli bug isi trace se pakra jata)
-  4. Crash / app-pool recycle beech mein
-
-Har step par expected DB row values likho (status, counters, FKs, timestamps).
-Derived values HAATH SE calculate karo — "attempt = count + 1" mein count exactly
-kya hoga, kaunse rows count honge? Formula parh kar aage mat barho.
-
-════════════════════════════════════════════════════════
-§5 · SILENT-FALLBACK &amp; FAILURE-MODE AUDIT   ⭐
-════════════════════════════════════════════════════════
-Har guard / null-check / catch par poocho:
-  • `if (x.HasValue) { filter apply karo }` → x null ho to? Kya filter CHUPKE se drop
-    ho kar behavior poora badal jata hai, bina log bina error? ← asli bug yahi tha
-  • `catch { return 0 / false / null; }` → fail-open hai ya fail-closed? Kaunsa sahi hai?
-  • `FirstOrDefaultAsync()` default de de to caller ka kya banega?
-  • "data nahi mila" aur "data mila lekin khali tha" ka same treatment to nahi?
-Har silent-degradation branch list karo, chahe bug na ho.
-
-════════════════════════════════════════════════════════
-§6 · DATA-SOURCE, CLOCK &amp; TEMPORAL COUPLING   ⭐
-════════════════════════════════════════════════════════
-• Clock consistency: do alag sources ke timestamps compare ho rahe hain? (external
-  webhook timestamp vs server `DateTime.UtcNow`) → inherently fragile, flag karo.
-• Cross-table dependency: derived value ke liye doosri table par depend kiya ja raha
-  hai jabke wahi maloomat isi feature ki apni table mein mojood hai? Kam dependency =
-  zyada robust.
-• Backfilled fields: koi field BAAD mein, DOOSRE code path se set hoti hai? Usay
-  parhne wala code us se PEHLE to nahi chal raha? Execution order likh kar dikhao.
-• Har naye DateTime par UTC vs local confirm karo.
-
-════════════════════════════════════════════════════════
-§7 · DEPLOY, MIGRATION &amp; IDEMPOTENCY
-════════════════════════════════════════════════════════
-• Deploy order: DB script pehle ya code pehle? Release Note mein likha hai?
-• Backward compatibility: rolling deploy / purana build naye schema ke saath chalega?
-• Rollback block mojood hai?
-• Setup/Action IDs duplicate to nahi (poori Release Note file mein grep karo).
-• **Idempotency:** WhatsApp webhooks re-deliver hote hain, workers retry karte hain,
-  SignalR reconnect hota hai. Har entry point par poocho: **agar ye do dafa chale to?**
-• Concurrency: multiple worker instances / IIS web-garden mein safe hai?
-  (claim conditional UPDATE se ho raha hai ya read-then-write se?)
-
-════════════════════════════════════════════════════════
-§8 · EVIDENCE &amp; CONFIDENCE DISCIPLINE   ⭐
-════════════════════════════════════════════════════════
-Har behavioral claim par label:
-  [code-read]         — sirf code parh kar nikala
-  [runtime-verified]  — actual run / log / DB se confirm kiya
-  [assumed]           — maan kar chal raha hoon
-
-• Runtime behavior ko static reading se "fact" ki tarah mat batao.
-• **Main jab bhi koi behavioral sawal poochun — review ke doran ya baad mein —
-  relevant code DOBARA parho. Apni pichli reading ki memory se jawab mat do.**
-• Jahan behavior DB data par depend kare, wahan mujhse rows/logs maango — ya ek
-  ready SQL query likh kar do jo main chala sakun.
-• Root cause bina evidence ke 100% pin na kar sako to SAAF kaho: "most likely wajah
-  ye hai, confirm karne ko ye query chalayein". Guess ko conclusion mat banao.
-
-════════════════════════════════════════════════════════
-§9 · NOISE FILTER &amp; SEVERITY  (triage se pehle)
-════════════════════════════════════════════════════════
-**Ye cheezein one-by-one triage mein NA laao** — inhe deliverable ke akhir mein
-alag "FYI / Out of scope" list mein rakho:
-  • Pre-existing issues jo is diff ne introduce nahi kiye
-  • Meri apni local-env edits (Web.config URLs, ports, publish profiles)
-  • Pure style/preference cheezein
-  • Generated/scaffolded code ki formatting
-
-**Generated code ka rule:** EDMX, EF scaffold, `.designer.cs` → style review SKIP,
-lekin schema diff aur Release Note coverage LAZMI check karo.
-
-**Severity definitions (inhi ko use karo):**
-  🔴 Critical — data loss, customer ko ghalat/duplicate message, security hole,
-                paisa/order state kharab
-  🟠 High     — feature designed behavior se ghalat chalta hai, silent wrong output
-  🟡 Medium   — edge case, degraded behavior, missing guard, misleading logs
-  🟢 Low      — cleanup, efficiency, docs, cosmetic
-
-════════════════════════════════════════════════════════
-§10 · TRIAGE PROTOCOL
-════════════════════════════════════════════════════════
-• 🔴 Critical aur 🟠 High → **AskUserQuestion se ek waqt mein ek**.
-• 🟡 Medium aur 🟢 Low → ek batched question, ya sirf list karke mera faisla poocho.
-• Questions AUR options AUR headers — sab Roman Urdu / Hinglish mein.
-• Har finding ke saath: severity, kis section (§) se pakra, confidence label (§8),
-  aur thori aapas ki logic samjhao taake mujhe context samajh aaye.
-• Options mein khud potential fix batao — sirf "haan/na" nahi, balkay
-  "Haan, DB query mein index add karein (Fix)" type.
-• Apni taraf se kuch bhi approved assume mat karo.
-• Jab tak sab triage na ho jayein, deliverables mat banao.
-
-════════════════════════════════════════════════════════
-§11 · DELIVERABLES  (sirf jab sab triage ho chuke hon)
-════════════════════════════════════════════════════════
-🅰️ **Review Plan (.md)** — findings summary (kya mila, kyun issue hai, kya approve hua),
-   severity table, §3 Coverage Ledger, §4 runtime traces, provenance (§0.3),
-   ek Mermaid diagram, aur ek **"Ruled Out"** section (kaunse shubhat check karke rad
-   kiye aur kis evidence par) + **"FYI / Out of scope"** list (§9).
-
-🅱️ **Implementation Instructions (.md)** — sirf APPROVED findings: exact file:line,
-   current vs expected behavior, fix approach. Koi assumption na ho.
-
-🅲 **Test Plan (.md)** — concrete manual scenarios: exact setup (misal "2 follow-ups:
-   1 min aur 30 min"), step-by-step actions, aur har step par expected DB rows +
-   verification SQL. Asli bugs testing se pakre jate hain — ye deliverable lazmi hai.
-
-Teeno files ko task/date wale sensible naam do, workspace root mein save karo, aur
-mujhe exact paths batao.
-
-════════════════════════════════════════════════════════
-§12 · EXECUTION RULES
-════════════════════════════════════════════════════════
-1. **Source of truth:** `.claude/CLAUDE.md`, `.claude/KNOWN_HAZARDS.md` (agar ho),
-   aur spec/task doc (§2) — teeno parho.
-2. Repo mein `/code-review` skill ho to invoke karo — lekin **koi subagent spawn mat
-   karo**. Uske saare angles isi session mein khud sequentially chalao (direct
-   Grep/Glob/Read). §2–§9 ke checks skill ke UPAR additionally chalao — wo generic
-   skill ye project-specific checks nahi karti.
-3. **No fixing in this phase** — koi file edit nahi.
-4. **Git safety:** commit, push, reset, force — bina explicit permission ke kabhi nahi.
-5. Ambiguity ho to guess mat karo — AskUserQuestion se poocho.
-6. Independent tool calls batch karo (Pro plan — usage conserve karni hai), lekin
-   accuracy ki qeemat par kabhi nahi.
-7. **Build verification (agar Phase 2 mein fix lage):** `MSB3027` / `MSB3021`
-   (file locked by IIS / running process) **compile error NAHI** hai — output ko
-   `error CS` ke liye filter karo aur lock ko alag se environment issue keh kar report
-   karo. Build pass ka dawa tabhi karo jab wo asal mein chala aur pass hua ho.
-
-════════════════════════════════════════════════════════
-§13 · EXIT CRITERIA  (review "done" kab hai)
-════════════════════════════════════════════════════════
-☑ Har review-scope file parhi gayi (untracked included)
-☑ §3 ledger mein har naya/changed method ka verdict hai
-☑ §2 spec reconciliation har described method par hui
-☑ §4 ke chaaron traces likhe gaye (agar feature stateful hai)
-☑ §9 noise filter laga kar findings alag ki gayin
-☑ Har finding par confidence label hai
-Jab ye sab ✅ hon, tab triage shuru karo — pehle nahi.
-</textarea>
+---
+### ⚡ EXECUTION RULES
+1. **Source of Truth:** `.claude/CLAUDE.md` aur (agar mojood ho) `.claude/KNOWN_HAZARDS.md` dono parho.
+2. Agar is repo mein pehle se `/code-review` skill/command available hai, toh usay directly invoke karo iske instructions ke mutabiq (effort level: [low/medium/high] mention karein) — logic dobara se mat likho.
+3. **No Fixing In This Phase:** Koi bhi file edit na karo — ye sirf discovery/review/planning phase hai.
+4. **Git Safety:** Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao.
+5. Ambiguity ho toh guess mat karo — AskUserQuestion ke through poocho.</textarea>
                 </div>
 
                 <div class="card" data-card-id="codereview-impl-text">
@@ -729,8 +548,8 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false" style="height: 562px;">ROLE &amp; CONTEXT
-Main [Order Confirmation agent] ko test kar raha hoon. Maine kuch sessions run kiye hain,
+                    <textarea id="uni-plan-text" spellcheck="false" style="height: 690px;">ROLE &amp; CONTEXT
+Main [Order Confirmation agent] ko aur better bnana Chahta hu Kuch sessions aise Hain Jo mene alag kiye Hain jinme mujhe msla dikha,
 har session ka trace (user prompt + AI response + AI reasoning, turn-by-turn) ek .md file mein hai,
 aur har file ke start mein mera "Reviewer Note" hai.
 
@@ -765,7 +584,7 @@ TASK
    CONFIRMED / CORRECTED (main galat tha, asli baat ye hai) / UNRESOLVED (aur data chahiye) —
    aur har verdict ke saath concrete proof do: message id, action-log id, error id, ya code line.
 5. Sirf mere note tak mehdood mat raho. Traces aur DB rows ko apni nazar se bhi scan karo aur wo
-   bugs bhi nikalo jo maine notice nahi kiye — pichle phase mein aise 4 bugs mile the.
+   bugs bhi nikalo jo maine notice nahi kiye.
 6. Har confirmed issue ko pehle CLASSIFY karo, phir root cause dhoondo:
    (a) AI behaviour bug — AI ne prompt ke khilaf kiya
    (b) Prompt design bug — AI ne prompt follow kiya, prompt hi galat/adhoora tha
@@ -775,7 +594,7 @@ TASK
    failing-test-first (red-green) verification hogi, (b) ke liye trace-replay/before-after
    comparison — ye farq Turn 2 mein follow karna hai.
 7. Har fix ki exact jagah verify karo (guess mat karna), in options mein se:
-   - prompts.py: BASE_CORE / STEPS[...] / FEATURE_RULES[...] / FINAL_CRITICAL_REMINDERS
+   - prompts.py: BASE_CORE / STEPS[...] / FEATURE_RULES[...] / FINAL_CRITICAL_REMINDERS ya koi aur section
      (yaad rakho: STEPS sirf tab load hota hai jab wo step active ho; FEATURE_RULES har turn
       prompt mein aata hai jab tak uska flag on hai — ye farq aksar decisive hota hai)
    - address_validation/prompt.py ya koi doosra agent prompt
@@ -836,7 +655,7 @@ DELIVERABLES (dono hamesha banane hain — mujhe ye baar baar kehna na pare)
    - dependencies (konsa task pehle hona chahiye)
    - Agar fix DB-seeded content (ActionsForAiAgent, AIAgentInstructions, Setup rows) ko touch
      karta hai, to exact INSERT/UPDATE/ALTER SQL bhi is task ke andar likhna — ye SQL AI khud
-     execute nahi karega, sirf documented hoga taake main copy karke khud DB par chala sakoon.
+     execute nahi karega, sirf documented hoga taake main copy karke khud DB par chala sakoon aur model update krskon aur phir implementation ka bolo aur implementation ke waqt release note mein db changes likhna laazmi hai. Sql mujhe artifact mein Dena Jo mere read krne ke  Liye Hogaye MD file mein nhi prhonga ye Sirf implementation agent ke Liye hogi.
    File ke shuru mein: evidence table, causal chain, aur execution order.
    File ke aakhir mein: acceptance checklist aur "explicitly out of scope" list.
 3. LEDGER UPDATE: .claude/tasks/oc-testing-ledger.md mein is phase ki ek chhoti entry —
@@ -849,7 +668,7 @@ USAGE EFFICIENCY
   accuracy/reliability kam NAHI honi chahiye — jahan quality compromise ho sakti ho, wahan ek-ek
   karke, careful reads/actions karo.
 - Mere paas Claude ka Pro plan hai, isliye usage ka khaas dhyan rakhna — weekly koshish ye ho ke
-  2% se 5% usage lage, us se zyada nahi. Zyada kar sakte ho lekin ehtiyat se. Ye poore session
+  5% se 10% usage lage, us se zyada nahi. Zyada kar sakte ho lekin ehtiyat se. Ye poore session
   mein rakhna, implementation ke waqt bhi.
 - Background subagents mat spawn karna (Explore/general-purpose) — seedha Grep/Glob/Read use karo.
 - Poore repo par grep mat chalana (venv/node_modules ki wajah se timeout hota hai) — path scope karo.
