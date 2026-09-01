@@ -548,7 +548,7 @@ Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
                             <button class="btn-copy" onclick="copyText(this, 'uni-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-plan-text" spellcheck="false" style="height: 690px;">ROLE &amp; CONTEXT
+                    <textarea id="uni-plan-text" spellcheck="false" style="height: 562px;">ROLE &amp; CONTEXT
 Main [Order Confirmation agent] ko aur better bnana Chahta hu Kuch sessions aise Hain Jo mene alag kiye Hain jinme mujhe msla dikha,
 har session ka trace (user prompt + AI response + AI reasoning, turn-by-turn) ek .md file mein hai,
 aur har file ke start mein mera "Reviewer Note" hai.
@@ -688,7 +688,7 @@ USAGE EFFICIENCY
                             <button class="btn-copy" onclick="copyText(this, 'uni-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="uni-impl-text" spellcheck="false" style="height: 429px;">Ye plan solid tha. Ab:
+                    <textarea id="uni-impl-text" spellcheck="false" style="height: 701px;">Ye plan solid tha. Ab:
 1. RE-VERIFY: Poori conversation dobara parho, saare locked decisions reconfirm karo, aur
    implementation-plan artifact + repo task file dono dobara poora parho.
 2. Agar kisi bhi cheez mein confusion ya ambiguity mile (chahe wo file-location ho, ya kisi decision
@@ -728,8 +728,7 @@ USAGE EFFICIENCY
    AskUserQuestion (options ke saath) poochna, guess mat karna, phir aage badhna.
    Agar implement karte waqt plan mein koi ghalti/khaami nazar aaye (aisa hota hai) — ruk kar batao
    aur options do; chupke se plan se hat kar apna faisla mat karna.
-6. SCOPE DISCIPLINE: raste mein jo naye bugs milein unhe theek MAT karna — alag se list karke
-   ledger file mein "found during implementation, not fixed" ke tehat likh dena.
+6. SCOPE DISCIPLINE: raste mein jo naye bugs milein unhe theek MAT karna direct balki mere se questions ke through verify krwa Lena aur agar mei approve kro toh isi session mein implement krdena.
 7. DOCUMENTATION (implementation ke aakhir mein, code changes ke baad):
    - Release Note.txt mein is phase ki entry (mojooda style ke mutabiq, dated)
    - .claude/KNOWN_HAZARDS.md mein naye hazards (agar koi mila)
@@ -737,7 +736,7 @@ USAGE EFFICIENCY
    - Task file mein har task ko DONE mark karo
 8. END MEIN: sirf is session ke actual edits ka diff dikhana (pehle-liye snapshot vs final state) —
    koi aur pre-existing dirty changes shamil nahi honi chahiye. Ye diff clean, colored, scannable
-   visual diff widget mein ho (CLAUDE.md ka auto visual session diff rule). Release Note.txt ke liye
+   visual diff artifact mein ho (CLAUDE.md ka auto visual session diff rule). Release Note.txt ke liye
    minimal hunk khud likhna, raw `diff -u` mat paste karna (KNOWN_HAZARDS #5).
    Diff ke saath ek chhota table: har task → status (done / skipped / blocked) → verification jo
    actually chali → uska result.
