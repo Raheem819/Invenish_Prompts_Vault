@@ -216,8 +216,8 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
-            <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('heavy')" class="nav-item active" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
@@ -374,35 +374,90 @@
                             <button class="btn-copy" onclick="copyText(this, 'heavy-plan-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-plan-text" spellcheck="false" style="height: 617px;">### 🎯 TASK DESCRIPTION
-[TASK YAHAN LIKHEIN: Apne task ki detail, requirements aur context yahan paste karein]
+                    <textarea id="heavy-plan-text" spellcheck="false" style="height: 617px;">### TASK DESCRIPTION
+[TASK YAHAN LIKHEIN: apne task ki detail, requirements aur context yahan paste karein]
 
 ---
-### 📋 PROTOCOL &amp; EXECUTION RULES (Phase 1: Planning &amp; Finalization Only)
+### PROTOCOL &amp; EXECUTION RULES (Phase 1: Planning Only)
 
-1. Strict "No Chat Text" &amp; Clarification Rule:
-   - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
-   - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
+1. EDITING LOCK
+   - Is phase mein codebase ki koi file EDIT ya MODIFY nahi karni. Sirf read-only inspection.
+   - Sirf do nayi files banane ki ijazat hai: planning artifact aur technical .md.
+   - Git: commit, push, reset, force — kuch nahi. Sirf padhna.
 
-2. Universal Memory:
-   - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
-   - Agar `.claude/KNOWN_HAZARDS.md` file mojood hai, toh usay bhi laazmi parho — repo ke gotchas isme hain jo CLAUDE.md mein nahi likhe.
+2. SOURCE OF TRUTH (sab se pehle, kuch aur karne se pehle)
+   - `CLAUDE.md` aur `.claude/` directory parho.
+   - `.claude/KNOWN_HAZARDS.md` laazmi parho — repo ke wo gotchas isme hain jo CLAUDE.md mein
+     nahi. Plan mein alag se likho ke in hazards mein se KAUN SE is task pe lagte hain aur kaise.
+   - `.claude/tasks/` mein pichle plans ka format dekho, usi convention ko follow karo.
 
-3. 🔍 Deep Investigation &amp; 🛑 Editing Lock:
-   - Task se related codebase deeply inspect karo.
-   - Is phase mein codebase ki kisi bhi file ko EDIT ya MODIFY nahi karna. Yeh phase sirf planning ka hai.
-   - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna.
+3. PREMISE VERIFICATION (ye sab se ahem step hai — pehle ye, phir design)
+   Mera likha task final assume mat karna. Pehle ye teen cheezein check karo:
+   a) KYA PEHLE SE MAUJOOD HAI — jo main "naya banao" keh raha hoon, ho sakta hai uska aadha
+      hissa pehle se bana ho (column, method, flag, endpoint, table). Har cheez actually grep
+      karke confirm karo, farz mat karo.
+   b) KYA STUB YA ADHOORA HAI — koi method jo maujood to hai magar khali/hardcoded value return
+      karti hai. Ye sab se khatarnak soorat hai kyunki bahar se lagta hai feature kaam kar raha
+      hai.
+   c) KYA IS FEATURE SE TAKRAYEGA — koi maujooda code, prompt, rule, ya UI text jo naya feature
+      aane ke baad GALAT ho jayega. Iske liye alag se search karo (feature ke keywords pe), ye
+      apne aap nahi milta.
+   Teeno ka natija plan ke shuru mein likho, chahe kuch na mile.
 
-4. 📦 Deliverables (Human vs AI Output):
-   🅰️ Visual Markdown Artifact (Plan): Sections, tables, aur Mermaid.js flowcharts lazmi use karo agar zaroorat ho toh.
-   🅱️ SQL Copyable Canvas: Agar DB changes zaroori hain, toh khud DB update nahi karna. SQL likhne se pehle existing Release Note file ka style/format inspect karo aur usi ke mutabiq likho. Plan ke aakhir mein exact SQL queries (CREATE, INSERT, etc.) likho. Main unhe run karunga.
-   ©️ Technical .md File (For Execution AI): Exact file paths, function signatures, aur edge-cases likho jisme koi assumption na ho.
+4. NO GUESSING
+   - Confusion ho to STOP karo aur AskUserQuestion se poocho. Guess bilkul allowed nahi.
+   - Har sawal SELF-CONTAINED ho: poora context sawal aur options ke andar likho. Ye farz mat
+     karna ke maine upar ka chat text parha hai — maine nahi parha hota.
+   - Sawal aur options Roman Urdu / Hinglish mein likho.
+   - Ek hi baar mein saare sawal batch karo, ek ek kar ke mat poochho.
+   - Sawal SIRF tab jab jawab se kaam materially badalta ho. Aam judgement calls khud lo aur
+     plan mein assumption likh do.
 
-5. 🔒 Git Safety:
-   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — Planning phase mein toh sirf read-only rehna hai.
+5. WEB RESEARCH — sirf in teen soorton mein LAAZMI
+   a) Koi external model / API / service choose karna hai (kaun sa, kyun, cost, latency, accuracy).
+   b) Koi nayi dependency add ho rahi hai — LICENSE aur maintenance status check karo (copyleft
+      licence commercial product mein nahi chalega).
+   c) Koi factual limit jo galat hui to design tor de — pricing, rate limits, token minimums,
+      deprecation/retirement dates.
+   In ke ilawa research mat karo. Jo bhi karo, sources link karo, aur numbers plan mein table
+   ki shakal mein do (guess ki hui figures kabhi nahi).
 
-6. ⚡ Token Optimization:
-   - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.</textarea>
+6. HAR PLAN MEIN YE CHECKLIST LAAZMI (jo laagu na ho uspe "N/A" likho, chhoro mat)
+   - Cost &amp; latency: per-operation andaza, aur kaun sa design choice usay barha raha hai.
+   - Security &amp; privacy: koi customer data, ID, payment info, ya public URL involved hai?
+   - Licensing: koi nayi dependency? Uska licence?
+   - Failure behaviour: har naye external call ka fail hona kya karega? Customer ko kya dikhega?
+   - Backward compatibility: purani rows / purane data ka kya banega?
+   - Rollback: agar ye feature wapas lena pare to kya karna hoga?
+
+7. DELIVERABLES
+   A) VISUAL ARTIFACT (mere liye) — Artifact tool se publish karo. Sections, tables, aur zaroorat
+      ho to Mermaid flowchart. Isme premise verification ka natija, decisions + wajah, cost table,
+      edge cases, risks, SQL, aur test matrix ho.
+   B) SQL CANVAS — DB khud update NAHI karni. SQL likhne se pehle `Release Note.txt` ka mojooda
+      style inspect karo (banner, DELETE for idempotency, IDENTITY_INSERT, GO, commented
+      --ROLLBACK) aur bilkul usi format mein likho. Naye Id use karne se pehle mojooda max Id
+      check karo. SQL artifact ke andar copy-button ke saath do.
+   C) TECHNICAL .md (execution AI ke liye) — `.claude/tasks/&lt;task-name&gt;.md` mein likho. Exact
+      file paths + line numbers, exact function signatures, edge cases, aur laagu hone wale
+      KNOWN_HAZARDS. Koi assumption na ho — jo AI ise parhe usay kuch guess na karna pare.
+   - Aakhir mein alag se likho: "SCOPE SE BAHAR" — kya cheezein jaan boojh kar nahi kar rahe.
+
+8. OUTPUT SURFACE
+   - Chat mein sirf 2-3 lines aur links. Har explanation artifact ya .md file mein jaye.
+   - Chat mein lambi theory, tafseeli reasoning, ya deliverable ka duplicate summary mat likho.
+
+9. AGAR TASK UI/UX SE RELATED HAI
+   - UI ko behtareen tareeqe se banao: modern, premium, polished — AI-generated na lage.
+   - Mojooda design language, selectors, IDs, aur behaviour preserve karo (CLAUDE.md ke UI rules).
+   - Generic AI look se bacho: har jagah rounded cards + gradient hero + centered text nahi.
+
+10. TOKEN &amp; USAGE DISCIPLINE
+    - Search ke liye Grep/Glob tool use karo. Poore repo pe recursive shell `grep -r` mat chalao
+      (ye is repo pe timeout ho jata hai).
+    - Aik hi message mein independent tool calls batch karo.
+    - Bare files poore mat parho — pehle grep se line number nikalo, phir usi range ko parho.
+    - Tokens bachane ke chakkar mein accuracy, reliability ya quality pe faraq nahi parna chahiye.</textarea>
                 </div>
 
                 <div class="card" data-card-id="heavy-impl-text">
@@ -417,31 +472,71 @@
                             <button class="btn-copy" onclick="copyText(this, 'heavy-impl-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-impl-text" spellcheck="false" style="height: 450px;">### 🎯 IMPLEMENTATION MISSION
-Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is plan ko exactly execute karna hai as an Autonomous Senior Developer.
+                    <textarea id="heavy-impl-text" spellcheck="false" style="height: 450px;">### IMPLEMENTATION MISSION
+Tumhare paas `.claude/tasks/` mein final implementation plan maujood hai. Usay exactly execute
+karna hai as an Autonomous Senior Developer.
 
-### 🔄 EXECUTION PROTOCOL (Strict Sequence)
+### EXECUTION PROTOCOL
 
-**PHASE 1: Universal Memory &amp; TDD Injection**
-1. Sab se pehle `.claude/` aur plan ko thoroughly parh. Codebase mein directly features build karna start NAHI karna.
-2. Plan mein diye gaye logics ke mutabiq, pehle strictly Unit/Integration Tests likh.
-3. In tests ko run kar (Expectation: Tests fail hone chahiye).
+STEP 0 — PADHO AUR SNAPSHOT LO (koi feature code likhne se pehle)
+1. `CLAUDE.md`, `.claude/KNOWN_HAZARDS.md`, aur plan .md — teeno parho.
+2. Plan mein jin files ko EDIT karna hai, un sab ka content pehle scratchpad mein snapshot karo.
+   Ye laazmi hai: repo pehle se dirty hota hai, aur aakhir mein `git diff` meri apni Visual Studio
+   ki edits ko tumhare kaam ke saath mila dega. Session diff hamesha snapshot se compute karna.
+3. Plan aur asli codebase mein koi farq mile (file move ho gayi, line number badal gaya, koi
+   assumption ab sach nahi) to ruk kar batao — chupke se adjust mat karo.
 
-**PHASE 2: Core Implementation**
-4. Ab actual logic implement karna shuru kar taake Phase 1 ke tests PASS ho jayein.
-5. Jahan reliably possible ho, bulk read/write operations perform kar.
-6. Implementation complete hone ke baad relevant build/tests zaroor run kar aur PASS confirm kar — bina verify kiye "done" mat bol.
+STEP 1 — IMPLEMENT
+4. Plan ke mutabiq logic likho. Mojooda project style follow karo, naya pattern introduce mat karo.
+5. Independent tool calls batch karo. Bare edits ke liye poori file dobara likhne ke bajaye
+   targeted edits karo.
+6. Rename kuch mat karo (file, method, DB column, action, DTO, selector) jab tak plan mein
+   explicitly na likha ho.
+7. Agar task UI/UX se related hai: UI ko modern, premium aur polished banao — AI-generated na
+   lage. Mojooda design language, IDs, selectors aur behaviour preserve karo.
 
-**PHASE 3: Release Note &amp; Handover**
-7. Jo SQL queries maine Planning Phase mein run ki theen, unhe laazmi taur par `Release Note.txt` mein document kar.
-8. Jab sab implement aur re-verify ho jaye, toh mujhe ek "Developer-Friendly Diff Summary" de. Purana code mera nahi hai, is liye changes ka Context aur Logic bhi explain karna.
+STEP 2 — VERIFY (ye "tests" ki jagah hai — is repo mein test framework nahi hai)
+8. Pehle check karo ke test infrastructure maujood hai ya nahi (test project, pytest, koi test
+   file). Agar HAI to usay use karo aur naye tests likho. Agar NAHI hai to test framework khud
+   se mat banao — neeche wali verification karo.
+9. Har us project ka build chalao jo tumhari badli hui file ko actually compile karta hai.
+   KNOWN_HAZARDS mein likha hai kaun sa project kis tool se banta hai — sirf ek project build
+   karke ye mat samajhna ke sab cover ho gaya.
+10. Build output ko `error CS` / `error CA` ke liye filter karo. File-lock ya copy-step failure
+    compile failure nahi hai — usay alag se report karo.
+11. Jahan bina framework ke functional check mumkin ho, wahan chalao — e.g. module import,
+    endpoint registration, parsing/formatting logic ko sample input dekar, config load hona,
+    do layers ke beech JSON keys ka match. Ye chhote checks asli bugs pakarte hain.
+12. "Done" tabhi kehna jab build/checks actually chale aur pass hue hon. Aur saath mein SAAF
+    likhna ke kya verify NAHI hua (jaise live API call, asli data pe behaviour, UI ka manual test).
 
-### 🛑 RULES OF ENGAGEMENT
-- No Guessing: Ambiguity ho toh AskUserQuestion tool (ya sawal) se pooch.
-- Git Safety: Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chala.
-- Token Optimization: Context window minimal rakh. Usage budget ka dehaan rakh par quality/accuracy pe zero compromise.
-- **Contextual Summary:** Differences batate waqt har change ke saath thora logic context bhi dena (Roman Urdu mein), kyunki pehle se likha hua code mera nahi hai aur mujhe samajhna hai ke kya tabdeel hua hai.
-</textarea>
+STEP 3 — RELEASE NOTE &amp; HANDOVER
+13. Plan ka SQL `Release Note.txt` mein document karo — chahe maine wo chalaya ho ya nahi.
+    Mujh se ek line mein confirm kar lo ke chalaya ya nahi, aur agar nahi chalaya to code aisa
+    likho ke Setup row na hone pe kuch toote nahi (flag simply off samjha jaye).
+    `Release Note.txt` par poora file diff bharosay ke qabil nahi — sirf apni edit ke aage peeche
+    ki range compare karke confirm karo ke baqi file bilkul nahi badli.
+14. Session diff ARTIFACT mein publish karo (snapshot se computed, git diff se nahi) —
+    `.claude/memory/feedback_auto_visual_session_diff.md` ka ready template use karo, dobara mat
+    likho.
+15. Ek "Developer-Friendly Handover" bhi artifact/file mein do (chat mein nahi), jisme:
+    - Har change ka LOGIC CONTEXT Roman Urdu mein — purana code mera nahi hai, mujhe samajhna
+      hai ke kya badla aur kyun.
+    - DEVIATIONS — plan se jahan bhi hate, wo alag section mein, wajah ke saath.
+    - VERIFIED vs NOT VERIFIED — do alag list.
+    - ENVIRONMENT CHANGES — koi package install hua, config badli, dependency file badli.
+    - MERE LIYE STEPS — SQL chalana, production `.env`, service restart, flags on karna.
+
+### RULES OF ENGAGEMENT
+- No Guessing: ambiguity ho to AskUserQuestion se poocho. Sawal self-contained aur Roman Urdu
+  mein, aur ek hi baar mein batch karke.
+- Git Safety: commit, push, reset, force — bina meri explicit ijazat ke kabhi nahi.
+- Environment changes: build, test aur read-only commands bina poochhe chalao. Package install,
+  nayi dependency, naya project, config file badalna — ek line mein bata kar kar lo, rukna mat,
+  magar handover ki ENVIRONMENT CHANGES list mein zaroor likhna.
+- Output surface: chat mein sirf 2-3 lines aur links. Baqi sab artifact/file mein.
+- Token discipline: Grep/Glob tool use karo, repo-wide shell grep nahi. Calls batch karo.
+  Quality pe zero compromise.</textarea>
                 </div>
 
                 <div class="card" data-card-id="heavy-revise-text">
@@ -457,17 +552,28 @@ Tumhare paas `.md` file mein ek final implementation plan majood hai. Tumhe is p
                             <button class="btn-copy" onclick="copyText(this, 'heavy-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="heavy-revise-text" spellcheck="false" style="height: 330px;">### 🔁 REVISE HEAVY PLAN
-Maine Phase 1 ka Visual Markdown Artifact aur Technical .md File parh liya hai. Neeche mere changes points mein hain:
+                    <textarea id="heavy-revise-text" spellcheck="false" style="height: 330px;">### REVISE PLAN
+Maine Phase 1 ka Visual Artifact aur Technical .md parh liya hai. Mere changes:
 
 [POINTS YAHAN LIKHEIN]
 
 ---
 ### RULES
-1. In points ke mutabiq **dono outputs** update karo — Visual Markdown Artifact (mere liye) aur Technical .md File (execution AI ke liye).
-2. Implementation abhi shuru NAHI karni — sirf outputs update karke mera wait karo. "Phase 2: Implementation" ka prompt alag se doonga.
-3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
-4. Update ke baad ek chhota summary do ke kya kya change hua.</textarea>
+1. In points ke mutabiq DONO outputs update karo — Visual Artifact aur Technical .md.
+2. Artifact ko USI URL pe update karo (naya artifact mat banao). Update se pehle usay read karo,
+   aur revision marker barha do (Rev 2, Rev 3...).
+3. Implementation abhi shuru NAHI karni. Sirf outputs update karke rukna.
+4. Agar mera koi naya point pichle kisi faisle ko ULTA karta hai — ya tumhein research/code se
+   pata chale ke pehle wala mashwara galat tha — to usay chupke se badalne ke bajaye artifact
+   mein explicitly flag karo ke kya reverse hua aur kyun.
+5. Points ke laagu karne ke baad poore plan ko dobara parho aur confirm karo ke andar se
+   consistent hai — koi purana section naye faisle se na takra raha ho (ye asli masla hai jab
+   plan bara ho).
+6. Agar naye points se koi nayi dependency, cost, ya security implication aati hai to Phase 1
+   wali checklist us hissay ke liye dobara chalao.
+7. Koi point unclear ho to AskUserQuestion se poocho (self-contained, Roman Urdu, batched).
+   Guess mat karo.
+8. Update ke baad chat mein sirf 2-3 lines: kya kya badla + link.</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('heavy')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
