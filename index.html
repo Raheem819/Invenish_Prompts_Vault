@@ -217,11 +217,11 @@
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
-            <a onclick="scrollToSection('heavy')" class="nav-item active" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
+            <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -853,18 +853,28 @@ Implementation Instructions file (.md) mein approved findings maujood hain. Tumh
                             <button class="btn-copy" onclick="copyText(this, 'codereview-revise-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="codereview-revise-text" spellcheck="false" style="height: 280px;">### 🔁 REVISE REVIEW PLAN
-Maine Review Plan (.md) parh liya hai. Neeche mere changes points mein hain:
+                    <textarea id="codereview-revise-text" spellcheck="false" style="height: 280px;">### REVISE PLAN
+Maine Phase 1 ka Visual Artifact aur Technical .md parh liya hai. Mere changes:
 
 [POINTS YAHAN LIKHEIN]
 
 ---
 ### RULES
-1. In points ke mutabiq **dono files** update karo — Review Plan (.md, mere liye) aur Implementation Instructions (.md, execution agent ke liye).
-2. Implementation abhi shuru NAHI karni — sirf files update karke mera wait karo. Implementation ka alag prompt doonga.
-3. Agar koi point unclear ho, toh AskUserQuestion se poocho, guess mat karo.
-4. Update ke baad ek chhota summary do ke dono files mein kya kya change hua.
-</textarea>
+1. In points ke mutabiq DONO outputs update karo — Visual Artifact aur Technical .md.
+2. Artifact ko USI URL pe update karo (naya artifact mat banao). Update se pehle usay read karo,
+   aur revision marker barha do (Rev 2, Rev 3...).
+3. Implementation abhi shuru NAHI karni. Sirf outputs update karke rukna.
+4. Agar mera koi naya point pichle kisi faisle ko ULTA karta hai — ya tumhein research/code se
+   pata chale ke pehle wala mashwara galat tha — to usay chupke se badalne ke bajaye artifact
+   mein explicitly flag karo ke kya reverse hua aur kyun.
+5. Points ke laagu karne ke baad poore plan ko dobara parho aur confirm karo ke andar se
+   consistent hai — koi purana section naye faisle se na takra raha ho (ye asli masla hai jab
+   plan bara ho).
+6. Agar naye points se koi nayi dependency, cost, ya security implication aati hai to Phase 1
+   wali checklist us hissay ke liye dobara chalao.
+7. Koi point unclear ho to AskUserQuestion se poocho (self-contained, Roman Urdu, batched).
+   Guess mat karo.
+8. Update ke baad chat mein sirf 2-3 lines: kya kya badla + link.</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('codereview')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
@@ -1359,11 +1369,11 @@ _
                             <button class="btn-copy" onclick="copyText(this, 'resume-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="resume-text" spellcheck="false" style="height: 281px;">### 🔄 CONTINUE FROM INTERRUPTION
+                    <textarea id="resume-text" spellcheck="false" style="height: 281px;">### CONTINUE FROM INTERRUPTION
 Tumhara pichla response kisi technical wajah se beech mein ruk gaya tha (internet disconnect, usage limit, ya koi aur wajah) — ye SAME conversation hai, tumhare paas is poori session ka context pehle se maujood hai.
 
 ---
-### ⚡ RULES
+### RULES
 1. **Restart Mat Karo:** Jo kaam already ho chuka hai usay dobara se mat karo aur na hi dobara se explain karo.
 2. **Wahi Se Continue Karo:** Agar koi tool call, edit, ya step adhoora tha, pehle usay complete karo, phir aage barho.
 3. **State Verify Karo (Agar Unclear Ho):** Agar exactly yaad na ho ke kahan tak kaam hua tha, toh assume mat karo — pehle current state check karo (jaise `git status`/`git diff`, ya jo bhi is task ke liye relevant ho), phir continue karo.
