@@ -170,7 +170,7 @@
             .btn-add-section { width: auto; white-space: nowrap; margin-top: 0; margin-right: 10px; }
         }
     </style>
-<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
+<style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style><style type="text/css" id="mytempCss">._8mqQwQ { display: none; } ._1TWLMK.icF5zO { opacity: 0.01; }</style></head>
 <body cz-shortcut-listen="true">
 
     <!-- API Config Modal -->
@@ -216,12 +216,12 @@
 
         <div class="nav-menu" id="navMenu">
             <div class="nav-title" id="navGroupPipelines"><span class="nav-title-text">Pipelines</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('sniper')" class="nav-item" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
+            <a onclick="scrollToSection('sniper')" class="nav-item active" data-target="sniper"><i class="fa-solid fa-crosshairs"></i> Sniper</a>
             <a onclick="scrollToSection('heavy')" class="nav-item" data-target="heavy"><i class="fa-solid fa-layer-group"></i> Heavy Blueprint</a>
             <a onclick="scrollToSection('codereview')" class="nav-item" data-target="codereview"><i class="fa-solid fa-magnifying-glass"></i> Code Review</a>
 
             <div class="nav-title" id="navGroupTesting"><span class="nav-title-text">Testing</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
-            <a onclick="scrollToSection('universal')" class="nav-item active" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
+            <a onclick="scrollToSection('universal')" class="nav-item" data-target="universal"><i class="fa-solid fa-microscope"></i> Fine-Tuning (OC &amp; AD)</a>
 
             <div class="nav-title" id="navGroupUtility"><span class="nav-title-text" contenteditable="false">Utility</span><button type="button" class="nav-title-edit" onclick="editNavGroupTitle(this)"><i class="fa-solid fa-pen"></i></button></div>
             <a onclick="scrollToSection('resume')" class="nav-item" data-target="resume"><i class="fa-solid fa-arrow-rotate-right"></i> Resume Session</a>
@@ -266,41 +266,93 @@
                             <button class="btn-copy" onclick="copyText(this, 'sniper-text')"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
                     </div>
-                    <textarea id="sniper-text" spellcheck="false" style="height: 781px;">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL
-[TASK DETAILS YAHAN LIKHEIN: e.g., "Fix the button alignment on cart page" ya "Update tax calculation logic"]
+                    <textarea id="sniper-text" spellcheck="false" style="height: 781px;">### SNIPER MODE: HOTFIX &amp; MICRO-TASK PROTOCOL — v2
+
+[TASK DETAILS YAHAN LIKHEIN. Ek se ziada tasks hon to alag alag bullets mein likhein.]
 
 ---
-### EXECUTION RULES &amp; AUTONOMY
 
-1. Strict "No Chat Text" &amp; Clarification Rule:
-   - Chat mein lambi explanations ya theory bilkul nahi likhni. Guessing strictly allowed nahi hai.
-   - Agar task mein confusion ho, toh STOP aur AskUserQuestion tool (ya terminal prompt) se direct short questions poocho.
+### 0. PRECEDENCE — sab se pehle ye
+- Ye protocol CLAUDE.md ke "Core Working Rule" (pehle plan do, phir approval ka intezaar karo) ko override karta hai: yahan plan-approval ka intezaar nahi karna, seedha investigate karke fix karo.
+- Baaqi tamam CLAUDE.md rules (repo safety, minimal patch, performance, UI preservation, Roman Urdu) jyun ke tyun laagu rehte hain.
+- Sirf Rule 2 (Ambiguity) is autonomy ka exception hai — wahan rukna laazmi hai.
 
-2. Universal Memory:
-   - Tum Antigravity ho ya Claude Code, `.claude/` directory aur `CLAUDE.md` ko as Source of Truth read karo.
-   - Agar `.claude/KNOWN_HAZARDS.md` file mojood hai, toh usay bhi laazmi parho — repo ke gotchas isme hain jo CLAUDE.md mein nahi likhe.
+### 1. CONTEXT LOAD — kaam shuru karne se pehle
+- CLAUDE.md, .claude/ directory aur .claude/KNOWN_HAZARDS.md laazmi parho. Hazards file mein wo landmines hain jo CLAUDE.md mein nahi likhe.
+- .claude/tasks/*.md mein agar isi feature ka purana design doc mojood hai to usay bhi dekho — aksar wahan likha hota hai ke maujooda behaviour "by design" thi ya bug.
+- Tum Antigravity ho ya Claude Code — ye rules dono pe barabar laagu hain.
 
-3. Dynamic TDD Triage (Smart Testing):
-   - **Category A (Cosmetic/UI):** Agar issue HTML/CSS/UI ka chota sa hai, toh TDD BYPASS karo. Direct fix apply karo — lekin existing IDs/selectors/AJAX bindings/dirty-state chherna mana hai.
-   - **Category B (Logic/Backend):** Agar logic/queries ka issue hai, toh pehle ek short "Micro-Test" likho. Usay run karo (fail hona chahiye), phir multiple rewrite sessions chalao jab tak logic theek na ho jaye aur test PASS na ho.
-   - **Category C (UI/UX Major Changes):** Agar frontend mein poora UI/UX ya bara layout change ho raha hai, toh pehle exact visual/behavioral expectation likho (kya dikhna/kaam karna chahiye), phir dev server chala kar browser mein feature ko manually verify karo (golden path + edge cases) — unit-test wale TDD ki bajaye ye visual verification use karo, kyunke UI changes browser mein hi sahi tarah verify hoti hain.
+### 2. AMBIGUITY = FULL STOP (sab se ahem rule)
+- Guessing bilkul mana hai. Jahan bhi do interpretations mumkin hon, code touch karne se PEHLE AskUserQuestion (ya terminal prompt) se poocho — chahe fix kitni bhi chhoti kyun na lage.
+- Rukna khaas taur pe laazmi hai jab:
+  - code ka comment, purana task-doc, ya UI ka apna text meri task description se ulat keh raha ho
+  - ek hi field ke do matlab ban rahe hon (blank = "off" ya blank = "global se fallback")
+  - fix ek se ziada websites/tenants ya purane data ko affect kare
+  - fix do alag jagah pe ho sakti ho aur dono ka blast radius alag ho
+- Sawal chhote, seedhe aur Roman Urdu mein hon (options bhi Roman Urdu). Ek hi call mein 4 tak sawal batch karo — baar baar mat poocho.
+- Sirf technical detail (kaunsi layer, query ki shape, naming) khud decide karo aur report mein likh do.
 
-4. SQL Safety &amp; Release Note:
-   - Tumhare paas poore codebase ka access hai, lekin agar is chote fix mein koi SQL schema ya Setup action change hai, toh khud DB touch na karo. Mujhe exact query AskUserQuestion ke through do, main use run karunga aur EF models update karunga — uske baad tum apna fix continue kar sakte ho.
-   - Fix apply karne ke baad tum us query ko laazmi **Release Note.txt** mein daloge.
+### 3. ROOT CAUSE + BLAST RADIUS
+- Symptom pe patch mat lagao — asal root cause dhoondo. Report mein root cause file.cs:line ke sath likhna laazmi hai.
+- Mera likha hua task final mat samjho. Usme gap, ghalat assumption ya missing case ho to batao (aur Rule 2 banta ho to poocho).
+- Jo shared cheez change kar rahe ho (DAL/BLL method, DTO, shared JS function, CSS class, selector) uske TAMAM call-sites grep karo. Report mein likho kaun se dusre callers hain aur un pe kya asar parega — ya kyun nahi parega.
+- Agar shared jagah pe fix risky ho to feature-specific jagah pe karo aur wajah batao.
 
-5. Git Safety:
-   - Commit, push, reset, ya force jaisi git actions bina explicit permission ke kabhi mat chalao — sirf file edits tak khud ko limit rakho.
+### 4. SEARCH &amp; COST DISCIPLINE
+- Targeted search: grep hamesha path/glob ke sath. Poore repo pe blind regex mat chalao (repo bara hai, aisi search timeout hoti hai).
+- Ye paths hamesha ignore: obj/, bin/, .vs/, packages/, node_modules/, .claude/worktrees/ (worktree repo ki dusri copy hai — usme match mile to ignore karo).
+- Jo tool calls ek dusre pe depend nahi karte unhe ek hi message mein batch karo. Jo file pehle parh chuke ho usay dobara mat parho.
+- Lekin tokens bachane ke chakkar mein accuracy, reliability ya quality pe compromise bilkul nahi.
 
-6. Autonomous Execution, Verification &amp; Diff: 
-   - Smart/precise search use karo (optimize token budget) laykin tokens bachane ke chakkar mein accuracy reliability aur quality pr faraq nhi prhna chahiye.
-   - Fix apply karne ke baad relevant build/console check zaroor karo (jahan possible ho) — "done" tab hi bolo jab verify ho chuka ho.
-   - Jab kaam ho jaye, toh chat mein ek concise "Diff Summary" do (Logic explain karo, sirf exact changed lines nahi thora context bhi smjhana jaha zaroori ho).
-   - **Contextual Summary:** Differences batate waqt har change ke saath thora logic context bhi dena (Roman Urdu mein), kyunki pehle se likha hua code mera nahi hai aur mujhe samajhna hai ke kya tabdeel hua hai.
+### 5. FIX KARNE KE RULES
+- Chhota, focused patch. Unrelated refactor nahi. Raste mein mile dusre bugs sirf report karo, fix mat karo (jab tak main na kahun).
+- Existing IDs, selectors, AJAX bindings, dirty-state, save/reset behaviour, feature locks — kuch mat chherro jab tak task khud yehi na kehta ho.
+- Ye files kabhi hath se edit nahi: *.edmx, *.Designer.cs, obj/, bin/, .vs/, packages/.
+- Comment sirf wahan likho jahan business logic non-obvious ho.
 
-7. Deep Investigation:
-   - Task se related codebase deeply inspect karo.
-   - Ho skta hai ki mera task mein koi msla ho ya koi gap ho toh woh bhi mujhe btana mere likhe hue task ko final assume krke mat bethna. </textarea>
+### 6. UI / UX KA MEYAR — jab bhi frontend ka kaam ho
+- UI/UX ka kaam "kaam chal gaya" wala nahi hona chahiye. Output modern, premium aur next-level dikhna chahiye — aisa bilkul na lage ke AI ne generic template thop diya hai.
+- Screen ki maujooda design language (spacing scale, colors, typography, component patterns) follow karo taake naya hissa baaqi screen ke sath seamless lage.
+- Generic AI-look se bacho: bemani emoji, har jagah purple/blue gradients, har cheez centered, har box pe rounded corner + accent bar, bemaqsad icons, aur har baat ke liye permanent note box.
+- Iski jagah: progressive disclosure, compact contextual hints, tooltips/popovers, halke micro-interactions, saaf hierarchy, khaali jagah ka acha istemaal. Hard warning sirf wahan jahan waqai zaroori (invalid config, lock, over-capacity, unsafe action).
+- Har state sochni hai: loading, empty, error, lamba text, overflow, mobile width, keyboard focus, disabled/locked.
+- Bara UI/UX change ho to pehle likho ke kya dikhna aur kaise behave karna chahiye, phir dev server chala kar browser mein khud verify karo (golden path + edge cases) aur observation/screenshot report mein do.
+
+### 7. VERIFICATION — build + syntax + manual (koi test project nahi hai)
+- Repo mein test project nahi hai: unit test likhne ki koshish mat karo, aur naya test project bhi mat banao.
+- Har change ke baad wo project build karo jo us file ko waqai compile karta hai:
+  - CoreServices (ASP.NET Core) = dotnet build
+  - Portal ("E-commerce Management System.csproj", output bin/DPL.dll), WebhookServices, ShopifyService (.NET Framework 4.7.2) = MSBuild. Git Bash mein MSYS2_ARG_CONV_EXCL="*" aur dash-form switches (-t:Build) warna MSB1008 milta hai.
+  - Output ko "error CS" / "error CA" ke liye filter karo. IIS Express file-lock (MSB3027/MSB3021) code failure nahi hai — usay alag se batao.
+- JS/CSS/Razor ka build nahi hota: syntax check karo, braces/scope khud verify karo, aur browser mein dekho.
+- Python (ai_services) change ho to syntax/schema check chalao.
+- "Done" sirf tab kaho jab check waqai chala aur pass hua. Jo check na chal sake uske liye likho: kya try kiya, kyun block hua, uski jagah manually kya verify kiya.
+- Report mein mere liye exact manual test steps do: kaunsi screen, kya karna hai, kya dikhna chahiye.
+
+### 8. SQL / RELEASE NOTE / HAZARDS
+- SQL schema ya Setup/action change chahiye to khud DB ko hath mat lagao. Exact query AskUserQuestion ke zariye do — main run karke EF model update karunga, phir tum fix continue karna.
+- SQL wali cheez ho to wahi query "Release Note.txt" mein bhi laazmi daalo (existing style bilkul follow karte hue). Sirf code fix ho (koi SQL nahi) to Release Note ko hath mat lagao.
+- Task ke dauran koi naya repo-gotcha mile (aisi trap jo agli session ko dobara zero se dhoondni pare) to uski chhoti entry .claude/KNOWN_HAZARDS.md mein add kar do: file/line, trap kya hai, aage ka rule kya hai.
+
+### 9. GIT SAFETY
+- Commit, push, reset, checkout, stash, merge, force — kuch bhi bina meri explicit ijazat ke nahi. Sirf file edits.
+- Working tree pehle se ganda ho sakta hai (meri apni Visual Studio edits). Apne changes ko un se alag rakho aur report mein saaf batao.
+
+### 10. REPORTING — sab kuch artifact mein
+- Chat mein sirf artifact ka link aur 1-line per-task status. Lambi prose chat mein bilkul nahi.
+- Artifact ke andar ye sab ho:
+  - Har task ka status: Fixed / Blocked / Aapke faisle ka intezaar
+  - Root cause file:line ke sath, Roman Urdu mein simple explanation
+  - Kya badla aur kyun — thora context ke sath (code mera likha hua nahi hai, mujhe samajhna hota hai)
+  - Line-by-line colored diff (session snapshot se banao, git diff se nahi — pre-existing dirty files exclude)
+  - Blast radius: aur kaun se callers/screens affect ho sakte hain
+  - Manual test steps
+  - Jo bugs/gaps raste mein mile lekin fix nahi kiye
+- Diff artifact ka ready template .claude/memory/feedback_auto_visual_session_diff.md mein maujood hai — usay reuse karo, naya mat likho.
+
+### 11. MULTI-TASK PROMPTS
+- Ek prompt mein ek se ziada tasks hon to har task ko alag investigate + fix + verify karo, aur artifact mein har task ka apna section aur apna status ho.
+- Ek task ambiguity pe ruk jaye to baaqi tasks pe kaam jari rakho, aur sab sawal end mein ek hi baar batch karke poocho.</textarea>
                 </div>
                 <button class="btn-add-prompt" onclick="addPromptCard('sniper')"><i class="fa-solid fa-plus"></i> Add Prompt</button>
             </div>
